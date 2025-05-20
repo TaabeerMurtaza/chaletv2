@@ -4,18 +4,18 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link rel="stylesheet" href="<?= get_template_directory_uri() ?>/assets/css/font-awesome.css" />
-  <link rel="stylesheet" href="<?= get_template_directory_uri() ?>/assets/css/slick.css" />
-  <link rel="stylesheet" href="<?= get_template_directory_uri() ?>/assets/css/font.css" />
-  <link rel="stylesheet" href="<?= get_template_directory_uri() ?>/assets/css/styles.css" />
-  <link rel="stylesheet" href="<?= get_template_directory_uri() ?>/assets/css/responsive.css" />
+
   <?php wp_head(); ?>
-  <title>Book ton Chalet</title>
+  <title><?php wp_title('|', true, 'right'); bloginfo('name'); ?></title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/awesome-notifications/3.1.0/style.min.css" integrity="sha512-OFAsS5R1Fx+HUK9/h/ChqnFDrJGI0Y7nO05gg9E+Mv1UAzvAMvQdtOuPLhgPgDPHOgKWBvbovxT3eQSCr5hlLw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/awesome-notifications/3.1.0/index.var.min.js" integrity="sha512-gS8jKzzlhaUACXtBbUmj9/ITyZEAMM5TNwcL2Y226Xh6J/xH8mYzm6C/tHFkRVbi+tV1uyW7pIMSTehhBt6sBg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
   <script>
     const home_url = '<?= get_home_url() ?>';
     const theme_url = '<?= get_template_directory_uri() ?>';
     const ajax_url = '<?= admin_url('admin-ajax.php') ?>';
     const site_url = '<?= site_url() ?>';
+
+    let notifier = new AWN({});
   </script>
 </head>
 
@@ -104,3 +104,4 @@
   </header>
 
   <!-- header-end-->
+  <div class="main_content">

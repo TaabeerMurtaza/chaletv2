@@ -44,3 +44,66 @@ function get_chalet_total_days($chalet_id) {
 }
 
 
+
+/**
+ * Cancel a user's active subscription.
+ */
+function chalet_cancel_user_subscription($user_id, $product_id = null) {
+    $subscriptions = wcs_get_users_subscriptions($user_id);
+
+    foreach ($subscriptions as $subscription) {
+        foreach ($subscription->get_items() as $item) {
+            if (!$product_id || $item->get_product_id() == $product_id) {
+                $subscription->update_status('cancelled');
+            }
+        }
+    }
+}
+
+/**
+ * Pause a user's subscription (set to 'on-hold')
+ */
+function chalet_pause_user_subscription($user_id, $product_id = null) {
+    $subscriptions = wcs_get_users_subscriptions($user_id);
+
+    foreach ($subscriptions as $subscription) {
+        foreach ($subscription->get_items() as $item) {
+            if (!$product_id || $item->get_product_id() == $product_id) {
+                $subscription->update_status('on-hold');
+            }
+        }
+    }
+}
+
+/**
+ * Reactivate paused subscription
+ */
+function chalet_resume_user_subscription($user_id, $product_id = null) {
+    $subscriptions = wcs_get_users_subscriptions($user_id);
+
+    foreach ($subscriptions as $subscription) {
+        foreach ($subscription->get_items() as $item) {
+            if (!$product_id || $item->get_product_id() == $product_id) {
+                if ($subscription->get_status() === 'on-hold') {
+                    $subscription->update_status('active');
+                }
+            }
+        }
+    }
+}
+
+/**
+ * Get all active subscriptions for a user
+ */
+function chalet_get_active_subscriptions($user_id) {
+    $active_subs = [];
+    $subscriptions = wcs_get_users_subscriptions($user_id);
+
+    foreach ($subscriptions as $subscription) {
+        if ($subscription->has_status('active')) {
+            $active_subs[] = $subscription;
+        }
+    }
+
+    return $active_subs;
+}

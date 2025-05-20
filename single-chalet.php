@@ -220,11 +220,21 @@ $chalet_id = get_the_ID();
       <div class="accessibility">
         <div class="access">
           <h3>Accessibility</h3>
-          <ul>
-            <li>
-              <img src="<?= get_template_directory_uri() ?>/assets/images/icons/access.png"
-                alt="" /><?= esc_html(carbon_get_post_meta($chalet_id, 'accessibility_notes')) ?>
-            </li>
+          <ul style="display: flex; flex-wrap: wrap;gap: 10px;">
+            <?php
+            $accessibility_features = carbon_get_post_meta($chalet_id, 'accessibility_features');
+            if ($accessibility_features) {
+              foreach ($accessibility_features as $feature) {
+                $icon = carbon_get_post_meta($feature['id'], 'feature_icon');
+                if(!$icon){continue;}
+                ?>
+                <li>
+                  <img src="<?= esc_url($icon) ?>" alt="<?= esc_attr($title) ?>" />
+                </li>
+                <?php
+              }
+            }
+            ?>
           </ul>
         </div>
       </div>

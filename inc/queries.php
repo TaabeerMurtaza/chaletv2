@@ -438,4 +438,75 @@ function chaletv2_handle_chalet_delete()
 }
 add_action('admin_post_chalet_dashboard_delete', 'chaletv2_handle_chalet_delete');
 
-?>
+/**
+ * Handles the custom profile update form submission.
+ */
+add_action('admin_post_custom_profile_update', 'handle_custom_profile_update');
+function handle_custom_profile_update() {
+    if (!is_user_logged_in()) {
+        wp_redirect(home_url('/dashboard-profile/'));
+        exit;
+    }
+
+    if (!isset($_POST['update_profile_nonce']) || !wp_verify_nonce($_POST['update_profile_nonce'], 'update_profile_action')) {
+        wp_redirect(home_url('/dashboard-profile/?error=invalid_nonce'));
+        exit;
+    }
+
+    $user_id = get_current_user_id();
+    $first_name = sanitize_text_field($_POST['first_name'] ?? '');
+    $last_name = sanitize_text_field($_POST['last_name'] ?? '');
+    $email = sanitize_email($_POST['email'] ?? '');
+
+    // Handle image upload
+    if (!empty($_FILES['profile_image']['name'])) {
+        require_once ABSPATH . 'wp-admin/includes/file.php';
+        require_once ABSPATH . 'wp-admin/includes/media.php';
+        require_once ABSPATH . 'wp-admin/includes/image.php';
+
+        $uploaded = media_handle_upload('profile_image', 0);
+        if (is_wp_error($uploaded)) {
+            $error = urlencode($uploaded->get_error_message());
+            wp_redirect(home_url("/dashboard-profile/?error=$error"));
+            exit;
+        } else {
+            update_user_meta($user_id, 'profile_image', $uploaded);
+        }
+    }
+
+    // Update core user data
+    $result = wp_update_user([
+        'ID' => $user_id,
+        'user_email' => $email,
+        'first_name' => $first_name,
+        'last_name' => $last_name,
+    ]);
+
+    if (is_wp_error($result)) {
+        $error = urlencode($result->get_error_message());
+        wp_redirect(home_url("/dashboard-profile/?error=$error"));
+        exit;
+    }
+
+    // Handle extra fields
+    $fields = [
+        'company_name'   => 'sanitize_text_field',
+        'phone_number'   => 'sanitize_text_field',
+        'about_me'       => 'sanitize_textarea_field',
+        'address'        => 'sanitize_text_field',
+        'fb_url'         => 'esc_url_raw',
+        'insta_url'      => 'esc_url_raw',
+        'youtube_url'    => 'esc_url_raw',
+        'linkedin_url'   => 'esc_url_raw',
+        'tiktok_url'     => 'esc_url_raw',
+        'pinterest_url'  => 'esc_url_raw',
+    ];
+
+    foreach ($fields as $field => $sanitize_cb) {
+        $value = isset($_POST[$field]) ? call_user_func($sanitize_cb, $_POST[$field]) : '';
+        update_user_meta($user_id, $field, $value);
+    }
+
+    wp_redirect(home_url("/dashboard-profile/?profile-updated=1"));
+    exit;
+}

@@ -170,7 +170,6 @@ if ($edit_mode) {
 // --- Display Dashboard --- //
 ?>
 <div class="container chalet-dashboard-container" style="margin-top: 20px; margin-bottom: 20px;">
-
     <h1>Chalet Dashboard</h1>
 
     <?php if ($edit_mode):

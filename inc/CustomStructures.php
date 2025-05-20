@@ -31,7 +31,7 @@ function register_chalet_cpt(): void
         'labels' => $labels,
         'public' => true,
         'show_in_menu' => true,
-        'supports' => ['title', 'thumbnail', 'excerpt', 'author'],
+        'supports' => ['title', 'thumbnail', 'excerpt', 'author', 'custom-fields'],
         'has_archive' => true,
         'rewrite' => ['slug' => 'chalets'],
         'menu_icon' => 'dashicons-admin-home',

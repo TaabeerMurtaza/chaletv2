@@ -68,7 +68,13 @@ a {
   color: #fa7753;
   transition: 0.2s all ease-in-out;
 }
-
+.main_content{
+  min-height:100vh;
+  min-width:100vw;
+  display:flex;
+  flex-direction:column;
+  margin-top: 86px;
+}
 .main-title {
   font-size: 63px;
   line-height: 78px;
@@ -670,6 +676,7 @@ height: fit-content;
 
 footer {
   background-color: var(--dark);
+  width:100vw;
 }
 footer .container > div {
   padding-left: 45px;

@@ -1,0 +1,71 @@
+form {
+    background: white;
+    max-width: 500px;
+    margin: 0 auto;
+    padding: 30px;
+    border-radius: 6px;
+    box-shadow: 0 0 12px rgba(0, 0, 0, 0.1);
+}
+
+.tab {
+    display: none;
+}
+
+.tab.active {
+    display: block;
+}
+
+.step-indicators {
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.step {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    background: #ddd;
+    border-radius: 50%;
+    margin: 0 5px;
+    line-height: 20px;
+    color: white;
+}
+
+.step.active {
+    background: #4CAF50;
+}
+
+label {
+    display: block;
+    margin: 12px 0 6px;
+}
+
+input[type=text],
+input[type=email],
+input[type=number],
+input[type=date],
+select {
+    width: 100%;
+    padding: 8px;
+    box-sizing: border-box;
+}
+
+.btn-container {
+    margin-top: 20px;
+    text-align: right;
+}
+
+button {
+    background: #4CAF50;
+    color: white;
+    border: none;
+    padding: 10px 18px;
+    margin-left: 8px;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+button[disabled] {
+    background: #aaa;
+    cursor: not-allowed;
+}
