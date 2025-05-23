@@ -1,7 +1,7 @@
-<?php
-/* Template Name: Dashboard Profile */
-get_header();
+<?php 
+/* Template Name: Profile Dashboard */
 
+get_header('dashboard');
 $current_user = wp_get_current_user();
 $user_id = $current_user->ID;
 
@@ -28,73 +28,160 @@ $meta_values = [];
 foreach ($meta_fields as $field) {
     $meta_values[$field] = get_user_meta($user_id, $field, true);
 }
+
 ?>
 
-<div class="container profile-dashboard-container" style="margin-top: 20px; margin-bottom: 20px;">
-    <h1>Profile</h1>
-    <?php if ($updated): ?>
-        <div class="notice notice-success" style="color: green; margin-bottom: 15px;">Profile updated successfully.</div>
-    <?php endif; ?>
-    <?php if ($error): ?>
-        <div class="notice notice-error" style="color: red; margin-bottom: 15px;"><?php echo esc_html($error); ?></div>
-    <?php endif; ?>
 
-    <?php if (is_user_logged_in()): ?>
-        <form method="post" action="<?= admin_url('admin-post.php') ?>" class="profile-update-form" style="max-width: 600px;" enctype="multipart/form-data">
-            <?php wp_nonce_field('update_profile_action', 'update_profile_nonce'); ?>
-            <input type="hidden" name="action" value="custom_profile_update">
+<div class="dashboard-content">
+    <div class="dashboard-title">
+        <button class="menu-btn openPanel"><img src="images/slide-icon.svg" alt=""></button>
+        <h2 class="main-title">Profile</h2>
+        <div class="dashboard-title-details">
+            <a href="" class="dashboard-top-btn btn-h">Home page</a>
+            <button class="shop-btn">
+                <img src="<?= get_template_directory_uri() ?>/dashboard/images/Bell.svg" alt="" />
+                <span class="notife">2</span>
+            </button>
+        </div>
+    </div>
+    <div class="profile-row">
+        <div class="profile-top-wrapper">
+            <div class="profile-top-details">
+                <h3 class="dashboard-sub-title">Details</h3>
+                <div class="profile-divider"></div>
+                <form method="post" action="<?= admin_url('admin-post.php') ?>" class="profile-update-form"
+                    enctype="multipart/form-data">
+                    <?php wp_nonce_field('update_profile_action', 'update_profile_nonce'); ?>
+                    <input type="hidden" name="action" value="custom_profile_update">
+                    <input type="file" name="profile_image" id="profile_image" accept="image/*" style="display: none;" />
 
-            <div style="margin-bottom: 15px;">
-                <img src="<?php echo esc_url($profile_image_url); ?>" alt="Profile Image" style="width:80px;height:80px;border-radius:50%;object-fit:cover;">
+                    <div class="col-50">
+                        <div class="profile-input-details">
+                            <label for="first_name">First Name</label>
+                            <input type="text" name="first_name"
+                                value="<?php echo esc_attr($current_user->first_name); ?>" required />
+                        </div>
+                        <div class="profile-input-details">
+                            <label for="last_name">Last Name</label>
+                            <input type="text" name="last_name"
+                                value="<?php echo esc_attr($current_user->last_name); ?>" required />
+                        </div>
+                        <div class="profile-input-details">
+                            <label for="email">Email</label>
+                            <input type="email" name="email" value="<?php echo esc_attr($current_user->user_email); ?>"
+                                required />
+                        </div>
+                        <div class="profile-input-details">
+                            <label for="company_name">Company Name</label>
+                            <input type="text" name="company_name"
+                                value="<?php echo esc_attr($meta_values['company_name']); ?>" />
+                        </div>
+                        <div class="profile-input-details">
+                            <label for="phone_number">Phone</label>
+                            <input type="text" name="phone_number"
+                                value="<?php echo esc_attr($meta_values['phone_number']); ?>" />
+                        </div>
+                        <div class="profile-input-details">
+                            <label for="address">Address</label>
+                            <input type="text" name="address"
+                                value="<?php echo esc_attr($meta_values['address']); ?>" />
+                        </div>
+                        <div class="profile-input-details">
+                            <label for="about_me">About Me</label>
+                            <textarea name="about_me"><?php echo esc_textarea($meta_values['about_me']); ?></textarea>
+                        </div>
+                    </div>
+
+                    <div class="col-50">
+                        <div class="profile-input-details">
+                            <label for="fb_url">Facebook Url</label>
+                            <input type="url" name="fb_url" value="<?php echo esc_url($meta_values['fb_url']); ?>" />
+                        </div>
+                        <div class="profile-input-details">
+                            <label for="insta_url">Instagram Url</label>
+                            <input type="url" name="insta_url"
+                                value="<?php echo esc_url($meta_values['insta_url']); ?>" />
+                        </div>
+                        <div class="profile-input-details">
+                            <label for="youtube_url">YouTube Url</label>
+                            <input type="url" name="youtube_url"
+                                value="<?php echo esc_url($meta_values['youtube_url']); ?>" />
+                        </div>
+                        <div class="profile-input-details">
+                            <label for="linkedin_url">LinkedIn Url</label>
+                            <input type="url" name="linkedin_url"
+                                value="<?php echo esc_url($meta_values['linkedin_url']); ?>" />
+                        </div>
+                        <div class="profile-input-details">
+                            <label for="tiktok_url">TikTok Url</label>
+                            <input type="url" name="tiktok_url"
+                                value="<?php echo esc_url($meta_values['tiktok_url']); ?>" />
+                        </div>
+                        <div class="profile-input-details">
+                            <label for="pinterest_url">Pinterest Url</label>
+                            <input type="url" name="pinterest_url"
+                                value="<?php echo esc_url($meta_values['pinterest_url']); ?>" />
+                        </div>
+                    </div>
+
+                    <div class="profile-divider"></div>
+                    <div class="profile-btn-row">
+                        <button type="submit" class="profile-btn">Update profile</button>
+                        <!-- <a href="<?php echo get_author_posts_url($current_user->ID); ?>" class="profile-btn">View public profile</a> -->
+                    </div>
+                </form>
             </div>
 
-            <label for="profile_image">Profile Image</label>
-            <input type="file" name="profile_image" id="profile_image" accept="image/*" />
+            <div class="profile-bottom-details">
+                <h3 class="dashboard-sub-title">Change Password</h3>
+                <span>*After you change the password you will have to login again.</span>
+                <form method="post" action="<?= admin_url('admin-post.php') ?>">
+                    <?php wp_nonce_field('change_password_action', 'change_password_nonce'); ?>
+                    <input type="hidden" name="action" value="custom_change_password">
+                    <div class="profile-input-details">
+                        <label for="old_password">Old Password</label>
+                        <input type="password" name="old_password" required />
+                    </div>
+                    <div class="profile-input-details">
+                        <label for="new_password">New Password</label>
+                        <input type="password" name="new_password" required />
+                    </div>
+                    <div class="profile-input-details">
+                        <label for="confirm_password">Confirm New Password</label>
+                        <input type="password" name="confirm_password" required />
+                    </div>
+                    <button type="submit" class="profile-btn">Reset Password</button>
+                </form>
+            </div>
+        </div>
 
-            <label for="first_name">First Name</label>
-            <input type="text" name="first_name" value="<?php echo esc_attr($current_user->first_name); ?>" required />
+        <div class="profile-upload-wrapper">
+            <div class="top-img">
+                <img src="<?= esc_url($profile_image_url)?: get_template_directory_uri() . '/dashboard/images/upload.png' ?>" alt="">
+            </div>
+            <button type="button" class="profile-btn" onclick="document.getElementById('profile_image').click()" id="triggerUpload">Upload Image</button>
+            <script>
+                document.addEventListener('DOMContentLoaded', function () {
+                    const uploadBtn = document.getElementById('triggerUpload');
+                    const fileInput = document.getElementById('profile_image');
+                    const imgPreview = document.querySelector('.top-img img');
 
-            <label for="last_name">Last Name</label>
-            <input type="text" name="last_name" value="<?php echo esc_attr($current_user->last_name); ?>" required />
+                    
+                    fileInput.addEventListener('change', function () {
+                        if (fileInput.files && fileInput.files[0]) {
+                            const reader = new FileReader();
+                            reader.onload = function (e) {
+                                imgPreview.src = e.target.result;
+                            };
+                            reader.readAsDataURL(fileInput.files[0]);
+                        }
+                    });
+                });
+            </script>
+            <span>* recommended size: minimum 550px</span>
+        </div>
 
-            <label for="email">Email</label>
-            <input type="email" name="email" value="<?php echo esc_attr($current_user->user_email); ?>" required />
-
-            <label for="company_name">Company Name</label>
-            <input type="text" name="company_name" value="<?php echo esc_attr($meta_values['company_name']); ?>" />
-
-            <label for="phone_number">Phone Number</label>
-            <input type="text" name="phone_number" value="<?php echo esc_attr($meta_values['phone_number']); ?>" />
-
-            <label for="address">Address</label>
-            <input type="text" name="address" value="<?php echo esc_attr($meta_values['address']); ?>" />
-
-            <label for="about_me">About Me</label>
-            <textarea name="about_me"><?php echo esc_textarea($meta_values['about_me']); ?></textarea>
-
-            <label for="fb_url">Facebook URL</label>
-            <input type="url" name="fb_url" value="<?php echo esc_url($meta_values['fb_url']); ?>" />
-
-            <label for="insta_url">Instagram URL</label>
-            <input type="url" name="insta_url" value="<?php echo esc_url($meta_values['insta_url']); ?>" />
-
-            <label for="youtube_url">YouTube URL</label>
-            <input type="url" name="youtube_url" value="<?php echo esc_url($meta_values['youtube_url']); ?>" />
-
-            <label for="linkedin_url">LinkedIn URL</label>
-            <input type="url" name="linkedin_url" value="<?php echo esc_url($meta_values['linkedin_url']); ?>" />
-
-            <label for="tiktok_url">TikTok URL</label>
-            <input type="url" name="tiktok_url" value="<?php echo esc_url($meta_values['tiktok_url']); ?>" />
-
-            <label for="pinterest_url">Pinterest URL</label>
-            <input type="url" name="pinterest_url" value="<?php echo esc_url($meta_values['pinterest_url']); ?>" />
-
-            <button type="submit" style="margin-top: 15px;">Update Profile</button>
-        </form>
-    <?php else: ?>
-        <p>You must be logged in to view this page.</p>
-    <?php endif; ?>
+    </div>
 </div>
 
-<?php get_footer(); ?>
+<?php get_footer('dashboard') ?>

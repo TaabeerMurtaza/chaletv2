@@ -1,0 +1,916 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dashboard</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+
+<body>
+  <header>
+    <div class="header-inner">
+     <a href="#" class="logo "><img src="images/LOGO.svg" alt=""></a> 
+      <nav id="main-nav-db">
+        <ul>
+          <li><a href="#">home</a></li>
+          <li><a href="#">Chalets</a></li>
+          <li><a href="#">Blog</a></li>
+          <li><a href="#">About</a></li>
+          <li><a href="#">Faq</a></li>
+          <li><a href="#">Contact</a></li>
+        </ul>
+      </nav>
+
+      <div class="profile-col">
+        <div class="pro-icon"></div>
+        <span class="pro-name">my account</span>
+      </div>
+      <div class="menu-icon mb" onclick="toggleMenu()"><img src="images/menu.svg" alt=""></div>
+    </div>
+  </header>
+  <div class="dashboard-section">
+    <div class="tab-overlay"></div>
+    <div class="container">
+      <div class="sildepanel">
+        <div class="top-logo">
+          <img src="./images/sidepanel-logo.png" alt="" /> 
+        </div>
+        <span class="eyebrow-text">Hello, Book Ton Chalet</span>
+        <div class="side-top-details">
+          <span class="dashboard-span">Book Ton chalets Admin</span>
+          <h3 class="dashboard-sub-title">Summary</h3>
+          <div class="summary-details-row">
+            <div class="summary-detail">
+              <span>21</span>
+              <p>Chalets Published</p>
+            </div>
+            <div class="summary-detail">
+              <span>16</span>
+              <p>Chalets in Management</p>
+            </div>
+            <div class="summary-detail">
+              <span>2</span>
+              <p>Pending chalets</p>
+            </div>
+            <div class="summary-detail">
+              <span>23</span>
+              <p>Services Published</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="dashboard-tab-links">
+          <ul>
+            <li>
+              <button data-tab="tab1" class="tab-link">
+                <img src="images/icons/Chart.svg" alt="tab-icon">
+                Dashboard
+              </button>
+            </li>
+            <li>
+              <button data-tab="tab2" class="tab-link">
+                <img src="images/icons/User_cicrle.svg" alt="tab-icon">
+                My Profile
+              </button>
+            </li>
+            <li>
+              <button data-tab="tab3" class="tab-link">
+                <img src="images/icons/Chield_check.svg" alt="tab-icon">
+                Subscriptions
+              </button>
+            </li>
+            <li>
+              <button data-tab="tab4" class="tab-link">
+                <img src="images/icons/Home.svg" alt="tab-icon">
+                Chalets
+              </button>
+            </li>
+            <li>
+              <button data-tab="tab5" class="tab-link">
+                <img src="images/icons/Calendar_add.svg" alt="tab-icon">
+                Booking Calendar
+              </button>
+            </li>
+            <li>
+              <button data-tab="tab6" class="tab-link">
+                <img src="images/icons/Book_check.svg" alt="tab-icon">
+                My Bookings
+              </button>
+            </li>
+            <li>
+              <button data-tab="tab7" class="tab-link">
+                <img src="images/icons/thumb_up.svg" alt="tab-icon">
+                My Reviews
+              </button>
+            </li>
+            <li>
+              <button data-tab="tab8" class="tab-link">
+                <img src="images/icons/Chat_plus.svg" alt="tab-icon">
+                My Inbox
+              </button>
+            </li>
+            <li>
+              <button data-tab="tab9" class="tab-link">
+                <img src="images/icons/Paper.svg" alt="tab-icon">
+                Invoices
+              </button>
+            </li>
+            <li>
+              <button data-tab="tab10" class="tab-link">
+                <img src="images/icons/Group.svg" alt="tab-icon">
+                Partners and services
+              </button>
+            </li>
+            <li>
+              <button data-tab="tab11" class="tab-link">
+                <img src="images/icons/Subttasks.svg" alt="tab-icon">
+                Attractions and activities
+              </button>
+            </li>
+            <li>
+              <button data-tab="tab12" class="tab-link">
+                <img src="images/icons/Bag_alt.svg" alt="tab-icon">
+                Tool box
+              </button>
+            </li>
+            <li>
+              <button data-tab="tab13" class="tab-link">
+                <img src="images/icons/Sign_in_squre.svg" alt="tab-icon">
+                Log Out
+              </button>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="dashboard-content tab-content" id="tab1">
+        <div class="dashboard-title">
+          <button class="menu-btn openPanel"><img src="images/slide-icon.svg" alt=""></button>
+          <h2 class="main-title">Dashboard</h2>
+          <div class="dashboard-title-details">
+            <a href="" class="dashboard-top-btn btn-h">Home page</a>
+           <button class="shop-btn">
+              <img src="./images/Bell.svg" alt="" />
+              <span class="notife">2</span> 
+            </button>
+          </div>
+        </div>
+        <div class="booking-details">
+          <h3 class="dashboard-sub-title">Next Bookings</h3>
+          <span><a href="#">Huge Sunny Villa</a> from March 07 2025 to March 09
+            2025</span>
+          <span><a href="#">Huge Sunny Villa</a> from March 07 2025 to March 09
+            2025</span>
+        </div>
+        <div class="dashboard-main-details">
+          <h3 class="dashboard-sub-title">Bookings - next 30 days</h3>
+          <div class="calender-details">
+            <img src="./images/calender.png" alt="" /> 
+            <div class="booking-btns-row">
+              <div class="booking-btn-detail">
+                <a href="">
+                  <img src="./images/booking-btn.png" alt="" />
+                  Internal Booking
+                </a>
+              </div>
+              <div class="booking-btn-detail">
+                <a href="">
+                  <img src="./images/booking-btn2.png" alt="" />
+                  External Booking
+                </a>
+              </div>
+              <div class="booking-btn-detail">
+                <div class="select-details">
+                  <input type="radio" class="square-radio" />
+                  <span>Free</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="booking-row">
+          <div class="main-booking">
+            <h3 class="dashboard-sub-title">Your most visited chalets</h3>
+            <div class="main-detail-row">
+              <div class="main-detail">
+                <div class="img-wrapper">
+                  <img src="./images/chalet.jpeg" alt="" />
+                </div>
+                <div class="detail">
+                  <a href="#">Huge Sunny Villa</a>
+                  <span>425 Views</span>
+                </div>
+              </div>
+              <div class="main-detail">
+                <div class="img-wrapper">
+                  <img src="./images/chalet.jpeg" alt="" />
+                </div>
+                <div class="detail">
+                  <a href="#">Huge Sunny Villa</a>
+                  <span>425 Views</span>
+                </div>
+              </div>
+              <div class="main-detail">
+                <div class="img-wrapper">
+                  <img src="./images/chalet.jpeg" alt="" />
+                </div>
+                <div class="detail">
+                  <a href="#">Huge Sunny Villa</a>
+                  <span>425 Views</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="main-booking">
+            <h3 class="dashboard-sub-title">Your most visited chalets</h3>
+            <div class="main-detail-row">
+              <div class="main-detail">
+                <div class="img-wrapper">
+                  <img src="./images/chalet.jpeg" alt="" />
+                </div>
+                <div class="detail">
+                  <a href="#">Huge Sunny Villa</a>
+                  <span>425 Views</span>
+                </div>
+              </div>
+              <div class="main-detail">
+                <div class="img-wrapper">
+                  <img src="./images/chalet.jpeg" alt="" />
+                </div>
+                <div class="detail">
+                  <a href="#">Huge Sunny Villa</a>
+                  <span>425 Views</span>
+                </div>
+              </div>
+              <div class="main-detail">
+                <div class="img-wrapper">
+                  <img src="./images/chalet.jpeg" alt="" />
+                </div>
+                <div class="detail">
+                  <a href="#">Huge Sunny Villa</a>
+                  <span>425 Views</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- <div class="booking-popup">
+          <div class="booking-f">
+            <div class="lite-list">
+              <h5>Guest Name</h5>
+              <button><img src="images/Edit_fill.svg" alt="edit"></button>
+            </div>
+            <div class="lite-list">
+              <span>Booking# - Date created</span>
+              <button><img src="images/Chat_alt.svg" alt="edit"></button>
+            </div>
+            <p class="status"><i></i> booked</p>
+            <p><b>Chalet Name -</b> # of guests</p>
+            <p><b>Check-in Date Check-out date - </b># of nights</p>
+            <div class="resipt-table">
+              <div class="cell">
+                <span>Paid</span>
+                <p>1102,04$</p>
+              </div>
+              <div class="cell">
+                <span>Due</span>
+                <p>1102,04$</p>
+              </div>
+              <div class="cell">
+                <span>Total</span>
+                <p>1102,04$</p>
+              </div>
+            </div>
+
+            <div class="resipt-head">
+              <span>Status</span>
+              <div class="status-paid">
+                Accepted
+                <i></i>
+              </div>
+            </div>
+            <ul class="resipt-list">
+              <li>
+                <span class="bold">Chalet Name</span>
+                <span></span>
+              </li>
+              <li>
+                <span>Rental price</span>
+                <span>1 200,00$</span>
+              </li>
+              <li>
+                <span>Promotion</span>
+                <span>1 200,00$</span>
+              </li>
+              <li>
+                <span>Cleaning Fee</span>
+                <span>1 200,00$</span>
+              </li>
+              <li>
+                <span>Extras</span>
+                <span>1 200,00$</span>
+              </li>
+              <li>
+                <span>Administration fee (3%)</span>
+                <span>1 200,00$</span>
+              </li>
+              <li>
+                <span>Accommodation tax (3,5%)</span>
+                <span>1 200,00$</span>
+              </li>
+              <li>
+                <span>Subtotal</span>
+                <span>1 200,00$</span>
+              </li>
+              <li class="space"></li>
+              <li>
+                <span>GST (5%)</span>
+                <span>1 200,00$</span>
+              </li>
+              <li>
+                <span>QST (9,975)</span>
+                <span>1 200,00$</span>
+              </li>
+              <li>
+                <span class="bold">Total</span>
+                <span class="bold">1 200,00$</span>
+              </li>
+            </ul>
+          </div>
+          <div class="booking-nd">
+            <div class="lite-list">
+              <h5>Guest</h5>
+              <button><img src="images/Edit_fill.svg" alt="edit"></button>
+            </div>
+
+            <div class="list-row">
+              <label>Guest Name</label>
+              <p>Name of the guest</p>
+              <input type="text">
+            </div>
+            <div class="list-row">
+              <label>Email</label>
+              <p>guest@email.com</p>
+              <input type="text">
+            </div>
+            <div class="list-row">
+              <label>Phone</label>
+              <p>819-000-000</p>
+              <input type="text">
+            </div>
+            <div class="list-row">
+              <label>Address</label>
+              <p>Guest full address</p>
+              <input type="text">
+            </div>
+            <div class="list-row">
+              <label>Language</label>
+              <p>French</p>
+              <input type="text">
+            </div>
+          </div>
+        </div> -->
+      </div>
+      <div class="dashboard-content tab-content" id="tab2">
+        <div class="dashboard-title">
+          <button class="menu-btn openPanel"><img src="images/slide-icon.svg" alt=""></button>
+          <h2 class="main-title">Profile</h2>
+          <div class="dashboard-title-details">
+            <a href="" class="dashboard-top-btn btn-h">Home page</a>
+            <button class="shop-btn">
+              <img src="./images/Bell.svg" alt="" />
+              <span class="notife">2</span>
+            </button>
+          </div>
+        </div>
+        <div class="profile-row">
+          <div class="profile-top-wrapper">
+            <div class="profile-top-details">
+              <h3 class="dashboard-sub-title">Details</h3>
+              <div class="profile-divider"></div>
+              <form>
+                <div class="col-50">
+                  <div class="profile-input-details">
+                    <label>Company name</label>
+                    <input type="text" placeholder="Agence Book Ton --adons Inc.">
+                  </div>
+                  <div class="profile-input-details">
+                    <label>Phone</label>
+                    <input type="number" placeholder="581-814-2225">
+                  </div>
+                  <div class="profile-input-details">
+                    <label>Email</label>
+                    <input type="email" placeholder="info@bookton--adons.com">
+                  </div>
+                  <div class="profile-input-details">
+                    <label>About Me </label>
+                    <textarea
+                      placeholder="Agence de gestion locative de --adonss et propriétés de villégiatures. Au cœur de vos vacances"></textarea>
+                  </div>
+                  <div class="profile-input-details">
+                    <label>Adress</label>
+                    <input type="text" placeholder="1140 Av des Oiselets, Bécancour, QC, G9H 4P8">
+                  </div>
+
+
+
+
+                </div>
+                <div class="col-50">
+                  <div class="profile-input-details">
+                    <label>Facebook Url</label>
+                    <input type="url" placeholder="www.facebook.com/BookTon--adons">
+                  </div>
+
+                  <div class="profile-input-details">
+                    <label>Instagram Url</label>
+                    <input type="url" placeholder="www.instagram.com/bookton--adons">
+                  </div>
+
+                  <div class="profile-input-details">
+                    <label>YouTube Url</label>
+                    <input type="url" placeholder="www.youtube.com/@bookton--adons">
+                  </div>
+
+                  <div class="profile-input-details">
+                    <label>LinkedIn Url</label>
+                    <input type="url" placeholder="www.linkedin.com/company/bookton--adons/">
+                  </div>
+
+                  <div class="profile-input-details">
+                    <label>TikTok Url</label>
+                    <input type="url" placeholder="www.tiktok.com/@bookton--adons">
+                  </div>
+                  <div class="profile-input-details">
+                    <label>Pinterest Url</label>
+                    <input type="url" placeholder="ca.pinterest.com/BookTon--adons/">
+                  </div>
+                </div>
+              </form>
+              <div class="profile-divider"></div>
+              <div class="profile-btn-row">
+                <button class="profile-btn">Update profile</button>
+                <button class="profile-btn">View public profile</button>
+              </div>
+            </div>
+            <div class="profile-bottom-details">
+              <h3 class="dashboard-sub-title">Change Password</h3>
+              <span>*After you change the password you will have to login again.</span>
+              <form>
+                <div class="profile-input-details">
+                  <label>Old Password</label>
+                  <input type="password">
+                </div>
+                <div class="profile-input-details">
+                  <label>New Password </label>
+                  <input type="password">
+                </div>
+                <div class="profile-input-details">
+                  <label>Confirm New Password</label>
+                  <input type="password">
+                </div>
+              </form>
+              <button class="profile-btn">Reset Password</button>
+            </div>
+          </div>
+          <div class="profile-upload-wrapper">
+            <div class="top-img">
+              <img src="./images/upload.png" alt=""> 
+            </div>
+            <button class="profile-btn">Upload Image</button>
+            <span>* recommended size: minimum 550px</span>
+          </div>
+        </div>
+      </div>
+      <div class="dashboard-content tab-content" id="tab4">
+        <div class="dashboard-title">
+          <button class="menu-btn openPanel"><img src="images/slide-icon.svg" alt=""></button>
+          <h2 class="main-title"> --adons </h2>
+          <div class="dashboard-title-details">
+            <a href="" class="dashboard-top-btn btn-h">Home page</a>
+            <button class="shop-btn">
+              <img src="./images/Bell.svg" alt="" />
+              <span class="notife">2</span> 
+            </button>
+          </div>
+        </div>
+        <div class="divider"></div>
+        <div class="filter-row">
+          <div class="filter-details">
+            <h3>Chalets</h3>
+            <div class="filter-bottom-details">
+              <input type="text" placeholder="Search by chalet name. ">
+              <button class="filter-btn">Search</button>
+            </div>
+          </div>
+          <div class="filter-details">
+            <h3>Listing type </h3>
+            <div class="filter-bottom-details">
+              <select class="filter-select">
+                <option value="volvo">Management </option>
+                <option value="saab">Saab</option>
+                <option value="mercedes">Mercedes</option>
+                <option value="audi">Audi</option>
+              </select>
+              <button class="filter-btn">Filter</button>
+            </div>
+          </div>
+          <div class="filter-details">
+            <h3>Status</h3>
+            <div class="filter-bottom-details">
+              <select class="filter-select">
+                <option value="volvo">Status </option>
+                <option value="saab">Saab</option>
+                <option value="mercedes">Mercedes</option>
+                <option value="audi">Audi</option>
+              </select>
+              <button class="filter-btn">Filter</button>
+            </div>
+          </div>
+
+        </div>
+        <div class="divider"></div>
+        <div class="listing-wrapper">
+          <div class="listing-head">
+            <span>Name</span>
+            <span>Reviews </span>
+            <span>Status</span>
+            <span>Actions</span>
+          </div>
+          <div class="listing-body">
+            <div class="name">
+              <div class="name-img">
+                <img src="./images/bedroom.jpg" alt="">
+              </div>
+              <div class="name-details">
+                <h4>Name</h4>
+                <p><span>City:</span> Sainte-Adèle</p>
+                <p><span>Region:</span> Laurentides</p>
+              </div>
+            </div>
+            <div class="review">
+              <span>2 Reviews</span>
+            </div>
+            <div class="status">
+              <ul>
+                <li><span><img src="./images/icons/black-home.svg" alt="">Management</span></li>
+                <li><span><img src="./images/icons/dot.svg" alt="">Published</span></li>
+                <li><span>Expires on 2026-02-01</span></li>
+              </ul>
+            </div>
+            <div class="edit">
+              <img src="./images/icons/edit-pen.svg" alt="">
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="dashboard-content tab-content" id="tab5">
+        <div class="dashboard-title">
+          <button class="menu-btn openPanel"><img src="images/slide-icon.svg" alt=""></button>
+          <h2 class="main-title">Chalets</h2>
+          <div class="dashboard-title-details">
+            <a href="" class="dashboard-top-btn btn-h">Home page</a>
+            <button class="shop-btn">
+              <img src="./images/Bell.svg" alt="" />
+              <span class="notife">2</span> 
+            </button>
+          </div>
+        </div>
+        <div class="divider"></div>
+        <div class="dashboard-main-details">
+          <h3 class="dashboard-sub-title">Bookings - next 30 days</h3>
+          <div class="calender-details">
+             <img src="./images/calender.png" alt="" /> 
+            <div class="booking-btns-row">
+              <div class="booking-btn-detail">
+                <a href="">
+                  <img src="./images/booking-btn.png" alt="" />
+                  Internal Booking
+                </a>
+              </div>
+              <div class="booking-btn-detail">
+                <a href="">
+                  <img src="./images/booking-btn2.png" alt="" />
+                  External Booking
+                </a>
+              </div>
+              <div class="booking-btn-detail">
+                <div class="select-details">
+                  <input type="radio" class="square-radio" />
+                  <span>Free</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="configuration-popup">
+           <div class="popup-tabs">
+            <div class="dashboard-tab-links">
+          <ul>
+            <li>
+              <button data-tab="tab10" class="tab-link">
+                <img src="images/icons/Chart.svg" alt="tab-icon">
+                 Create a reservation
+              </button>
+            </li>
+            <li>
+              <button data-tab="tab11" class="tab-link">
+                <img src="images/icons/User_cicrle.svg" alt="tab-icon">
+                Create an unavailable period
+              </button>
+            </li>
+            <li>
+              <button data-tab="tab12" class="tab-link">
+                <img src="images/icons/Chield_check.svg" alt="tab-icon">
+                Change the price per night
+              </button>
+            </li>
+            <li>
+          </ul>
+        </div>
+          </div>
+          <!-- <div class="popup-content">
+            <div class="popup-form">
+              <h3>BOOKING</h3>
+              <select>
+                <option>Chalets</option>
+                <option>Saab</option>
+                <option>Mercedes</option>
+                <option>Audi</option>
+              </select>
+              <input type="date">
+              <div class="popup-divider"></div>
+              <h3>Guests</h3>
+              <div class="popup-detail-row">
+                <div class="popup-detail">
+                  <label>Adults</label>
+                  <select>
+                    <option>4</option>
+                    <option>Saab</option>
+                    <option>Mercedes</option>
+                    <option>Audi</option>
+                  </select>
+                </div>
+                <div class="popup-detail">
+                  <label>Adults</label>
+                  <select>
+                    <option>4</option>
+                    <option>Saab</option>
+                    <option>Mercedes</option>
+                    <option>Audi</option>
+                  </select>
+                </div>
+                <div class="popup-detail">
+                  <label>Adults</label>
+                  <select>
+                    <option>4</option>
+                    <option>Saab</option>
+                    <option>Mercedes</option>
+                    <option>Audi</option>
+                  </select>
+                </div>
+              </div>
+              <h3>Guests informations</h3>
+              <div class="information-row">
+                <div class="information-details">
+                  <label> First name</label>
+                  <input type="text" placeholder=" John">
+                </div>
+                <div class="information-details">
+                  <label> Last name</label>
+                  <input type="text" placeholder="Dow">
+                </div>
+                <div class="information-details">
+                  <label> Phone</label>
+                  <input type="number" placeholder=" 819-222-3333">
+                </div>
+                <div class="information-details">
+                  <label> Email</label>
+                  <input type="email" placeholder="john@test.com">
+                </div>
+                <div class="information-details">
+                  <label> Language</label>
+                  <select>
+                    <option>French</option>
+                    <option>Saab</option>
+                    <option>Mercedes</option>
+                    <option>Audi</option>
+                  </select>
+                </div>
+              </div>
+              <div class="divider"></div>
+              <div class="pricing-row">
+                <span>TOTAL</span>
+                <span> 2938,76 $</span>
+              </div>
+              <div class="popup-divider"></div>
+              <div class="form-btn-row">
+                <button class="grey">Cancel</button>
+                <button>Next</button>
+              </div>
+            </div>
+          </div> -->
+           <!-- <div class="registration-content popup-content">
+            <div class="popup-form">
+              <div class="popup-top-details">
+              <h3> Chalet Name</h3>
+             <div class="popup-name-details">
+              <span>Accommodation price/Night (2 nights)</span>
+              <span> 1150,00 $</span>
+              <span><img src="./images/icons/edit-pen.svg" alt=""></span>
+             </div>
+             <div class="popup-name-details">
+              <span>Accommodation price/Night (2 nights)</span>
+              <span> 1150,00 $</span>
+              <span><img src="./images/icons/edit-pen.svg" alt=""></span>
+             </div>
+             </div>
+             <div class="sm-divider"></div>
+              <div class="popup-top-details">
+              <h3> Chalet Name</h3>
+             <div class="popup-name-details">
+              <span>Accommodation price/Night (2 nights)</span>
+              <span> 1150,00 $</span>
+              <span><img src="./images/icons/edit-pen.svg" alt=""></span>
+             </div>
+             <div class="popup-name-details">
+              <span>Accommodation price/Night (2 nights)</span>
+              <span> 1150,00 $</span>
+              <span><img src="./images/icons/edit-pen.svg" alt=""></span>
+             </div>
+             </div>
+             <div class="sm-divider"></div>
+              <div class="popup-top-details">
+              <h3> Chalet Name</h3>
+             <div class="popup-name-details">
+              <span>Accommodation price/Night (2 nights)</span>
+              <span> 1150,00 $</span>
+              <span><img src="./images/icons/edit-pen.svg" alt=""></span>
+             </div>
+             <div class="popup-name-details">
+              <span>Accommodation price/Night (2 nights)</span>
+              <span> 1150,00 $</span>
+              <span><img src="./images/icons/edit-pen.svg" alt=""></span>
+             </div>
+             </div>
+              <div class="divider"></div>
+              <div class="pricing-row">
+              <span>TOTAL</span>
+              <span> 2938,76 $</span>
+            </div>
+            <div class="popup-divider"></div>
+            <div class="form-btn-row">
+              <button class="grey">Cancel</button>
+              <button>Next</button>
+            </div>
+            </div>
+          </div>  -->
+          <!-- <div class="unavalible-contenty popup-content">
+             <div class="popup-form">
+              <h3>BOOKING</h3>
+              <select>
+                <option>Chalets</option>
+                <option>Saab</option>
+                <option>Mercedes</option>
+                <option>Audi</option>
+              </select>
+              <input type="date">
+              <textarea placeholder="Details"></textarea>
+              <div class="popup-divider"></div>
+   
+            <div class="popup-divider"></div>
+            <div class="form-btn-row">
+              <button class="grey">Cancel</button>
+              <button>Next</button>
+            </div>
+            </div>
+         </div>   -->
+          <!-- <div class="price-content popup-content">
+          <div class="popup-form">
+             <h3>Price per night</h3>
+               <div class="price-detail-row">
+                <div class="price-detail " id="first">
+                  <label>Date period</label>
+                  <input type="date">
+                </div>
+                <div class="price-detail" id="second">
+                  <label> New price per night</label>
+                  <input type="number">
+                </div>
+                <div class="price-detail" id="third">
+                  <label>Minimum stay</label>
+                  <input type="number">
+                </div>
+               </div>
+             <div class="divider"></div>
+            <div class="form-btn-row">
+              <button class="grey">Cancel</button>
+              <button>Next</button>
+            </div>
+            </div> -->
+        </div> 
+        </div>
+
+
+      </div>
+      <div class="dashboard-content tab-content" id="tab7">
+        <div class="dashboard-title">
+          <button class="menu-btn openPanel"><img src="images/slide-icon.svg" alt=""></button>
+          <h2 class="main-title">My Reviews</h2>
+          <div class="dashboard-title-details">
+            <a href="" class="dashboard-top-btn btn-h">Home page</a>
+            <button class="shop-btn">
+              <img src="./images/Bell.svg" alt="" />
+              <span class="notife">2</span>
+            </button>
+          </div>
+        </div>
+        <div class="reviews-wraper">
+ <div class="filter-row">
+          <div class="filter-details">
+            <h3>--adons</h3>
+            <div class="filter-bottom-details">
+              <input type="text" placeholder="Search by chalet name. ">
+              <button class="filter-btn">Search</button>
+            </div>
+          </div>
+          <div class="filter-details">
+            <h3>Listing type </h3>
+            <div class="filter-bottom-details">
+              <select class="filter-select">
+                <option value="volvo">Management </option>
+                <option value="saab">Saab</option>
+                <option value="mercedes">Mercedes</option>
+                <option value="audi">Audi</option>
+              </select>
+              <button class="filter-btn">Filter</button>
+            </div>
+          </div>
+          <div class="filter-details">
+            <h3>Status</h3>
+            <div class="filter-bottom-details">
+              <select class="filter-select">
+                <option value="volvo">Status </option>
+                <option value="saab">Saab</option>
+                <option value="mercedes">Mercedes</option>
+                <option value="audi">Audi</option>
+              </select>
+              <button class="filter-btn">Filter</button>
+            </div>
+          </div>
+
+        </div>
+          <div class="spacer-tl"></div>
+          <div class="review-item">
+            <h4 class="posted-date">Posted on Date</h4>
+            <h5> review name</h5>
+            <div class="pro-wrap">
+              <div class="pro-img"></div>
+              <div class="pro-detail">
+                <span class="person-name">person naem</span>
+                <span class="date">date 052/5/25</span>
+                <div class="rating-value" rating-value="3">
+                  <img src="images/icons/star.svg" alt="">
+                  <img src="images/icons/star.svg" alt="">
+                  <img src="images/icons/star.svg" alt="">
+                  <img src="images/icons/star.svg" alt="">
+                  <img src="images/icons/star.svg" alt="">
+                  <span>(5 of 5)</span>
+                </div>
+              </div>
+            </div>
+            <div class="massage">
+              <p>The search results highlight various star rating implementations available on CodePen. These range
+                from pure CSS
+                solutions, offering visual representations of ratings, to more complex systems incorporating animation
+                and semantic
+                markup for improved search engine optimization. Several examples showcase different approaches,
+                including the use of
+                FontAwesome icons and Bootstrap for styl</p>
+            </div>
+            <div class="reply-warp">
+              <p>your reply</p>
+              <textarea name="" id=""></textarea>
+              <button>Reply to Review</button>
+            </div>
+          </div>
+          <div class="spacer-tl"></div>
+        </div>
+        <div class="pageination">
+          <button>
+            < </button>
+              <span>1</span>
+              <span>2</span>
+              <span>3</span>
+              <button>></button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="./js/custom.js"></script>
+</body>
+
+</html>

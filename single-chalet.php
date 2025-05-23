@@ -226,7 +226,9 @@ $chalet_id = get_the_ID();
             if ($accessibility_features) {
               foreach ($accessibility_features as $feature) {
                 $icon = carbon_get_post_meta($feature['id'], 'feature_icon');
-                if(!$icon){continue;}
+                if (!$icon) {
+                  continue;
+                }
                 ?>
                 <li>
                   <img src="<?= esc_url($icon) ?>" alt="<?= esc_attr($title) ?>" />
@@ -238,6 +240,11 @@ $chalet_id = get_the_ID();
           </ul>
         </div>
       </div>
+      <?php
+      // Show reviews
+        comments_template();
+
+      ?>
     </div>
     <div class="form-right">
       <form>

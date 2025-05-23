@@ -7,6 +7,10 @@ add_action('wp_enqueue_scripts', function() {
 
 // Theme setup
 require_once get_template_directory() . '/inc/ThemeSetup.php';
+
+// Helpers
+require_once get_template_directory() .'/inc/helpers.php';
+
 // Enqueue scripts and styles
 require_once get_template_directory() .'/inc/enqueue.php';
 
@@ -25,3 +29,6 @@ require_once get_template_directory() . '/inc/Subscriptions.php';
 
 // Middlewares
 require_once get_template_directory() . '/inc/middlewares.php';
+
+// Chalet V1 helpers
+// require_once get_template_directory() . '/inc/chalet_v1.php';

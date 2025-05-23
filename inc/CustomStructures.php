@@ -31,8 +31,10 @@ function register_chalet_cpt(): void
         'labels' => $labels,
         'public' => true,
         'show_in_menu' => true,
-        'supports' => ['title', 'thumbnail', 'excerpt', 'author', 'custom-fields'],
+        'supports' => ['title', 'thumbnail', 'excerpt', 'author', 'custom-fields', 'comments'],
         'has_archive' => true,
+        'comment_status' => 'open',
+        'comments' => true,
         'rewrite' => ['slug' => 'chalets'],
         'menu_icon' => 'dashicons-admin-home',
         'show_in_rest' => true,
@@ -42,6 +44,74 @@ function register_chalet_cpt(): void
 }
 
 add_action('init', __NAMESPACE__ . '\register_chalet_cpt');
+
+// Add rating field
+function chalet_add_rating_field()
+{
+    if (get_post_type() === 'chalet') {
+        echo '<p><label for="rating">Rating: </label>';
+        echo '<select name="rating" id="rating" required>';
+        echo '<option value="">Rate this chalet</option>';
+        for ($i = 5; $i >= 1; $i--) {
+            echo "<option value=\"$i\">$i Stars</option>";
+        }
+        echo '</select></p>';
+    }
+}
+add_action('comment_form_logged_in_after', 'chalet_add_rating_field');
+add_action('comment_form_after_fields', 'chalet_add_rating_field');
+
+// Save rating as comment meta
+function chalet_save_rating_meta($comment_id)
+{
+    if (isset($_POST['rating']) && get_post_type($_POST['comment_post_ID']) === 'chalet') {
+        $rating = intval($_POST['rating']);
+        if ($rating >= 1 && $rating <= 5) {
+            add_comment_meta($comment_id, 'rating', $rating);
+        }
+    }
+}
+add_action('comment_post', 'chalet_save_rating_meta');
+function chalet_review_callback($comment, $args, $depth)
+{
+    $rating = get_comment_meta($comment->comment_ID, 'rating', true);
+    ?>
+    <div class="chalet-review" id="comment-<?php comment_ID(); ?>">
+        <p><strong><?php comment_author(); ?></strong> —
+            <?php if ($rating): ?>
+                <span>
+                    <?php
+                    $filled = intval($rating);
+                    $empty = 5 - $filled;
+
+                    echo str_repeat('<i class="fas fa-star" style="color: #f5c518;"></i>', $filled);
+                    echo str_repeat('<i class="far fa-star" style="color: #ccc;"></i>', $empty);
+                    ?>
+                    (<?php echo $rating; ?>/5)
+                </span>
+            <?php endif; ?>
+        </p>
+
+        <p><?php comment_text(); ?></p>
+    </div>
+    <hr>
+    <?php
+}
+add_filter('wp_list_comments_args', function ($args) {
+    if (get_post_type() === 'chalet') {
+        $args['callback'] = 'chalet_review_callback';
+    }
+    return $args;
+});
+function default_comments_on_chalet($data, $postarr)
+{
+    if ($data['post_type'] == 'chalet' && $data['post_status'] == 'publish') {
+        $data['comment_status'] = 'open';
+    }
+    return $data;
+}
+add_filter('wp_insert_post_data', 'default_comments_on_chalet', 10, 2);
+
 
 /**
  * Register Chalet Category Taxonomy
@@ -565,5 +635,47 @@ add_action('carbon_fields_register_fields', function () {
             Field::make('image', 'feature_icon', 'Feature Icon')
                 ->set_value_type('url')
             // ->set_required(true),
+        ]);
+});
+
+
+/* * 
+    Subscription PLans
+ */
+
+ add_action('init', function () {
+    register_post_type('subscription_plan', [
+        'label' => 'Subscription Plans',
+        'public' => true,
+        'menu_icon' => 'dashicons-money-alt',
+        'supports' => ['title'],
+        'show_in_rest' => true,
+    ]);
+});
+
+add_action('carbon_fields_register_fields', function () {
+    Container::make('post_meta', 'Subscription Details')
+        ->where('post_type', '=', 'subscription_plan')
+        ->add_fields([
+            Field::make('textarea', 'subscription_description', 'Description'),
+            Field::make('text', 'subscription_price', 'Price')
+                ->set_attribute('type', 'number')
+                ->set_attribute('step', '0.01'),
+            Field::make('select', 'subscription_interval', 'Interval')
+                ->add_options([
+                    'day' => 'Day',
+                    'week' => 'Week',
+                    'month' => 'Month',
+                    'year' => 'Year',
+                ]),
+            Field::make('text', 'subscription_interval_duration', 'Interval Duration')
+                ->set_attribute('type', 'number')
+                ->set_attribute('min', 1),
+            Field::make('text', 'chalets_allowed', 'Chalets Allowed')
+                ->set_attribute('type', 'number')
+                ->set_attribute('min', 0),
+            Field::make('text', 'featured_allowed', 'Featured Allowed')
+                ->set_attribute('type', 'number')
+                ->set_attribute('min', 0),
         ]);
 });

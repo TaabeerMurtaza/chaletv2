@@ -510,3 +510,43 @@ function handle_custom_profile_update() {
     wp_redirect(home_url("/dashboard-profile/?profile-updated=1"));
     exit;
 }
+add_action('admin_post_custom_change_password', 'handle_custom_change_password');
+add_action('admin_post_nopriv_custom_change_password', 'handle_custom_change_password'); // if for non-logged-in users (optional)
+
+function handle_custom_change_password() {
+    // Check nonce
+    if (!isset($_POST['change_password_nonce']) || !wp_verify_nonce($_POST['change_password_nonce'], 'change_password_action')) {
+        wp_die('Security check failed');
+    }
+
+    // Ensure user is logged in
+    if (!is_user_logged_in()) {
+        wp_die('You must be logged in to change your password.');
+    }
+
+    $user = wp_get_current_user();
+
+    $old_password     = $_POST['old_password'] ?? '';
+    $new_password     = $_POST['new_password'] ?? '';
+    $confirm_password = $_POST['confirm_password'] ?? '';
+
+    // Validate fields
+    if (empty($old_password) || empty($new_password) || empty($confirm_password)) {
+        wp_die('All fields are required.');
+    }
+
+    if (!wp_check_password($old_password, $user->user_pass, $user->ID)) {
+        wp_die('Old password is incorrect.');
+    }
+
+    if ($new_password !== $confirm_password) {
+        wp_die('New passwords do not match.');
+    }
+
+    // Update the password
+    wp_set_password($new_password, $user->ID);
+
+    // Redirect somewhere, e.g. back to profile page
+    wp_redirect(home_url('/dashboard-profile'));
+    exit;
+}

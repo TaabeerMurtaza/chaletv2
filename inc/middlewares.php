@@ -2,9 +2,9 @@
 function chalet_dashboard_middleware() {
     if (is_page_template('page-chalet-dashboard.php')) {
         // Example checks
-        if (true) {
-            // User not logged in, show login template
-            include get_template_directory() . '/inc/buy_chalet_subscription.php';
+        if (false) {
+            // chalet_get_active_subscriptions(get_current_user_id());
+            // include get_template_directory() . '/inc/buy_chalet_subscription.php';
             exit;
         }
 
