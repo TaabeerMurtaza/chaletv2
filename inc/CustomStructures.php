@@ -555,6 +555,16 @@ add_action('carbon_fields_register_fields', function (): void {
 
         ->where('post_type', '=', 'chalet');
 });
+add_action('init', function () {
+    register_post_status('inactive', [
+        'label'                     => _x('Inactive', 'post'),
+        'public'                    => true,
+        'exclude_from_search'       => false,
+        'show_in_admin_all_list'    => true,
+        'show_in_admin_status_list' => true,
+        'label_count'               => _n_noop('Inactive <span class="count">(%s)</span>', 'Inactive <span class="count">(%s)</span>'),
+    ]);
+});
 
 // =============================
 // Register Region Custom Post Type

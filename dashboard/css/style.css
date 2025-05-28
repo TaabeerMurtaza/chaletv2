@@ -156,7 +156,9 @@ button {
   margin-top: 20px;
 }
 
-.dashboard-tab-links ul li button svg {
+.dashboard-tab-links ul li button svg,
+.dashboard-tab-links ul li a svg
+ {
   margin-right: 10px;
   width: 20px;
   height: 20px;
@@ -180,7 +182,9 @@ button {
   margin-bottom: 10px;
 }
 
-.dashboard-tab-links ul li button {
+.dashboard-tab-links ul li button,
+.dashboard-tab-links ul li a
+ {
   color: #8a8795;
   text-decoration: none;
   padding: 10px 15px;
@@ -197,7 +201,12 @@ button {
 }
 
 .dashboard-tab-links ul li button:hover,
-.dashboard-tab-links ul li button.active {
+.dashboard-tab-links ul li button.active,
+
+.dashboard-tab-links ul li a:hover,
+.dashboard-tab-links ul li a.active
+
+{
   color: rgb(0 65 60);
   background-color: rgb(204 229 228);
 }
@@ -210,7 +219,9 @@ button {
   display: block;
 }
 
-.dashboard-tab-links ul li button.active {
+.dashboard-tab-links ul li button.active,
+.dashboard-tab-links ul li a.active
+ {
   font-weight: 600;
 }
 

@@ -550,3 +550,113 @@ function handle_custom_change_password() {
     wp_redirect(home_url('/dashboard-profile'));
     exit;
 }
+
+
+add_action('wp_ajax_filter_chalets', 'filter_chalets_callback');
+add_action('wp_ajax_nopriv_filter_chalets', 'filter_chalets_callback');
+
+function filter_chalets_callback() {
+    $name = sanitize_text_field($_POST['name'] ?? '');
+    $status = sanitize_text_field($_POST['status'] ?? '');
+    // Whitelist only allowed statuses
+    $allowed_statuses = ['publish', 'pending', 'inactive'];
+    if (!in_array($status, $allowed_statuses)) {
+        $status = 'publish';
+    }
+
+    $args = [
+        'post_type' => 'chalet',
+        'posts_per_page' => -1,
+        'post_status' => $status ?: 'publish',
+        'post_status__not_in' => ['trash'],
+    ];
+
+    if (!empty($name)) {
+        $args['s'] = $name;
+    }
+
+    $query = new WP_Query($args);
+
+    if ($query->have_posts()):
+        while ($query->have_posts()):
+            $query->the_post();
+            $tmp = carbon_get_post_meta(get_the_ID(), 'region');
+            $region = @$tmp[0] ? get_the_title($tmp[0]['id']) : '';
+            ?>
+            <div class="listing-body">
+                <div class="name">
+                    <div class="name-img">
+                        <img src="<?= get_the_post_thumbnail_url() ?>" alt="">
+                    </div>
+                    <div class="name-details">
+                        <h4><?= the_title(); ?></h4>
+                        <p><span>City:</span> Sainte-Adèle</p>
+                        <p><span>Region:</span> <?= $region ?></p>
+                    </div>
+                </div>
+                <div class="review">
+                    <span>2 Reviews</span>
+                </div>
+                <div class="status">
+                    <ul>
+                        <li><span><img src="<?= get_template_directory_uri() ?>/dashboard/images/icons/black-home.svg"
+                                    alt="">Management</span></li>
+                        <li><span><img src="<?= get_template_directory_uri() ?>/dashboard/images/icons/dot.svg"
+                                    alt=""><?= ucfirst($status) ?></span></li>
+                        <li><span>Expires on 2026-02-01</span></li>
+                    </ul>
+                </div>
+                <div class="edit">
+                    <img src="<?= get_template_directory_uri() ?>/dashboard/images/icons/edit-pen.svg" alt="">
+                </div>
+            </div>
+        <?php
+        endwhile;
+    else:
+        echo '<p>No chalets found.</p>';
+    endif;
+
+    wp_die();
+}
+
+add_action('admin_post_reply_to_review', 'handle_reply_to_review');
+add_action('admin_post_nopriv_reply_to_review', 'handle_reply_to_review');
+
+function handle_reply_to_review() {
+  if (!isset($_POST['reply_to_review_nonce']) || !wp_verify_nonce($_POST['reply_to_review_nonce'], 'reply_to_review_action')) {
+    wp_die('Invalid nonce.');
+  }
+
+  if (!is_user_logged_in()) {
+    wp_die('You must be logged in to reply.');
+  }
+
+  $reply_content = sanitize_text_field($_POST['reply_content']);
+  $parent_id = intval($_POST['parent_comment_id']);
+  $user = wp_get_current_user();
+
+  if (!$reply_content || !$parent_id || !$user->exists()) {
+    wp_die('Missing data.');
+  }
+
+  $parent_comment = get_comment($parent_id);
+
+  if (!$parent_comment) {
+    wp_die('Parent comment not found.');
+  }
+
+  $commentdata = array(
+    'comment_post_ID'      => $parent_comment->comment_post_ID,
+    'comment_content'      => $reply_content,
+    'user_id'              => $user->ID,
+    'comment_author'       => $user->display_name,
+    'comment_author_email' => $user->user_email,
+    'comment_parent'       => $parent_id,
+    'comment_approved'     => 1,
+  );
+
+  wp_insert_comment($commentdata);
+
+  wp_redirect(wp_get_referer());
+  exit;
+}

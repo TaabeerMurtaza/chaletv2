@@ -11,7 +11,8 @@ if (!is_user_logged_in()) {
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Dashboard</title>
-    <link rel="stylesheet" href="<?= get_template_directory_uri() ?>/dashboard/css/style.css" />
+    <link rel="stylesheet" href="<?= get_template_directory_uri() ?>/dashboard/css/style.css?" />
+    <?php wp_head(); ?>
 </head>
 
 <body>
@@ -48,20 +49,71 @@ if (!is_user_logged_in()) {
                     <span class="dashboard-span">Book Ton chalets Admin</span>
                     <h3 class="dashboard-sub-title">Summary</h3>
                     <div class="summary-details-row">
+                        <?php
+                        // Get current user ID
+                        $user_id = get_current_user_id();
+
+                        // Count published chalets (assuming 'chalet' is the post type)
+                        $published_chalets = new WP_Query([
+                            'post_type'      => 'chalet',
+                            'post_status'    => 'publish',
+                            'author'         => $user_id,
+                            'posts_per_page' => -1,
+                            'fields'         => 'ids'
+                        ]);
+                        $published_chalets_count = $published_chalets->found_posts;
+
+                        // Count chalets in management (custom logic, adjust as needed)
+                        $managed_chalets = new WP_Query([
+                            'post_type'      => 'chalet',
+                            'post_status'    => 'publish',
+                            'meta_query'     => [
+                                [
+                                    'key'   => 'is_managed',
+                                    'value' => '1'
+                                ]
+                            ],
+                            'author'         => $user_id,
+                            'posts_per_page' => -1,
+                            'fields'         => 'ids'
+                        ]);
+                        $managed_chalets_count = $managed_chalets->found_posts;
+
+                        // Count pending chalets
+                        $pending_chalets = new WP_Query([
+                            'post_type'      => 'chalet',
+                            'post_status'    => 'pending',
+                            'author'         => $user_id,
+                            'posts_per_page' => -1,
+                            'fields'         => 'ids'
+                        ]);
+                        $pending_chalets_count = $pending_chalets->found_posts;
+
+                        // Count published services (assuming 'service' is the post type)
+                        $published_services = new WP_Query([
+                            'post_type'      => 'service',
+                            'post_status'    => 'publish',
+                            'author'         => $user_id,
+                            'posts_per_page' => -1,
+                            'fields'         => 'ids'
+                        ]);
+                        $published_services_count = $published_services->found_posts;
+                        ?>
+
                         <div class="summary-detail">
-                            <span>21</span>
+                            <span><?= esc_html($published_chalets_count); ?></span>
                             <p>Chalets Published</p>
                         </div>
                         <div class="summary-detail">
-                            <span>16</span>
+                            <span><?= esc_html($managed_chalets_count); ?></span>
                             <p>Chalets in Management</p>
                         </div>
                         <div class="summary-detail">
-                            <span>2</span>
+                            <span><?= esc_html($pending_chalets_count); ?></span>
                             <p>Pending chalets</p>
                         </div>
                         <div class="summary-detail">
-                            <span>23</span>
+                            <span><?= esc_html($published_services_count); ?></span>
                             <p>Services Published</p>
                         </div>
                     </div>
@@ -70,82 +122,84 @@ if (!is_user_logged_in()) {
                 <div class="dashboard-tab-links">
                     <ul>
                         <li>
-                            <button data-tab="tab1" class="tab-link">
-                                <img src="<?= get_template_directory_uri() ?>/dashboard/images/icons/Chart.svg" alt="tab-icon">
-                                Dashboard
-                            </button>
+                            <li class="">
+                                <a href="<?= get_home_url()?>/dashboard">
+                                    <img src="<?= get_template_directory_uri() ?>/dashboard/images/icons/Chart.svg" alt="tab-icon">
+                                    Dashboard
+                                </a>
+                            </li>
                         </li>
                         <li>
-                            <button data-tab="tab2" class="tab-link">
+                            <a href="<?= get_home_url()?>/dashboard-profile" class="tab-link">
                                 <img src="<?= get_template_directory_uri() ?>/dashboard/images/icons/User_cicrle.svg" alt="tab-icon">
                                 My Profile
-                            </button>
+                            </a>
                         </li>
                         <li>
-                            <button data-tab="tab3" class="tab-link">
+                            <a class="tab-link">
                                 <img src="<?= get_template_directory_uri() ?>/dashboard/images/icons/Chield_check.svg" alt="tab-icon">
                                 Subscriptions
-                            </button>
+                            </a>
                         </li>
                         <li>
-                            <button data-tab="tab4" class="tab-link">
+                            <a href="<?= get_home_url()?>/dashboard-chalets" class="tab-link">
                                 <img src="<?= get_template_directory_uri() ?>/dashboard/images/icons/Home.svg" alt="tab-icon">
                                 Chalets
-                            </button>
+                            </a>
                         </li>
                         <li>
-                            <button data-tab="tab5" class="tab-link">
+                            <a class="tab-link">
                                 <img src="<?= get_template_directory_uri() ?>/dashboard/images/icons/Calendar_add.svg" alt="tab-icon">
                                 Booking Calendar
-                            </button>
+                            </a>
                         </li>
                         <li>
-                            <button data-tab="tab6" class="tab-link">
+                            <a class="tab-link">
                                 <img src="<?= get_template_directory_uri() ?>/dashboard/images/icons/Book_check.svg" alt="tab-icon">
                                 My Bookings
-                            </button>
+                            </a>
                         </li>
                         <li>
-                            <button data-tab="tab7" class="tab-link">
+                            <a class="tab-link">
                                 <img src="<?= get_template_directory_uri() ?>/dashboard/images/icons/thumb_up.svg" alt="tab-icon">
                                 My Reviews
-                            </button>
+                            </a>
                         </li>
                         <li>
-                            <button data-tab="tab8" class="tab-link">
+                            <a href="<?= get_home_url()?>/dashboard-chats" class="tab-link">
                                 <img src="<?= get_template_directory_uri() ?>/dashboard/images/icons/Chat_plus.svg" alt="tab-icon">
                                 My Inbox
-                            </button>
+                            </a>
                         </li>
                         <li>
-                            <button data-tab="tab9" class="tab-link">
+                            <a class="tab-link">
                                 <img src="<?= get_template_directory_uri() ?>/dashboard/images/icons/Paper.svg" alt="tab-icon">
                                 Invoices
-                            </button>
+                            </a>
                         </li>
                         <li>
-                            <button data-tab="tab10" class="tab-link">
+                            <a class="tab-link">
                                 <img src="<?= get_template_directory_uri() ?>/dashboard/images/icons/Group.svg" alt="tab-icon">
                                 Partners and services
-                            </button>
+                            </a>
                         </li>
                         <li>
-                            <button data-tab="tab11" class="tab-link">
+                            <a class="tab-link">
                                 <img src="<?= get_template_directory_uri() ?>/dashboard/images/icons/Subttasks.svg" alt="tab-icon">
                                 Attractions and activities
-                            </button>
+                            </a>
                         </li>
                         <li>
-                            <button data-tab="tab12" class="tab-link">
+                            <a class="tab-link">
                                 <img src="<?= get_template_directory_uri() ?>/dashboard/images/icons/Bag_alt.svg" alt="tab-icon">
                                 Tool box
-                            </button>
+                            </a>
                         </li>
                         <li>
-                            <button data-tab="tab13" class="tab-link">
+                            <a class="tab-link">
                                 <img src="<?= get_template_directory_uri() ?>/dashboard/images/icons/Sign_in_squre.svg" alt="tab-icon">
                                 Log Out
-                            </button>
+                            </a>
                         </li>
                     </ul>
                 </div>

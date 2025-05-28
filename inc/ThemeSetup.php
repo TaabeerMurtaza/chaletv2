@@ -51,3 +51,8 @@ add_action('after_setup_theme', function () {
 });
 
 
+
+add_action('wp_enqueue_scripts', function () {
+    wp_enqueue_script('dashboard-ajax', get_template_directory_uri() . '/dashboard/js/ajax-filter.js', ['jquery'], null, true);
+    wp_localize_script('dashboard-ajax', 'ajaxurl', admin_url('admin-ajax.php'));
+});

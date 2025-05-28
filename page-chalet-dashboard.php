@@ -12,7 +12,7 @@ $query = new WP_Query([
     <div class="dashboard-title">
         <button class="menu-btn openPanel"><img
                 src="<?= get_template_directory_uri() ?>/dashboard/images/slide-icon.svg" alt=""></button>
-        <h2 class="main-title"> --adons </h2>
+        <h2 class="main-title"> Chalets </h2>
         <div class="dashboard-title-details">
             <a href="" class="dashboard-top-btn btn-h">Home page</a>
             <button class="shop-btn">
@@ -26,12 +26,13 @@ $query = new WP_Query([
         <div class="filter-details">
             <h3>Chalets</h3>
             <div class="filter-bottom-details">
-                <input type="text" placeholder="Search by chalet name. ">
+                <input type="text" name="name" placeholder="Search by chalet name. ">
                 <button class="filter-btn">Search</button>
             </div>
         </div>
-        <div class="filter-details">
+        <!-- <div class="filter-details">
             <h3>Listing type </h3>
+            
             <div class="filter-bottom-details">
                 <select class="filter-select">
                     <option value="volvo">Management </option>
@@ -41,15 +42,15 @@ $query = new WP_Query([
                 </select>
                 <button class="filter-btn">Filter</button>
             </div>
-        </div>
+        </div> -->
         <div class="filter-details">
             <h3>Status</h3>
             <div class="filter-bottom-details">
-                <select class="filter-select">
-                    <option value="volvo">Status </option>
-                    <option value="saab">Saab</option>
-                    <option value="mercedes">Mercedes</option>
-                    <option value="audi">Audi</option>
+                <select class="filter-select" id="chalet-status">
+                    <option value="all">All</option>
+                    <option value="publish">Published </option>
+                    <option value="pending">Pending</option>
+                    <!-- <option value="inactive">Inactive</option> -->
                 </select>
                 <button class="filter-btn">Filter</button>
             </div>
@@ -64,51 +65,83 @@ $query = new WP_Query([
             <span>Status</span>
             <span>Actions</span>
         </div>
+        <div id="chalets">
 
-        <?php
-        if ($query->have_posts()):
-            while ($query->have_posts()):
-                $query->the_post(); 
+            <?php
+            if ($query->have_posts()):
+                while ($query->have_posts()):
+                    $query->the_post();
 
-                $tmp = carbon_get_post_meta(get_the_ID(), 'region');
-                if(@$tmp[0]){
-                    $region_id = $tmp[0]['id'];
-                    $region = get_the_title($region_id);
-                }else{
-                    $region = '';
-                }
-                ?>
+                    $tmp = carbon_get_post_meta(get_the_ID(), 'region');
+                    if (@$tmp[0]) {
+                        $region_id = $tmp[0]['id'];
+                        $region = get_the_title($region_id);
+                    } else {
+                        $region = '';
+                    }
+                    ?>
 
-                <div class="listing-body">
-                    <div class="name">
-                        <div class="name-img">
-                            <img src="<?= get_the_post_thumbnail_url() ?>" alt="">
+                    <div class="listing-body">
+                        <div class="name">
+                            <div class="name-img">
+                                <img src="<?= get_the_post_thumbnail_url() ?>" alt="">
+                            </div>
+                            <div class="name-details">
+                                <h4><?= the_title(); ?></h4>
+                                <p><span>City:</span> Sainte-Adèle</p>
+                                <p><span>Region:</span> <?= $region ?></p>
+                            </div>
                         </div>
-                        <div class="name-details">
-                            <h4><?= the_title(); ?></h4>
-                            <p><span>City:</span> Sainte-Adèle</p>
-                            <p><span>Region:</span> <?= $region ?></p>
+                        <div class="review">
+                            <span>2 Reviews</span>
+                        </div>
+                        <div class="status">
+                            <ul>
+                                <li><span><img src="<?= get_template_directory_uri() ?>/dashboard/images/icons/black-home.svg"
+                                            alt="">Management</span></li>
+                                <li><span><img src="<?= get_template_directory_uri() ?>/dashboard/images/icons/dot.svg"
+                                            alt="">Published</span></li>
+                                <li><span>Expires on 2026-02-01</span></li>
+                            </ul>
+                        </div>
+                        <div class="edit">
+                            <img src="<?= get_template_directory_uri() ?>/dashboard/images/icons/edit-pen.svg" alt="">
                         </div>
                     </div>
-                    <div class="review">
-                        <span>2 Reviews</span>
-                    </div>
-                    <div class="status">
-                        <ul>
-                            <li><span><img src="<?= get_template_directory_uri() ?>/dashboard/images/icons/black-home.svg"
-                                        alt="">Management</span></li>
-                            <li><span><img src="<?= get_template_directory_uri() ?>/dashboard/images/icons/dot.svg"
-                                        alt="">Published</span></li>
-                            <li><span>Expires on 2026-02-01</span></li>
-                        </ul>
-                    </div>
-                    <div class="edit">
-                        <img src="<?= get_template_directory_uri() ?>/dashboard/images/icons/edit-pen.svg" alt="">
-                    </div>
-                </div>
-            <?php endwhile; endif; ?>
+                <?php endwhile; endif; ?>
+        </div>
+
     </div>
 </div>
+<script>
+    jQuery(document).ready(function ($) {
+    function fetchChalets() {
+        const name = $('input[name="name"]').val();
+        const status = $('#chalet-status').val();
 
+        $.ajax({
+            url: ajaxurl,
+            type: 'POST',
+            data: {
+                action: 'filter_chalets',
+                name: name,
+                status: status,
+            },
+            beforeSend: function () {
+                $('#chalets').html('<p>Loading...</p>');
+            },
+            success: function (res) {
+                $('#chalets').html(res);
+            }
+        });
+    }
+
+    $('.filter-btn').on('click', function (e) {
+        e.preventDefault();
+        fetchChalets();
+    });
+});
+
+</script>
 
 <?php get_footer('dashboard') ?>

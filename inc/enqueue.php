@@ -24,5 +24,14 @@ function theme_enqueue_styles() {
         '6.7.2',
         true
     );
+    
+    wp_enqueue_script(
+        'fullcalendar-6117-js',
+        'https://cdn.jsdelivr.net/npm/fullcalendar@6.1.17/index.global.min.js',
+        [],
+        '6.1.17',
+        true
+    );
+
 }
 add_action('wp_enqueue_scripts', 'theme_enqueue_styles');

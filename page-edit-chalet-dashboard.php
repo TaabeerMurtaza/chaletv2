@@ -83,7 +83,7 @@ function get_features_by_category($category_slug_or_type)
 }
 
 ?>
-
+<!-- <link rel="stylesheet" href="<?= get_template_directory_uri() ?>/assets/css/edit-style.css"> -->
 <form id="chalet-dashboard-form" method="post" action="" enctype="multipart/form-data">
     <?php wp_nonce_field('chalet_dashboard_nonce', 'chalet_dashboard_nonce_field'); ?>
     <input type="hidden" name="action" value="chalet_dashboard_save">
