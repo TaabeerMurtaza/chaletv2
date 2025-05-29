@@ -557,12 +557,12 @@ add_action('carbon_fields_register_fields', function (): void {
 });
 add_action('init', function () {
     register_post_status('inactive', [
-        'label'                     => _x('Inactive', 'post'),
-        'public'                    => true,
-        'exclude_from_search'       => false,
-        'show_in_admin_all_list'    => true,
+        'label' => _x('Inactive', 'post'),
+        'public' => true,
+        'exclude_from_search' => false,
+        'show_in_admin_all_list' => true,
         'show_in_admin_status_list' => true,
-        'label_count'               => _n_noop('Inactive <span class="count">(%s)</span>', 'Inactive <span class="count">(%s)</span>'),
+        'label_count' => _n_noop('Inactive <span class="count">(%s)</span>', 'Inactive <span class="count">(%s)</span>'),
     ]);
 });
 
@@ -653,7 +653,7 @@ add_action('carbon_fields_register_fields', function () {
     Subscription PLans
  */
 
- add_action('init', function () {
+add_action('init', function () {
     register_post_type('subscription_plan', [
         'label' => 'Subscription Plans',
         'public' => true,
@@ -689,3 +689,138 @@ add_action('carbon_fields_register_fields', function () {
                 ->set_attribute('min', 0),
         ]);
 });
+/**
+ * Register Booking Custom Post Type
+ * This CPT is used to manage bookings for chalets.
+ */
+function register_booking_cpt()
+{
+    $labels = array(
+        'name' => 'Bookings',
+        'singular_name' => 'Booking',
+        'add_new' => 'Add Booking',
+        'add_new_item' => 'Add New Booking',
+        'edit_item' => 'Edit Booking',
+        'new_item' => 'New Booking',
+        'view_item' => 'View Booking',
+        'search_items' => 'Search Bookings',
+        'not_found' => 'No bookings found',
+        'not_found_in_trash' => 'No bookings found in Trash',
+        'all_items' => 'All Bookings',
+        'menu_name' => 'Bookings',
+        'name_admin_bar' => 'Booking',
+    );
+
+    $args = array(
+        'labels' => $labels,
+        'public' => false,
+        'show_ui' => true,
+        'has_archive' => false,
+        'menu_position' => 20,
+        'menu_icon' => 'dashicons-calendar-alt',
+        'supports' => array('title', 'author'),
+        'capability_type' => 'post',
+        'hierarchical' => false,
+        'show_in_rest' => true,
+    );
+
+    register_post_type('booking', $args);
+}
+add_action('init', 'register_booking_cpt');
+
+/**
+ * Register Booking Fields using Carbon Fields
+ * This function adds custom fields to the Booking CPT.
+ */
+add_action('carbon_fields_register_fields', 'register_booking_fields');
+function register_booking_fields()
+{
+    Container::make('post_meta', 'Booking Details')
+        ->where('post_type', '=', 'booking')
+        ->add_fields([
+
+            // 1. Chalet
+            Field::make('association', 'booking_chalet', 'Selected Chalet')
+                ->set_types([
+                    [
+                        'type' => 'post',
+                        'post_type' => 'chalet',
+                    ]
+                ])
+                ->set_max(1)
+                ,
+
+            // 2. Booking Dates
+            Field::make('date', 'booking_checkin', 'Check-in Date')
+                ,
+            Field::make('date', 'booking_checkout', 'Check-out Date')
+                ,
+
+            // 3. Guests
+            Field::make('text', 'booking_adults', 'Adults')->set_attribute('type', 'number'),
+            Field::make('text', 'booking_children', 'Children')->set_attribute('type', 'number'),
+            Field::make('text', 'booking_babies', 'Babies')->set_attribute('type', 'number'),
+
+            // 4. Guest Information
+            Field::make('text', 'guest_first_name', 'First Name'),
+            Field::make('text', 'guest_last_name', 'Last Name'),
+            Field::make('text', 'guest_phone', 'Phone Number'),
+            Field::make('text', 'guest_email', 'Email Address'),
+            Field::make('select', 'guest_language', 'Preferred Language')
+                ->add_options([
+                    'en' => 'English',
+                    'fr' => 'French',
+                    'de' => 'German',
+                    'es' => 'Spanish',
+                    'it' => 'Italian',
+                    'other' => 'Other',
+                ]),
+
+            // 5. Extras
+            Field::make('checkbox', 'extra_late_checkout', 'Late Checkout'),
+            Field::make('checkbox', 'extra_early_checkin', 'Early Check-in'),
+            Field::make('checkbox', 'extra_cleaning', 'Additional Cleaning'),
+            Field::make('checkbox', 'extra_bbq', 'BBQ Rental'),
+            Field::make('checkbox', 'extra_firewood', 'Firewood Bundle'),
+            Field::make('checkbox', 'extra_pet_fee', 'Pet Fee'),
+
+            // 6. Special Requests
+            Field::make('textarea', 'special_requests', 'Special Requests'),
+
+            // 7. Agreements
+            Field::make('checkbox', 'agree_terms', 'I agree to the Terms & Conditions'),
+            Field::make('checkbox', 'agree_cancellation', 'I acknowledge the Cancellation Policy'),
+
+            // 8. Promo Code
+            Field::make('text', 'promo_code', 'Promo Code'),
+
+            // 9. Payment Method
+            Field::make('select', 'payment_method', 'Payment Method')
+                ->add_options([
+                    'credit_card' => 'Credit Card',
+                    'bank_transfer' => 'Bank Transfer',
+                    'paypal' => 'PayPal',
+                ]),
+
+            // 10. Hidden/Internal
+            Field::make('text', 'booking_id', 'Booking ID')
+                ->set_attribute('readOnly', 'readOnly'),
+
+            Field::make('text', 'chalet_id', 'Chalet ID')
+                ->set_attribute('readOnly', 'readOnly'),
+
+            Field::make('select', 'booking_status', 'Booking Status')
+                ->add_options([
+                    'pending' => 'Pending',
+                    'confirmed' => 'Confirmed',
+                    'cancelled' => 'Cancelled',
+                ])
+                ->set_default_value('pending'),
+
+            Field::make('text', 'booking_price', 'Price Calculation')
+                ->set_attribute('readOnly', 'readOnly'),
+
+            Field::make('text', 'booking_source', 'Booking Source (e.g. website, ad, referral)'),
+
+        ]);
+}

@@ -67,6 +67,7 @@ function chaletv2_handle_chalet_dashboard_submission()
         wp_die('You must be logged in to perform this action.', 'Permission Denied', ['response' => 403]);
     }
 
+
     $current_user = wp_get_current_user();
     $is_admin = current_user_can('manage_options');
 

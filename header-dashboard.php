@@ -10,13 +10,13 @@ if (!is_user_logged_in()) {
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Dashboard</title>
-    <link rel="stylesheet" href="<?= get_template_directory_uri() ?>/dashboard/css/style.css?" />
+    <title><?php wp_title('|', true, 'right'); bloginfo('name'); ?></title>
+<link rel="stylesheet" href="<?= get_template_directory_uri() ?>/dashboard/css/style.css?v=<?= filemtime(get_template_directory() . '/dashboard/css/style.css') ?>" />
     <?php wp_head(); ?>
 </head>
 
 <body>
-    <header>
+    <header class="dashboard-header">
         <div class="header-inner">
             <a href="#" class="logo "><img src="<?= get_template_directory_uri() ?>/dashboard/images/LOGO.svg" alt=""></a>
             <nav id="main-nav-db">
@@ -148,19 +148,19 @@ if (!is_user_logged_in()) {
                             </a>
                         </li>
                         <li>
-                            <a class="tab-link">
+                           <a href="<?= get_home_url()?>/dashboard-calender" class="tab-link">
                                 <img src="<?= get_template_directory_uri() ?>/dashboard/images/icons/Calendar_add.svg" alt="tab-icon">
                                 Booking Calendar
                             </a>
                         </li>
                         <li>
-                            <a class="tab-link">
+                              <a href="<?= get_home_url()?>/booking" class="tab-link">
                                 <img src="<?= get_template_directory_uri() ?>/dashboard/images/icons/Book_check.svg" alt="tab-icon">
                                 My Bookings
                             </a>
                         </li>
                         <li>
-                            <a class="tab-link">
+                      <a href="<?= get_home_url()?>/dashboard-reviews" class="tab-link">
                                 <img src="<?= get_template_directory_uri() ?>/dashboard/images/icons/thumb_up.svg" alt="tab-icon">
                                 My Reviews
                             </a>
@@ -196,7 +196,7 @@ if (!is_user_logged_in()) {
                             </a>
                         </li>
                         <li>
-                            <a class="tab-link">
+                            <a class="tab-link" href="<?= esc_url(wp_logout_url(home_url('/login'))) ?>">
                                 <img src="<?= get_template_directory_uri() ?>/dashboard/images/icons/Sign_in_squre.svg" alt="tab-icon">
                                 Log Out
                             </a>

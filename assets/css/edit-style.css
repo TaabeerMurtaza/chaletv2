@@ -33,7 +33,7 @@
     padding-top: 15px;
 }
 
-.dashboard-form-tabs .tab-link {
+.dashboard-form-tabs .tab-link-list {
     padding: 15px 10px;
     font-size: 14px;
     color: #9a9ca0;
@@ -43,7 +43,7 @@
     text-align: center;
 }
 
-.dashboard-form-tabs .tab-link::before {
+.dashboard-form-tabs .tab-link-list::before {
     content: '';
     width: 100%;
     height: 2px;
@@ -54,7 +54,7 @@
     transform: translateX(50%);
 }
 
-.dashboard-form-tabs .tab-link::after {
+.dashboard-form-tabs .tab-link-list::after {
     content: '';
     width: 12px;
     height: 12px;
@@ -67,12 +67,12 @@
     z-index: 1;
 }
 
-.dashboard-form-tabs .tab-link:first-child::before {
+.dashboard-form-tabs .tab-link-list:first-child::before {
     display: none;
 }
 
-.dashboard-form-tabs .tab-link.active::after,
-.dashboard-form-tabs .tab-link.active::before {
+.dashboard-form-tabs .tab-link-list.active::after,
+.dashboard-form-tabs .tab-link-list.active::before {
     background-color: #0f766e;
 }
 
@@ -93,6 +93,7 @@ h2,
     font-weight: 100;
     font-weight: 500;
     margin-bottom: 20px;
+    text-align: left !important;
 }
 
 .light-text {
@@ -660,6 +661,9 @@ input[type="checkbox"]:checked:before {
     width: 100%;
     height: 100%;
 }
+#chalet-dashboard-form{
+    margin: 0 auto;
+}
 
 .images-section .top-detail {
     position: absolute;
@@ -790,7 +794,8 @@ textarea {
 }
 
 .condition-section .left-details {
-    width: 610px;
+    max-width: 610px;
+    width:100%;
 }
 
 [type="radio"] {
@@ -1022,6 +1027,12 @@ textarea {
         margin-right: 0;
         width: 100%;
     }
+      #chalet-dashboard-form  {
+    padding-top: 70px;
+}
+  #chalet-dashboard-form .container {
+    padding: 0;
+}
 }
 
 @media (max-width: 640px) {

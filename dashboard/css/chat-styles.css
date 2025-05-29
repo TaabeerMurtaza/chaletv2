@@ -1,0 +1,13 @@
+.bp-messages-wrap .chat-header {
+    background: #0f766e ;
+}
+.mass-message svg ,
+#bm-new-thread-title,
+.thread-info-data *,
+.bp-messages-wrap .chat-header .thread-actions>span,
+.bp-messages-wrap .chat-header .thread-actions>a>svg, .bp-messages-wrap .chat-header .thread-actions>span>svg, .bp-messages-wrap .chat-header .thread-actions>div.expandingButtons>svg,
+.bm-svg,
+.bp-messages-wrap .chat-header .back svg{
+    fill: #ffffff ;
+    color: #fff !important;
+}

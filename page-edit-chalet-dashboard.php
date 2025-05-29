@@ -11,9 +11,9 @@ get_header('dashboard');
 
 // Ensure $chalet_data and $edit_mode are available
 // These variables should be passed from page-chalet-dashboard.php
-global $chalet_data, $edit_mode;
-
-$chalet_id = $edit_mode;
+$chalet_id = $edit_mode = isset($_GET['id']) ? intval($_GET['id']) : 0;
+$chalet_data = get_chalet_data($chalet_id);
+// If $chalet_id is set, we are in edit mode
 // If not set globally, try to get them from request parameters
 if (!isset($chalet_data) || empty($chalet_data)) {
     $chalet_data = [];
@@ -83,8 +83,9 @@ function get_features_by_category($category_slug_or_type)
 }
 
 ?>
+<link rel="stylesheet" href="<?= get_template_directory_uri() ?>/assets/css/edit-style.css?v=<?= filemtime(get_template_directory() . '/assets/css/edit-style.css') ?>" />
 <!-- <link rel="stylesheet" href="<?= get_template_directory_uri() ?>/assets/css/edit-style.css"> -->
-<form id="chalet-dashboard-form" method="post" action="" enctype="multipart/form-data">
+<form id="chalet-dashboard-form" method="post" action="<?= admin_url('admin-post.php') ?>" enctype="multipart/form-data">
     <?php wp_nonce_field('chalet_dashboard_nonce', 'chalet_dashboard_nonce_field'); ?>
     <input type="hidden" name="action" value="chalet_dashboard_save">
     <input type="hidden" name="form_action" value="<?php echo $edit_mode ? 'edit_chalet' : 'add_chalet'; ?>">
@@ -95,34 +96,34 @@ function get_features_by_category($category_slug_or_type)
     <!-- <h2><?php echo $edit_mode ? __('Edit Chalet', 'chaletv2') : __('Add New Chalet', 'chaletv2'); ?></h2> -->
 
     <ul class="nav dashboard-form-tabs " id="chalet-dashboard-tabs">
-        <li class="tab-link active" id="information-tab-link">
+        <li class="tab-link-list active" id="information-tab-link">
             Information
         </li>
-        <li class="tab-link" id="price-tab-link">
+        <li class="tab-link-list" id="price-tab-link">
             Price
 
         </li>
-        <li class="tab-link" id="terms-tab-link">
+        <li class="tab-link-list" id="terms-tab-link">
             Terms
 
         </li>
-        <li class="tab-link " id="instructions-tab-link">
+        <li class="tab-link-list " id="instructions-tab-link">
             Instructions
 
         </li>
-        <li class="tab-link " id="media-tab-link">
+        <li class="tab-link-list " id="media-tab-link">
             Media
 
         </li>
-        <li class="tab-link " id="amenities-tab-link">
+        <li class="tab-link-list " id="amenities-tab-link">
             Amenities
 
         </li>
-        <li class="tab-link " id="location-tab-link">
+        <li class="tab-link-list " id="location-tab-link">
             Location
 
         </li>
-        <li class="tab-link " id="calendar-tab-link">
+        <li class="tab-link-list " id="calendar-tab-link">
             Calendar
         </li>
     </ul>
@@ -136,7 +137,7 @@ function get_features_by_category($category_slug_or_type)
                     <div class="form-detail">
                         <label class="light-text"> <?php _e('Name:', 'chaletv2'); ?></label>
                         <input type="text" id="title" class="big-input" name="chalet_title"
-                            value="<?php echo get_chalet_field_value('title', $edit_mode ? get_the_title($edit_mode) : ''); ?>"
+                            value="<?php echo $chalet_data['title']; ?>"
                             required>
                     </div>
                 </div>
@@ -162,11 +163,11 @@ function get_features_by_category($category_slug_or_type)
             <div class="sm-divider"></div>
             <div class="information-row">
                 <div class="text-details">
-                    <label for="description" class="light-text"><?php _e('Description:', 'chaletv2'); ?></label>
+                    <span  class="light-text">Description</span>
                 </div>
                 <div class="input-details">
                     <div class="form-detail">
-                        <label class="light-text"> Description</label>
+                        <label for="description" class="light-text"> <?php _e('Description:', 'chaletv2'); ?></label>
                         <?php
                 wp_editor(
                     isset($chalet_data['description']) ? $chalet_data['description'] : '',
@@ -1247,9 +1248,10 @@ function get_features_by_category($category_slug_or_type)
     </div>
     <!-- Submit Button (outside tab content) -->
     <p style="margin-top: 20px;">
-        <input type="submit" name="submit_chalet"
+        <!-- <input type="submit" name="submit_chalet"
             value="<?php echo $edit_mode ? __('Update Chalet', 'chaletv2') : __('Add Chalet', 'chaletv2'); ?>"
-            class="button button-primary">
+            class="button button-primary"> -->
     </p>
 </form>
+
 <?php get_footer('dashboard') ?>

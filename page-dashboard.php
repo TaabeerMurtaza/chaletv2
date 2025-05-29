@@ -4,7 +4,7 @@
  * Template Name: Dashboard
  *  */
 get_header('dashboard');
-
+$bookings = get_my_bookings();
 ?>
 <div class="dashboard-content">
     <div class="dashboard-title">
@@ -21,10 +21,47 @@ get_header('dashboard');
     </div>
     <div class="booking-details">
         <h3 class="dashboard-sub-title">Next Bookings</h3>
-        <span><a href="#">Huge Sunny Villa</a> from March 07 2025 to March 09
-            2025</span>
-        <span><a href="#">Huge Sunny Villa</a> from March 07 2025 to March 09
-            2025</span>
+        <?php
+        // Query latest 5 bookings (assuming 'booking' is a custom post type)
+        $args = array(
+            'post_type' => 'booking',
+            'posts_per_page' => 5,
+            'post_status' => 'publish',
+            'orderby' => 'date',
+            'order' => 'DESC',
+        );
+        $latest_bookings = new WP_Query($args);
+
+        if ($latest_bookings->have_posts()):
+            while ($latest_bookings->have_posts()):
+                $latest_bookings->the_post();
+                // Get related chalet (assuming a post meta 'chalet_id' stores the chalet post ID)
+                $chalet = @carbon_get_post_meta(get_the_ID(), 'booking_chalet')[0] ?? null;
+                $chalet_id = is_array($chalet) && isset($chalet['id']) ? $chalet['id'] : null;
+                $chalet_title = $chalet_id ? get_the_title($chalet_id) : 'Unknown Chalet';
+                $chalet_link = $chalet_id ? get_permalink($chalet_id) : '#';
+
+                // Get booking dates (assuming 'start_date' and 'end_date' meta fields, format: Y-m-d)
+                $start_date = carbon_get_post_meta(get_the_ID(), 'booking_checkin');
+                $end_date = carbon_get_post_meta(get_the_ID(), 'booking_checkout');
+
+                // Format dates
+                $start_fmt = $start_date ? date('F d Y', strtotime($start_date)) : '';
+                $end_fmt = $end_date ? date('F d Y', strtotime($end_date)) : '';
+                ?>
+                <span>
+                    <a href="<?php echo esc_url($chalet_link); ?>"><?php echo esc_html($chalet_title); ?></a>
+                    <?php if ($start_fmt && $end_fmt): ?>
+                        from <?php echo esc_html($start_fmt); ?> to <?php echo esc_html($end_fmt); ?>
+                    <?php endif; ?>
+                </span>
+                <?php
+            endwhile;
+            wp_reset_postdata();
+        else:
+            ?>
+            <span>No bookings found.</span>
+        <?php endif; ?>
     </div>
     <div class="dashboard-main-details">
         <h3 class="dashboard-sub-title">Bookings - next 30 days</h3>
@@ -97,42 +134,63 @@ get_header('dashboard');
         <div class="main-booking">
             <h3 class="dashboard-sub-title">Your most booked chalets</h3>
             <?php
-            // Query recent chalets (assuming 'chalet' is a custom post type)
-            $args = array(
-                'post_type' => 'chalet',
-                'posts_per_page' => 3,
+            // Get all bookings with 'booking_chalet' meta set
+            $booking_args = array(
+                'post_type' => 'booking',
+                'posts_per_page' => -1,
                 'post_status' => 'publish',
-                'orderby' => 'date',
-                'order' => 'DESC',
+                'meta_query' => array(
+                    array(
+                        'key' => 'booking_chalet',
+                        'compare' => 'EXISTS',
+                    ),
+                ),
+                'fields' => 'ids',
             );
-            $recent_chalets = new WP_Query($args);
+            $booking_query = new WP_Query($booking_args);
 
-            if ($recent_chalets->have_posts()): ?>
+            $chalet_counts = array();
+
+            if ($booking_query->have_posts()) {
+                foreach ($booking_query->posts as $booking_id) {
+                    $chalet_meta = @carbon_get_post_meta($booking_id, 'booking_chalet');
+                    if (is_array($chalet_meta) && isset($chalet_meta[0]['id'])) {
+                        $chalet_id = $chalet_meta[0]['id'];
+                        if ($chalet_id) {
+                            if (!isset($chalet_counts[$chalet_id])) {
+                                $chalet_counts[$chalet_id] = 0;
+                            }
+                            $chalet_counts[$chalet_id]++;
+                        }
+                    }
+                }
+            }
+
+            // Sort chalets by booking count, descending
+            arsort($chalet_counts);
+            $top_chalets = array_slice(array_keys($chalet_counts), 0, 5, true);
+
+            if (!empty($top_chalets)): ?>
                 <div class="main-detail-row">
-                    <?php while ($recent_chalets->have_posts()):
-                        $recent_chalets->the_post(); ?>
+                    <?php foreach ($top_chalets as $chalet_id): ?>
                         <div class="main-detail">
                             <div class="img-wrapper">
-                                <?php if (has_post_thumbnail()): ?>
-                                    <img src="<?php the_post_thumbnail_url('medium'); ?>" alt="<?php the_title_attribute(); ?>" />
+                                <?php if (has_post_thumbnail($chalet_id)): ?>
+                                    <img src="<?php echo get_the_post_thumbnail_url($chalet_id, 'medium'); ?>"
+                                        alt="<?php echo esc_attr(get_the_title($chalet_id)); ?>" />
                                 <?php else: ?>
                                     <img src="<?= get_template_directory_uri() ?>/dashboard/images/chalet.jpeg" alt="" />
                                 <?php endif; ?>
                             </div>
                             <div class="detail">
-                                <a href="<?php the_permalink(); ?>"><?php the_title(); ?></a>
-                                <?php
-                                // Example: get view count from post meta (replace 'view_count' with your actual meta key)
-                                $views = get_post_meta(get_the_ID(), 'view_count', true);
-                                ?>
-                                <span><?php echo $views ? esc_html($views) : '0'; ?> Views</span>
+                                <a href="<?php echo get_permalink($chalet_id); ?>"><?php echo get_the_title($chalet_id); ?></a>
+                                <span><?php echo intval($chalet_counts[$chalet_id]); ?> Bookings</span>
                             </div>
                         </div>
-                    <?php endwhile;
-                    wp_reset_postdata(); ?>
+                    <?php endforeach; ?>
                 </div>
             <?php else: ?>
-                <p>No recent chalets found.</p>
+                <p>No booked chalets found.</p>
             <?php endif; ?>
         </div>
     </div>
@@ -159,30 +217,26 @@ get_header('dashboard');
 
         // Booked events
         const bookedEvents = [
-            {
-                title: 'Ali Khan',
-                start: '2025-06-20',
-                end: '2025-06-23',
-                color: '#2196f3'
-            },
-            {
-                title: 'Zara Malik',
-                start: '2025-06-25',
-                end: '2025-06-28',
-                color: '#4caf50'
-            },
-            {
-                title: 'Usman Tariq',
-                start: '2025-07-10',
-                end: '2025-07-13',
-                color: '#ff9800'
-            },
-            {
-                title: 'Fatima Shah',
-                start: '2025-07-20',
-                end: '2025-07-22',
-                color: '#9c27b0'
+            <?php
+            // Helper: generate a random color with good contrast for white text
+
+            foreach ($bookings as $booking) {
+                $checkin = carbon_get_post_meta($booking->ID, 'booking_checkin');
+                $checkout = carbon_get_post_meta($booking->ID, 'booking_checkout');
+                $title = esc_js(get_the_title($booking->ID));
+                $color = get_random_color();
+
+                // Only output if both dates exist
+                if ($checkin && $checkout) {
+                    echo "{";
+                    echo "title: '{$title}',";
+                    echo "start: '{$checkin}',";
+                    echo "end: '{$checkout}',";
+                    echo "color: '{$color}'";
+                    echo "},";
+                }
             }
+            ?>
         ];
 
         // All events merged

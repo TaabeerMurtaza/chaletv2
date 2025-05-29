@@ -34,7 +34,7 @@ foreach ($meta_fields as $field) {
 
 <div class="dashboard-content">
     <div class="dashboard-title">
-        <button class="menu-btn openPanel"><img src="images/slide-icon.svg" alt=""></button>
+        <button class="menu-btn openPanel"><img src="<?= get_template_directory_uri() ?>/dashboard/images/slide-icon.svg" alt=""></button>
         <h2 class="main-title">Profile</h2>
         <div class="dashboard-title-details">
             <a href="" class="dashboard-top-btn btn-h">Home page</a>

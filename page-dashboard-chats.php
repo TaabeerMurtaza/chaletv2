@@ -2,7 +2,7 @@
 /* Template Name: Dashboard Chats */
 
 get_header(); ?>
-<link rel="stylesheet" href="<?= get_template_directory_uri() ?>/dashboard/css/chat-styles.css">
+<link rel="stylesheet" href="<?= get_template_directory_uri() ?>/dashboard/css/chat-styles.css?v=<?= filemtime(get_template_directory() . '/dashboard/css/chat-styles.css') ?>" />
 <main>
     <?php
     if ( have_posts() ) :

@@ -5,6 +5,7 @@ get_header('dashboard');
 $query = new WP_Query([
     'post_type' => 'chalet',
     'posts_per_page' => -1,
+    'post_status' => ['publish', 'pending', 'draft', 'private'],
 ]);
 ?>
 
@@ -87,26 +88,50 @@ $query = new WP_Query([
                                 <img src="<?= get_the_post_thumbnail_url() ?>" alt="">
                             </div>
                             <div class="name-details">
-                                <h4><?= the_title(); ?></h4>
+                                <h4><a href="<?= get_permalink(); ?>"><?= get_the_title(); ?></a></h4>
                                 <p><span>City:</span> Sainte-Adèle</p>
                                 <p><span>Region:</span> <?= $region ?></p>
                             </div>
                         </div>
                         <div class="review">
-                            <span>2 Reviews</span>
+                            <?php
+                            $reviews_count = get_comments_number(get_the_ID());
+                            ?>
+                            <span><?= $reviews_count ?> Review<?= $reviews_count == 1 ? '' : 's' ?></span>
                         </div>
                         <div class="status">
                             <ul>
-                                <li><span><img src="<?= get_template_directory_uri() ?>/dashboard/images/icons/black-home.svg"
-                                            alt="">Management</span></li>
-                                <li><span><img src="<?= get_template_directory_uri() ?>/dashboard/images/icons/dot.svg"
-                                            alt="">Published</span></li>
+                                <!-- <li><span><img src="<?= get_template_directory_uri() ?>/dashboard/images/icons/black-home.svg"
+                                            alt="">Management</span></li> -->
+                                <?php
+                                $post_status = get_post_status(get_the_ID());
+                                $status_label = '';
+                                $status_icon = '';
+
+                                if ($post_status === 'publish') {
+                                    $status_label = 'Published';
+                                    $status_icon = 'dot.svg';
+                                } elseif ($post_status === 'pending') {
+                                    $status_label = 'Pending';
+                                    // $status_icon = 'pending-dot.svg';
+                                    $status_icon = 'dot.svg';
+                                } else {
+                                    $status_label = ucfirst($post_status);
+                                    $status_icon = 'dot.svg';
+                                }
+                                ?>
+                                <li>
+                                    <span>
+                                        <img src="<?= get_template_directory_uri() ?>/dashboard/images/icons/<?= $status_icon ?>" alt="">
+                                        <?= $status_label ?>
+                                    </span>
+                                </li>
                                 <li><span>Expires on 2026-02-01</span></li>
                             </ul>
                         </div>
-                        <div class="edit">
+                        <a href="<?= get_home_url() ?>/dashboard-edit-chalet?id=<?= get_the_ID() ?>" class="edit">
                             <img src="<?= get_template_directory_uri() ?>/dashboard/images/icons/edit-pen.svg" alt="">
-                        </div>
+                        </a>
                     </div>
                 <?php endwhile; endif; ?>
         </div>

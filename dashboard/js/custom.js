@@ -1,27 +1,40 @@
 // const tabLinks = document.querySelectorAll('.tab-link');
-// const tabContents = document.querySelectorAll('.tab-content');
 
-// tabLinks.forEach(tabLink => {
-//     tabLink.addEventListener('click', () => {
-//         const tabId = tabLink.dataset.tab;
+function showContent(event, button) {
+    event.preventDefault();
 
-//         tabLinks.forEach(link => {
-//             link.classList.remove('active');
-//         });
-//         tabContents.forEach(content => {
-//             content.classList.remove('active');
-//         });
+    // Hide all tab contents
+    document.querySelectorAll('.tab-content').forEach(el => {
+        el.style.display = 'none';
+    });
 
-//         tabLink.classList.add('active');
-//         document.getElementById(tabId).classList.add('active');
+    // Remove 'active' from all tab links
+    const allTabLinks = document.querySelectorAll('.tab-link-list');
+    allTabLinks.forEach(link => link.classList.remove('active'));
 
-//     });
-// });
+    // Get target content and tab link
+    const targetId = button.getAttribute('data-id');
+    const targetElement = document.getElementById(targetId);
+    const targetTab = document.getElementById(targetId + '-link');
 
-// // Optional: Set the first tab as active by default
-// if (tabLinks.length > 0) {
-//     tabLinks[0].click();
-// }
+    // Show the selected tab content
+    if (targetElement) {
+        targetElement.style.display = 'block';
+    }
+
+    // Add 'active' to all tabs before and including the clicked one
+    let activate = true;
+    allTabLinks.forEach(link => {
+        if (activate) link.classList.add('active');
+        if (link === targetTab) activate = false;
+    });
+}
+
+document.querySelectorAll('.img-detail').forEach(card => {
+    card.addEventListener('click', () => {
+        card.classList.toggle('selected');
+    });
+});
 
 document.addEventListener('DOMContentLoaded', function () {
     const openBtns = document.querySelectorAll('.openPanel'); // multiple open buttons
