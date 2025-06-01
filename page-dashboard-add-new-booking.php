@@ -104,7 +104,7 @@
                         <hr>
                         <div class="summary-header">
                             <div class="summary-left">
-                                <img src="<?= get_template_directory_uri() ?>/dashboard/images/form-img.jpg" alt="Chalet Image">
+                                <img src="./images/form-img.jpg" alt="Chalet Image">
                                 <span class="small-text logo-name">Chalet name</span>
                             </div>
                             <button>More details</button>
@@ -219,7 +219,7 @@
                     <!-- Early check-in option -->
                     <div class="option-card">
                         <div class="option-image">
-                            <img src="<?= get_template_directory_uri() ?>/dashboard/images/form-img.jpg" alt="">
+                            <img src="/images/form-img.jpg" alt="">
                         </div>
                         <div class="option-content">
                             <div class="option-header">
@@ -245,7 +245,7 @@
                     <!-- Kayak location option -->
                     <div class="option-card">
                         <div class="option-image">
-                            <img src="<?= get_template_directory_uri() ?>/dashboard/images/form-img.jpg" alt="">
+                            <img src="./images/form-img.jpg" alt="">
                         </div>
                         <div class="option-content">
                             <div class="option-header">
@@ -276,7 +276,7 @@
                         <hr>
                         <div class="summary-header">
                             <div class="summary-left">
-                                <img src="<?= get_template_directory_uri() ?>/dashboard/images/form-img.jpg" alt="Chalet Image">
+                                <img src="./images/form-img.jpg" alt="Chalet Image">
                                 <span class="small-text logo-name">Chalet name</span>
                             </div>
                             <button>More details</button>
@@ -450,7 +450,7 @@
                         <hr>
                         <div class="summary-header">
                             <div class="summary-left">
-                                <img src="<?= get_template_directory_uri() ?>/dashboard/images/form-img.jpg" alt="Chalet Image">
+                                <img src="./images/form-img.jpg" alt="Chalet Image">
                                 <span class="small-text logo-name">Chalet name</span>
                             </div>
                             <button>More details</button>
@@ -643,7 +643,7 @@
                                 <!-- <img src="https://www.pcisecuritystandards.org/images/pci_logo.png" alt="PCI DSS"> -->
                             </div>
                         </div>
-                        <button class="continue-btn" data-id="thankyou-section" onclick="showPromoContent(event, this)">Book Now</button>
+                        <button class="continue-btn">Book Now</button>
                     </div>
                 </div>
                 <div class="dates-right">
@@ -652,7 +652,7 @@
                         <hr>
                         <div class="summary-header">
                             <div class="summary-left">
-                                <img src="<?= get_template_directory_uri() ?>/dashboard/images/form-img.jpg" alt="Chalet Image">
+                                <img src="./images/form-img.jpg" alt="Chalet Image">
                                 <span class="small-text logo-name">Chalet name</span>
                             </div>
                             <button>More details</button>
@@ -752,6 +752,7 @@
 
 
                     </div>
+                    <button class="continue-btn" data-id="thankyou-section" onclick="showPromoContent(event, this)">Continue</button>
                 </div>
             </div>
         </div>
@@ -761,12 +762,12 @@
         <div class="container summary-card">
             <div class="thankyou-wrapper">
                 <div class="thankyou-logo">
-                    <img src="<?= get_template_directory_uri() ?>/dashboard/images/LOGO.svg" alt="">
+                    <img src="./images/LOGO.svg" alt="">
                 </div>
-                <h2 class="inner-heading">Booking confirmation</h2>
-                <p class="section-para">Congratulations Guest Name, your booking is now confirmed!
-See below for your reservation details.
-A confirmation email will also be sent to you
+                <h2 class="inner-heading">Add-ons</h2>
+                <p class="section-para">Congratulations <b>Guest Name</b>, your booking is now <b>confirmed!</b>
+                    See below for your reservation details.
+                    A confirmation email will also be sent to you.
                 </p>
                 <div class="date-details-row">
                     <div class="dates-right">
@@ -774,7 +775,7 @@ A confirmation email will also be sent to you
                             <hr>
                             <div class="summary-header">
                                 <div class="summary-left">
-                                    <img src="<?= get_template_directory_uri() ?>/dashboard/images/form-img.jpg" alt="Chalet Image">
+                                    <img src="./images/form-img.jpg" alt="Chalet Image">
                                     <div class="summary-adress-details">
                                         <span class="small-text logo-name">Chalet name</span>
                                         <span class="small-text logo-name">Chalet adress</span>
@@ -867,7 +868,7 @@ A confirmation email will also be sent to you
                                 </a>
                             </div>
                         </div>
-                        <a class="continue-btn" href="dashboard">Back to website</a>
+                        <button class="continue-btn">Continue</button>
                     </div>
                 </div>
             </div>
