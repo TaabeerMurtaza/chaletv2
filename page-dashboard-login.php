@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Template Name: Dashboard Promotion
+ * Template Name: login sign up
  *  */
 ?>
 <!DOCTYPE html>
