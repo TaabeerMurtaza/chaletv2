@@ -1187,7 +1187,7 @@ function get_features_by_category($category_slug_or_type)
                 Location settings.</button>
         </div>
     </div> -->
-    <div class="tab-content tab-pane" role="tabpanel" id="tab-amenities">
+    <div class="tab-content" id="tab-amenities">
             <div class="container">
                 <div class="amenties-top-details">
                     <h3>Amenities and Features</h3>
@@ -1921,7 +1921,8 @@ function get_features_by_category($category_slug_or_type)
                 </div>
             </div>
         </div>
-    <div class="location-section tab-content" id="location-tab" style="display: none;">
+    
+        <div class="location-section tab-content" id="location-tab" style="display: none;">
         <div class="container">
             <h2 class="title-xl"> Location</h2>
             <span class="light-text"> location details</span>
