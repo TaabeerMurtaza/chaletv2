@@ -6,7 +6,11 @@
 get_header('dashboard');
 
 ?>
-
+  <style>
+    .sildepanel{
+      display: none !important;
+    }
+  </style>
   <div class="booking-section dashboard-content">
 
     <button id="toggleSidebarBtn" class="toggle-btn">☰ My Bookings</button>
@@ -14,11 +18,11 @@ get_header('dashboard');
       <button id="closeSidebarBtn" class="close-btn">✕</button>
       <h2>My Bookings</h2>
       <div class="filter">
-        <img src="images/icons/filter.svg" alt="filter">
+        <img src="<img src="<?= get_template_directory_uri() ?>/dashboard/images/icons/filter.svg" alt="filter">
         <p>Filter by booking date from newest to oldest</p>
       </div>
       <div class="search-bar">
-        <img src="images/icons/search.svg" alt="search">
+        <img src="<img src="<?= get_template_directory_uri() ?>/dashboard/images/icons/search.svg" alt="search">
         <input type="search">
       </div>
       <div class="inbox-chat-listing">
@@ -26,7 +30,7 @@ get_header('dashboard');
           <div class="chat-item">
             <div class="pro-detail">
               <div class="pro-img">
-                <img src="" alt="">
+                <img src="<img src="<?= get_template_directory_uri() ?>/dashboard/images/chalet.jpeg" alt="profile image">
               </div>
               <div class="pro-content">
                 <span class="status booked">Booked</span>
@@ -43,7 +47,7 @@ get_header('dashboard');
           <div class="chat-item">
             <div class="pro-detail">
               <div class="pro-img">
-                <img src="" alt="">
+              <img src="<img src="<?= get_template_directory_uri() ?>/dashboard/images/chalet.jpeg" alt="profile image">
               </div>
               <div class="pro-content">
                 <span class="status booked">Booked</span>
@@ -60,7 +64,7 @@ get_header('dashboard');
           <div class="chat-item">
             <div class="pro-detail">
               <div class="pro-img">
-                <img src="" alt="">
+              <img src="<img src="<?= get_template_directory_uri() ?>/dashboard/images/chalet.jpeg" alt="profile image">
               </div>
               <div class="pro-content">
                 <span class="status booked">Booked</span>
@@ -77,7 +81,7 @@ get_header('dashboard');
           <div class="chat-item">
             <div class="pro-detail">
               <div class="pro-img">
-                <img src="" alt="">
+              <img src="<img src="<?= get_template_directory_uri() ?>/dashboard/images/chalet.jpeg" alt="profile image">
               </div>
               <div class="pro-content">
                 <span class="status booked">Booked</span>

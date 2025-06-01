@@ -869,7 +869,7 @@ function get_features_by_category($category_slug_or_type)
                     <div class="sm-divider"></div>
                     <div class="policy-detail-wrapper">
                         <div class="icon-wrapper">
-                            <img src="./images/edit-icon.png" alt="">
+                             <img src="<?= get_template_directory_uri() ?>/dashboard/images/edit-icon.png" alt="">
                         </div>
                         <textarea class="details-textarea"></textarea>
                     </div>
@@ -962,7 +962,7 @@ function get_features_by_category($category_slug_or_type)
                         </label>
                         <div class="policy-detail-wrapper">
                             <!-- <div class="icon-wrapper">
-                                <img src="./images/edit-icon.png" alt="">
+                                 <img src="<?= get_template_directory_uri() ?>/dashboard/images/edit-icon.png" alt="">
                             </div> -->
                             <textarea name="checkin_instructions" class="details-textarea" id="checkin_instructions"
                                 rows="5"><?php echo esc_textarea($chalet_data['checkin_instructions'] ?? ''); ?></textarea>
@@ -987,7 +987,7 @@ function get_features_by_category($category_slug_or_type)
                         </label>
                         <div class="policy-detail-wrapper">
                             <!-- <div class="icon-wrapper">
-                                <img src="./images/edit-icon.png" alt="">
+                                 <img src="<?= get_template_directory_uri() ?>/dashboard/images/edit-icon.png" alt="">
                             </div> -->
                             <textarea name="itinerary_instructions" class="details-textarea" id="itinerary_instructions"
                                 rows="5"><?php echo esc_textarea($chalet_data['itinerary_instructions'] ?? ''); ?></textarea>
@@ -1014,7 +1014,7 @@ function get_features_by_category($category_slug_or_type)
                         </label>
                         <div class="policy-detail-wrapper">
                             <!-- <div class="icon-wrapper">
-                                <img src="./images/edit-icon.png" alt="">
+                                 <img src="<?= get_template_directory_uri() ?>/dashboard/images/edit-icon.png" alt="">
                             </div> -->
                             <textarea name="itinerary_instructions" id="itinerary_instructions" class="details-textarea"
                                 rows="5"><?php echo esc_textarea($chalet_data['itinerary_instructions'] ?? ''); ?></textarea>
@@ -1040,7 +1040,7 @@ function get_features_by_category($category_slug_or_type)
                         </label>
                         <div class="policy-detail-wrapper">
                             <!-- <div class="icon-wrapper">
-                                <img src="./images/edit-icon.png" alt="">
+                                 <img src="<?= get_template_directory_uri() ?>/dashboard/images/edit-icon.png" alt="">
                             </div> -->
                             <textarea name="rules_reminder" id="rules_reminder" class="details-textarea"
                                 rows="5"><?php echo esc_textarea($chalet_data['rules_reminder'] ?? ''); ?></textarea>
@@ -1065,7 +1065,7 @@ function get_features_by_category($category_slug_or_type)
                         </label>
                         <div class="policy-detail-wrapper">
                             <!-- <div class="icon-wrapper">
-                                <img src="./images/edit-icon.png" alt="">
+                                 <img src="<?= get_template_directory_uri() ?>/dashboard/images/edit-icon.png" alt="">
                             </div> -->
                             <textarea name="local_guide" id="local_guide" class="details-textarea"
                                 rows="5"><?php echo esc_textarea($chalet_data['local_guide'] ?? ''); ?></textarea>
@@ -1102,57 +1102,57 @@ function get_features_by_category($category_slug_or_type)
                 <div class="images-wrapper-row">
                     <div class="img-detail">
                         <div class="top-detail">
-                            <img src="./images/star.png" alt="" class="star-icon">
+                             <img src="<?= get_template_directory_uri() ?>/dashboard/images/star.png" alt="" class="star-icon">
                         </div>
-                        <img src="./images/bedroom.jpg" alt="" class="bedroom-img">
+                         <img src="<?= get_template_directory_uri() ?>/dashboard/images/bedroom.jpg" alt="" class="bedroom-img">
                     </div>
                     <div class="img-detail">
                         <div class="top-detail">
-                            <img src="./images/star.png" alt="" class="star-icon">
+                             <img src="<?= get_template_directory_uri() ?>/dashboard/images/star.png" alt="" class="star-icon">
                         </div>
-                        <img src="./images/bedroom.jpg" alt="" class="bedroom-img">
+                         <img src="<?= get_template_directory_uri() ?>/dashboard/images/bedroom.jpg" alt="" class="bedroom-img">
                     </div>
                     <div class="img-detail">
                         <div class="top-detail">
-                            <img src="./images/star.png" alt="" class="star-icon">
+                             <img src="<?= get_template_directory_uri() ?>/dashboard/images/star.png" alt="" class="star-icon">
                         </div>
-                        <img src="./images/bedroom.jpg" alt="" class="bedroom-img">
+                         <img src="<?= get_template_directory_uri() ?>/dashboard/images/bedroom.jpg" alt="" class="bedroom-img">
                     </div>
                     <div class="img-detail">
                         <div class="top-detail">
-                            <img src="./images/star.png" alt="" class="star-icon">
+                             <img src="<?= get_template_directory_uri() ?>/dashboard/images/star.png" alt="" class="star-icon">
                         </div>
-                        <img src="./images/bedroom.jpg" alt="" class="bedroom-img">
+                         <img src="<?= get_template_directory_uri() ?>/dashboard/images/bedroom.jpg" alt="" class="bedroom-img">
                     </div>
                     <div class="img-detail">
                         <div class="top-detail">
-                            <img src="./images/star.png" alt="" class="star-icon">
+                             <img src="<?= get_template_directory_uri() ?>/dashboard/images/star.png" alt="" class="star-icon">
                         </div>
-                        <img src="./images/bedroom.jpg" alt="" class="bedroom-img">
+                         <img src="<?= get_template_directory_uri() ?>/dashboard/images/bedroom.jpg" alt="" class="bedroom-img">
                     </div>
                     <div class="img-detail">
                         <div class="top-detail">
-                            <img src="./images/star.png" alt="" class="star-icon">
+                             <img src="<?= get_template_directory_uri() ?>/dashboard/images/star.png" alt="" class="star-icon">
                         </div>
-                        <img src="./images/bedroom.jpg" alt="" class="bedroom-img">
+                         <img src="<?= get_template_directory_uri() ?>/dashboard/images/bedroom.jpg" alt="" class="bedroom-img">
                     </div>
                     <div class="img-detail">
                         <div class="top-detail">
-                            <img src="./images/star.png" alt="" class="star-icon">
+                             <img src="<?= get_template_directory_uri() ?>/dashboard/images/star.png" alt="" class="star-icon">
                         </div>
-                        <img src="./images/bedroom.jpg" alt="" class="bedroom-img">
+                         <img src="<?= get_template_directory_uri() ?>/dashboard/images/bedroom.jpg" alt="" class="bedroom-img">
                     </div>
                     <div class="img-detail">
                         <div class="top-detail">
-                            <img src="./images/star.png" alt="" class="star-icon">
+                             <img src="<?= get_template_directory_uri() ?>/dashboard/images/star.png" alt="" class="star-icon">
                         </div>
-                        <img src="./images/bedroom.jpg" alt="" class="bedroom-img">
+                         <img src="<?= get_template_directory_uri() ?>/dashboard/images/bedroom.jpg" alt="" class="bedroom-img">
                     </div>
                     <div class="img-detail">
                         <div class="top-detail">
-                            <img src="./images/star.png" alt="" class="star-icon">
+                             <img src="<?= get_template_directory_uri() ?>/dashboard/images/star.png" alt="" class="star-icon">
                         </div>
-                        <img src="./images/bedroom.jpg" alt="" class="bedroom-img">
+                         <img src="<?= get_template_directory_uri() ?>/dashboard/images/bedroom.jpg" alt="" class="bedroom-img">
                     </div>
                 </div>
                 <div class="sm-divider"></div>
@@ -1173,7 +1173,7 @@ function get_features_by_category($category_slug_or_type)
         </div>
         <div class="container">
             <button class="details-btn main-btn">Save</button>
-            <button class="next-tab-link" data-id="amenities-tab" onclick="showContent(event, this)">Go to
+            <button class="next-tab-link" data-id="tab-amenities" onclick="showContent(event, this)">Go to
                 Amenities settings.</button>
         </div>
     </div>
@@ -1187,7 +1187,7 @@ function get_features_by_category($category_slug_or_type)
                 Location settings.</button>
         </div>
     </div> -->
-    <div class="tab-content" id="tab-amenities">
+    <div class="tab-content" id="tab-amenities" style="display: none;">
             <div class="container">
                 <div class="amenties-top-details">
                     <h3>Amenities and Features</h3>
@@ -1206,427 +1206,210 @@ function get_features_by_category($category_slug_or_type)
                                     <ul>
                                         <li>
                                             <div class="list-img">
-                                                <img src="./images/access.png" alt="">
+                                                <img src="<?= get_template_directory_uri() ?>/dashboard/images/icons/access.png" alt="">
 
                                             </div>
                                             <span>Air Conditioning</span>
                                         </li>
                                         <li>
                                             <div class="list-img">
-                                                <img src="./images/list img 2.png" alt="">
+                                                <img src="<?= get_template_directory_uri() ?>/dashboard/images/icons/list img 2.png" alt="">
 
                                             </div>
                                             <span>Air Conditioning</span>
                                         </li>
                                         <li>
                                             <div class="list-img">
-                                                <img src="./images/access.png" alt="">
+                                                <img src="<?= get_template_directory_uri() ?>/dashboard/images/icons/access.png" alt="">
 
                                             </div>
                                             <span>Air Conditioning</span>
                                         </li>
                                         <li>
                                             <div class="list-img">
-                                                <img src="./images/list img 2.png" alt="">
+                                                <img src="<?= get_template_directory_uri() ?>/dashboard/images/icons/list img 2.png" alt="">
 
                                             </div>
                                             <span>Air Conditioning</span>
                                         </li>
                                         <li>
                                             <div class="list-img">
-                                                <img src="./images/access.png" alt="">
+                                                <img src="<?= get_template_directory_uri() ?>/dashboard/images/icons/access.png" alt="">
 
                                             </div>
                                             <span>Air Conditioning</span>
                                         </li>
                                         <li>
                                             <div class="list-img">
-                                                <img src="./images/list img 2.png" alt="">
+                                                <img src="<?= get_template_directory_uri() ?>/dashboard/images/icons/list img 2.png" alt="">
 
                                             </div>
                                             <span>Air Conditioning</span>
                                         </li>
                                         <li>
                                             <div class="list-img">
-                                                <img src="./images/access.png" alt="">
+                                                <img src="<?= get_template_directory_uri() ?>/dashboard/images/icons/access.png" alt="">
 
                                             </div>
                                             <span>Air Conditioning</span>
                                         </li>
                                         <li>
                                             <div class="list-img">
-                                                <img src="./images/list img 2.png" alt="">
+                                                <img src="<?= get_template_directory_uri() ?>/dashboard/images/icons/list img 2.png" alt="">
 
                                             </div>
                                             <span>Air Conditioning</span>
                                         </li>
                                         <li>
                                             <div class="list-img">
-                                                <img src="./images/access.png" alt="">
+                                                <img src="<?= get_template_directory_uri() ?>/dashboard/images/icons/access.png" alt="">
 
                                             </div>
                                             <span>Air Conditioning</span>
                                         </li>
                                         <li>
                                             <div class="list-img">
-                                                <img src="./images/list img 2.png" alt="">
+                                                <img src="<?= get_template_directory_uri() ?>/dashboard/images/icons/list img 2.png" alt="">
 
                                             </div>
                                             <span>Air Conditioning</span>
                                         </li>
                                         <li>
                                             <div class="list-img">
-                                                <img src="./images/access.png" alt="">
+                                                <img src="<?= get_template_directory_uri() ?>/dashboard/images/icons/access.png" alt="">
 
                                             </div>
                                             <span>Air Conditioning</span>
                                         </li>
                                         <li>
                                             <div class="list-img">
-                                                <img src="./images/list img 2.png" alt="">
+                                                <img src="<?= get_template_directory_uri() ?>/dashboard/images/icons/list img 2.png" alt="">
 
                                             </div>
                                             <span>Air Conditioning</span>
                                         </li>
                                         <li>
                                             <div class="list-img">
-                                                <img src="./images/access.png" alt="">
+                                                <img src="<?= get_template_directory_uri() ?>/dashboard/images/icons/access.png" alt="">
 
                                             </div>
                                             <span>Air Conditioning</span>
                                         </li>
                                         <li>
                                             <div class="list-img">
-                                                <img src="./images/list img 2.png" alt="">
+                                                <img src="<?= get_template_directory_uri() ?>/dashboard/images/icons/list img 2.png" alt="">
 
                                             </div>
                                             <span>Air Conditioning</span>
                                         </li>
                                         <li>
                                             <div class="list-img">
-                                                <img src="./images/access.png" alt="">
+                                                <img src="<?= get_template_directory_uri() ?>/dashboard/images/icons/access.png" alt="">
 
                                             </div>
                                             <span>Air Conditioning</span>
                                         </li>
                                         <li>
                                             <div class="list-img">
-                                                <img src="./images/list img 2.png" alt="">
+                                                <img src="<?= get_template_directory_uri() ?>/dashboard/images/icons/list img 2.png" alt="">
 
                                             </div>
                                             <span>Air Conditioning</span>
                                         </li>
                                         <li>
                                             <div class="list-img">
-                                                <img src="./images/access.png" alt="">
+                                                <img src="<?= get_template_directory_uri() ?>/dashboard/images/icons/access.png" alt="">
 
                                             </div>
                                             <span>Air Conditioning</span>
                                         </li>
                                         <li>
                                             <div class="list-img">
-                                                <img src="./images/list img 2.png" alt="">
+                                                <img src="<?= get_template_directory_uri() ?>/dashboard/images/icons/list img 2.png" alt="">
 
                                             </div>
                                             <span>Air Conditioning</span>
                                         </li>
                                         <li>
                                             <div class="list-img">
-                                                <img src="./images/access.png" alt="">
+                                                <img src="<?= get_template_directory_uri() ?>/dashboard/images/icons/access.png" alt="">
 
                                             </div>
                                             <span>Air Conditioning</span>
                                         </li>
                                         <li>
                                             <div class="list-img">
-                                                <img src="./images/list img 2.png" alt="">
+                                                <img src="<?= get_template_directory_uri() ?>/dashboard/images/icons/list img 2.png" alt="">
 
                                             </div>
                                             <span>Air Conditioning</span>
                                         </li>
                                         <li>
                                             <div class="list-img">
-                                                <img src="./images/access.png" alt="">
+                                                <img src="<?= get_template_directory_uri() ?>/dashboard/images/icons/access.png" alt="">
 
                                             </div>
                                             <span>Air Conditioning</span>
                                         </li>
                                         <li>
                                             <div class="list-img">
-                                                <img src="./images/list img 2.png" alt="">
+                                                <img src="<?= get_template_directory_uri() ?>/dashboard/images/icons/list img 2.png" alt="">
 
                                             </div>
                                             <span>Air Conditioning</span>
                                         </li>
                                         <li>
                                             <div class="list-img">
-                                                <img src="./images/access.png" alt="">
+                                                <img src="<?= get_template_directory_uri() ?>/dashboard/images/icons/access.png" alt="">
 
                                             </div>
                                             <span>Air Conditioning</span>
                                         </li>
                                         <li>
                                             <div class="list-img">
-                                                <img src="./images/list img 2.png" alt="">
+                                                <img src="<?= get_template_directory_uri() ?>/dashboard/images/icons/list img 2.png" alt="">
 
                                             </div>
                                             <span>Air Conditioning</span>
                                         </li>
                                         <li>
                                             <div class="list-img">
-                                                <img src="./images/access.png" alt="">
+                                                <img src="<?= get_template_directory_uri() ?>/dashboard/images/icons/access.png" alt="">
 
                                             </div>
                                             <span>Air Conditioning</span>
                                         </li>
                                         <li>
                                             <div class="list-img">
-                                                <img src="./images/list img 2.png" alt="">
+                                                <img src="<?= get_template_directory_uri() ?>/dashboard/images/icons/list img 2.png" alt="">
 
                                             </div>
                                             <span>Air Conditioning</span>
                                         </li>
                                         <li>
                                             <div class="list-img">
-                                                <img src="./images/access.png" alt="">
+                                                <img src="<?= get_template_directory_uri() ?>/dashboard/images/icons/access.png" alt="">
 
                                             </div>
                                             <span>Air Conditioning</span>
                                         </li>
                                         <li>
                                             <div class="list-img">
-                                                <img src="./images/list img 2.png" alt="">
+                                                <img src="<?= get_template_directory_uri() ?>/dashboard/images/icons/list img 2.png" alt="">
 
                                             </div>
                                             <span>Air Conditioning</span>
                                         </li>
                                         <li>
                                             <div class="list-img">
-                                                <img src="./images/access.png" alt="">
+                                                <img src="<?= get_template_directory_uri() ?>/dashboard/images/icons/access.png" alt="">
 
                                             </div>
                                             <span>Air Conditioning</span>
                                         </li>
                                         <li>
                                             <div class="list-img">
-                                                <img src="./images/list img 2.png" alt="">
-
-                                            </div>
-                                            <span>Air Conditioning</span>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                            <div class="amenities-details">
-                                <h4>Indoor Features</h4>
-                                <div class="list-wrapper">
-                                    <ul>
-                                        <li>
-                                            <div class="list-img">
-                                                <img src="./images/access.png" alt="">
-
-                                            </div>
-                                            <span>Air Conditioning</span>
-                                        </li>
-                                        <li>
-                                            <div class="list-img">
-                                                <img src="./images/list img 2.png" alt="">
-
-                                            </div>
-                                            <span>Air Conditioning</span>
-                                        </li>
-                                        <li>
-                                            <div class="list-img">
-                                                <img src="./images/access.png" alt="">
-
-                                            </div>
-                                            <span>Air Conditioning</span>
-                                        </li>
-                                        <li>
-                                            <div class="list-img">
-                                                <img src="./images/list img 2.png" alt="">
-
-                                            </div>
-                                            <span>Air Conditioning</span>
-                                        </li>
-                                        <li>
-                                            <div class="list-img">
-                                                <img src="./images/access.png" alt="">
-
-                                            </div>
-                                            <span>Air Conditioning</span>
-                                        </li>
-                                        <li>
-                                            <div class="list-img">
-                                                <img src="./images/list img 2.png" alt="">
-
-                                            </div>
-                                            <span>Air Conditioning</span>
-                                        </li>
-                                        <li>
-                                            <div class="list-img">
-                                                <img src="./images/access.png" alt="">
-
-                                            </div>
-                                            <span>Air Conditioning</span>
-                                        </li>
-                                        <li>
-                                            <div class="list-img">
-                                                <img src="./images/list img 2.png" alt="">
-
-                                            </div>
-                                            <span>Air Conditioning</span>
-                                        </li>
-                                        <li>
-                                            <div class="list-img">
-                                                <img src="./images/access.png" alt="">
-
-                                            </div>
-                                            <span>Air Conditioning</span>
-                                        </li>
-                                        <li>
-                                            <div class="list-img">
-                                                <img src="./images/list img 2.png" alt="">
-
-                                            </div>
-                                            <span>Air Conditioning</span>
-                                        </li>
-                                        <li>
-                                            <div class="list-img">
-                                                <img src="./images/access.png" alt="">
-
-                                            </div>
-                                            <span>Air Conditioning</span>
-                                        </li>
-                                        <li>
-                                            <div class="list-img">
-                                                <img src="./images/list img 2.png" alt="">
-
-                                            </div>
-                                            <span>Air Conditioning</span>
-                                        </li>
-                                        <li>
-                                            <div class="list-img">
-                                                <img src="./images/access.png" alt="">
-
-                                            </div>
-                                            <span>Air Conditioning</span>
-                                        </li>
-                                        <li>
-                                            <div class="list-img">
-                                                <img src="./images/list img 2.png" alt="">
-
-                                            </div>
-                                            <span>Air Conditioning</span>
-                                        </li>
-                                        <li>
-                                            <div class="list-img">
-                                                <img src="./images/access.png" alt="">
-
-                                            </div>
-                                            <span>Air Conditioning</span>
-                                        </li>
-                                        <li>
-                                            <div class="list-img">
-                                                <img src="./images/list img 2.png" alt="">
-
-                                            </div>
-                                            <span>Air Conditioning</span>
-                                        </li>
-                                        <li>
-                                            <div class="list-img">
-                                                <img src="./images/access.png" alt="">
-
-                                            </div>
-                                            <span>Air Conditioning</span>
-                                        </li>
-                                        <li>
-                                            <div class="list-img">
-                                                <img src="./images/list img 2.png" alt="">
-
-                                            </div>
-                                            <span>Air Conditioning</span>
-                                        </li>
-                                        <li>
-                                            <div class="list-img">
-                                                <img src="./images/access.png" alt="">
-
-                                            </div>
-                                            <span>Air Conditioning</span>
-                                        </li>
-                                        <li>
-                                            <div class="list-img">
-                                                <img src="./images/list img 2.png" alt="">
-
-                                            </div>
-                                            <span>Air Conditioning</span>
-                                        </li>
-                                        <li>
-                                            <div class="list-img">
-                                                <img src="./images/access.png" alt="">
-
-                                            </div>
-                                            <span>Air Conditioning</span>
-                                        </li>
-                                        <li>
-                                            <div class="list-img">
-                                                <img src="./images/list img 2.png" alt="">
-
-                                            </div>
-                                            <span>Air Conditioning</span>
-                                        </li>
-                                        <li>
-                                            <div class="list-img">
-                                                <img src="./images/access.png" alt="">
-
-                                            </div>
-                                            <span>Air Conditioning</span>
-                                        </li>
-                                        <li>
-                                            <div class="list-img">
-                                                <img src="./images/list img 2.png" alt="">
-
-                                            </div>
-                                            <span>Air Conditioning</span>
-                                        </li>
-                                        <li>
-                                            <div class="list-img">
-                                                <img src="./images/access.png" alt="">
-
-                                            </div>
-                                            <span>Air Conditioning</span>
-                                        </li>
-                                        <li>
-                                            <div class="list-img">
-                                                <img src="./images/list img 2.png" alt="">
-
-                                            </div>
-                                            <span>Air Conditioning</span>
-                                        </li>
-                                        <li>
-                                            <div class="list-img">
-                                                <img src="./images/access.png" alt="">
-
-                                            </div>
-                                            <span>Air Conditioning</span>
-                                        </li>
-                                        <li>
-                                            <div class="list-img">
-                                                <img src="./images/list img 2.png" alt="">
-
-                                            </div>
-                                            <span>Air Conditioning</span>
-                                        </li>
-                                        <li>
-                                            <div class="list-img">
-                                                <img src="./images/access.png" alt="">
-
-                                            </div>
-                                            <span>Air Conditioning</span>
-                                        </li>
-                                        <li>
-                                            <div class="list-img">
-                                                <img src="./images/list img 2.png" alt="">
+                                                <img src="<?= get_template_directory_uri() ?>/dashboard/images/icons/list img 2.png" alt="">
 
                                             </div>
                                             <span>Air Conditioning</span>
@@ -1640,210 +1423,427 @@ function get_features_by_category($category_slug_or_type)
                                     <ul>
                                         <li>
                                             <div class="list-img">
-                                                <img src="./images/access.png" alt="">
+                                                <img src="<?= get_template_directory_uri() ?>/dashboard/images/icons/access.png" alt="">
 
                                             </div>
                                             <span>Air Conditioning</span>
                                         </li>
                                         <li>
                                             <div class="list-img">
-                                                <img src="./images/list img 2.png" alt="">
+                                                <img src="<?= get_template_directory_uri() ?>/dashboard/images/icons/list img 2.png" alt="">
 
                                             </div>
                                             <span>Air Conditioning</span>
                                         </li>
                                         <li>
                                             <div class="list-img">
-                                                <img src="./images/access.png" alt="">
+                                                 <img src="<?= get_template_directory_uri() ?>/dashboard/images/access.png" alt="">
 
                                             </div>
                                             <span>Air Conditioning</span>
                                         </li>
                                         <li>
                                             <div class="list-img">
-                                                <img src="./images/list img 2.png" alt="">
+                                                 <img src="<?= get_template_directory_uri() ?>/dashboard/images/list img 2.png" alt="">
 
                                             </div>
                                             <span>Air Conditioning</span>
                                         </li>
                                         <li>
                                             <div class="list-img">
-                                                <img src="./images/access.png" alt="">
+                                                 <img src="<?= get_template_directory_uri() ?>/dashboard/images/access.png" alt="">
 
                                             </div>
                                             <span>Air Conditioning</span>
                                         </li>
                                         <li>
                                             <div class="list-img">
-                                                <img src="./images/list img 2.png" alt="">
+                                                 <img src="<?= get_template_directory_uri() ?>/dashboard/images/list img 2.png" alt="">
 
                                             </div>
                                             <span>Air Conditioning</span>
                                         </li>
                                         <li>
                                             <div class="list-img">
-                                                <img src="./images/access.png" alt="">
+                                                 <img src="<?= get_template_directory_uri() ?>/dashboard/images/access.png" alt="">
 
                                             </div>
                                             <span>Air Conditioning</span>
                                         </li>
                                         <li>
                                             <div class="list-img">
-                                                <img src="./images/list img 2.png" alt="">
+                                                 <img src="<?= get_template_directory_uri() ?>/dashboard/images/list img 2.png" alt="">
 
                                             </div>
                                             <span>Air Conditioning</span>
                                         </li>
                                         <li>
                                             <div class="list-img">
-                                                <img src="./images/access.png" alt="">
+                                                 <img src="<?= get_template_directory_uri() ?>/dashboard/images/access.png" alt="">
 
                                             </div>
                                             <span>Air Conditioning</span>
                                         </li>
                                         <li>
                                             <div class="list-img">
-                                                <img src="./images/list img 2.png" alt="">
+                                                 <img src="<?= get_template_directory_uri() ?>/dashboard/images/list img 2.png" alt="">
 
                                             </div>
                                             <span>Air Conditioning</span>
                                         </li>
                                         <li>
                                             <div class="list-img">
-                                                <img src="./images/access.png" alt="">
+                                                 <img src="<?= get_template_directory_uri() ?>/dashboard/images/access.png" alt="">
 
                                             </div>
                                             <span>Air Conditioning</span>
                                         </li>
                                         <li>
                                             <div class="list-img">
-                                                <img src="./images/list img 2.png" alt="">
+                                                 <img src="<?= get_template_directory_uri() ?>/dashboard/images/list img 2.png" alt="">
 
                                             </div>
                                             <span>Air Conditioning</span>
                                         </li>
                                         <li>
                                             <div class="list-img">
-                                                <img src="./images/access.png" alt="">
+                                                 <img src="<?= get_template_directory_uri() ?>/dashboard/images/access.png" alt="">
 
                                             </div>
                                             <span>Air Conditioning</span>
                                         </li>
                                         <li>
                                             <div class="list-img">
-                                                <img src="./images/list img 2.png" alt="">
+                                                 <img src="<?= get_template_directory_uri() ?>/dashboard/images/list img 2.png" alt="">
 
                                             </div>
                                             <span>Air Conditioning</span>
                                         </li>
                                         <li>
                                             <div class="list-img">
-                                                <img src="./images/access.png" alt="">
+                                                 <img src="<?= get_template_directory_uri() ?>/dashboard/images/access.png" alt="">
 
                                             </div>
                                             <span>Air Conditioning</span>
                                         </li>
                                         <li>
                                             <div class="list-img">
-                                                <img src="./images/list img 2.png" alt="">
+                                                 <img src="<?= get_template_directory_uri() ?>/dashboard/images/list img 2.png" alt="">
 
                                             </div>
                                             <span>Air Conditioning</span>
                                         </li>
                                         <li>
                                             <div class="list-img">
-                                                <img src="./images/access.png" alt="">
+                                                 <img src="<?= get_template_directory_uri() ?>/dashboard/images/access.png" alt="">
 
                                             </div>
                                             <span>Air Conditioning</span>
                                         </li>
                                         <li>
                                             <div class="list-img">
-                                                <img src="./images/list img 2.png" alt="">
+                                                 <img src="<?= get_template_directory_uri() ?>/dashboard/images/list img 2.png" alt="">
 
                                             </div>
                                             <span>Air Conditioning</span>
                                         </li>
                                         <li>
                                             <div class="list-img">
-                                                <img src="./images/access.png" alt="">
+                                                 <img src="<?= get_template_directory_uri() ?>/dashboard/images/access.png" alt="">
 
                                             </div>
                                             <span>Air Conditioning</span>
                                         </li>
                                         <li>
                                             <div class="list-img">
-                                                <img src="./images/list img 2.png" alt="">
+                                                 <img src="<?= get_template_directory_uri() ?>/dashboard/images/list img 2.png" alt="">
 
                                             </div>
                                             <span>Air Conditioning</span>
                                         </li>
                                         <li>
                                             <div class="list-img">
-                                                <img src="./images/access.png" alt="">
+                                                 <img src="<?= get_template_directory_uri() ?>/dashboard/images/access.png" alt="">
 
                                             </div>
                                             <span>Air Conditioning</span>
                                         </li>
                                         <li>
                                             <div class="list-img">
-                                                <img src="./images/list img 2.png" alt="">
+                                                 <img src="<?= get_template_directory_uri() ?>/dashboard/images/list img 2.png" alt="">
 
                                             </div>
                                             <span>Air Conditioning</span>
                                         </li>
                                         <li>
                                             <div class="list-img">
-                                                <img src="./images/access.png" alt="">
+                                                 <img src="<?= get_template_directory_uri() ?>/dashboard/images/access.png" alt="">
 
                                             </div>
                                             <span>Air Conditioning</span>
                                         </li>
                                         <li>
                                             <div class="list-img">
-                                                <img src="./images/list img 2.png" alt="">
+                                                 <img src="<?= get_template_directory_uri() ?>/dashboard/images/list img 2.png" alt="">
 
                                             </div>
                                             <span>Air Conditioning</span>
                                         </li>
                                         <li>
                                             <div class="list-img">
-                                                <img src="./images/access.png" alt="">
+                                                 <img src="<?= get_template_directory_uri() ?>/dashboard/images/access.png" alt="">
 
                                             </div>
                                             <span>Air Conditioning</span>
                                         </li>
                                         <li>
                                             <div class="list-img">
-                                                <img src="./images/list img 2.png" alt="">
+                                                 <img src="<?= get_template_directory_uri() ?>/dashboard/images/list img 2.png" alt="">
 
                                             </div>
                                             <span>Air Conditioning</span>
                                         </li>
                                         <li>
                                             <div class="list-img">
-                                                <img src="./images/access.png" alt="">
+                                                 <img src="<?= get_template_directory_uri() ?>/dashboard/images/access.png" alt="">
 
                                             </div>
                                             <span>Air Conditioning</span>
                                         </li>
                                         <li>
                                             <div class="list-img">
-                                                <img src="./images/list img 2.png" alt="">
+                                                 <img src="<?= get_template_directory_uri() ?>/dashboard/images/list img 2.png" alt="">
 
                                             </div>
                                             <span>Air Conditioning</span>
                                         </li>
                                         <li>
                                             <div class="list-img">
-                                                <img src="./images/access.png" alt="">
+                                                 <img src="<?= get_template_directory_uri() ?>/dashboard/images/access.png" alt="">
 
                                             </div>
                                             <span>Air Conditioning</span>
                                         </li>
                                         <li>
                                             <div class="list-img">
-                                                <img src="./images/list img 2.png" alt="">
+                                                 <img src="<?= get_template_directory_uri() ?>/dashboard/images/list img 2.png" alt="">
+
+                                            </div>
+                                            <span>Air Conditioning</span>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="amenities-details">
+                                <h4>Indoor Features</h4>
+                                <div class="list-wrapper">
+                                    <ul>
+                                        <li>
+                                            <div class="list-img">
+                                                 <img src="<?= get_template_directory_uri() ?>/dashboard/images/access.png" alt="">
+
+                                            </div>
+                                            <span>Air Conditioning</span>
+                                        </li>
+                                        <li>
+                                            <div class="list-img">
+                                                 <img src="<?= get_template_directory_uri() ?>/dashboard/images/list img 2.png" alt="">
+
+                                            </div>
+                                            <span>Air Conditioning</span>
+                                        </li>
+                                        <li>
+                                            <div class="list-img">
+                                                 <img src="<?= get_template_directory_uri() ?>/dashboard/images/access.png" alt="">
+
+                                            </div>
+                                            <span>Air Conditioning</span>
+                                        </li>
+                                        <li>
+                                            <div class="list-img">
+                                                 <img src="<?= get_template_directory_uri() ?>/dashboard/images/list img 2.png" alt="">
+
+                                            </div>
+                                            <span>Air Conditioning</span>
+                                        </li>
+                                        <li>
+                                            <div class="list-img">
+                                                 <img src="<?= get_template_directory_uri() ?>/dashboard/images/access.png" alt="">
+
+                                            </div>
+                                            <span>Air Conditioning</span>
+                                        </li>
+                                        <li>
+                                            <div class="list-img">
+                                                 <img src="<?= get_template_directory_uri() ?>/dashboard/images/list img 2.png" alt="">
+
+                                            </div>
+                                            <span>Air Conditioning</span>
+                                        </li>
+                                        <li>
+                                            <div class="list-img">
+                                                 <img src="<?= get_template_directory_uri() ?>/dashboard/images/access.png" alt="">
+
+                                            </div>
+                                            <span>Air Conditioning</span>
+                                        </li>
+                                        <li>
+                                            <div class="list-img">
+                                                 <img src="<?= get_template_directory_uri() ?>/dashboard/images/list img 2.png" alt="">
+
+                                            </div>
+                                            <span>Air Conditioning</span>
+                                        </li>
+                                        <li>
+                                            <div class="list-img">
+                                                 <img src="<?= get_template_directory_uri() ?>/dashboard/images/access.png" alt="">
+
+                                            </div>
+                                            <span>Air Conditioning</span>
+                                        </li>
+                                        <li>
+                                            <div class="list-img">
+                                                 <img src="<?= get_template_directory_uri() ?>/dashboard/images/list img 2.png" alt="">
+
+                                            </div>
+                                            <span>Air Conditioning</span>
+                                        </li>
+                                        <li>
+                                            <div class="list-img">
+                                                 <img src="<?= get_template_directory_uri() ?>/dashboard/images/access.png" alt="">
+
+                                            </div>
+                                            <span>Air Conditioning</span>
+                                        </li>
+                                        <li>
+                                            <div class="list-img">
+                                                 <img src="<?= get_template_directory_uri() ?>/dashboard/images/list img 2.png" alt="">
+
+                                            </div>
+                                            <span>Air Conditioning</span>
+                                        </li>
+                                        <li>
+                                            <div class="list-img">
+                                                 <img src="<?= get_template_directory_uri() ?>/dashboard/images/access.png" alt="">
+
+                                            </div>
+                                            <span>Air Conditioning</span>
+                                        </li>
+                                        <li>
+                                            <div class="list-img">
+                                                 <img src="<?= get_template_directory_uri() ?>/dashboard/images/list img 2.png" alt="">
+
+                                            </div>
+                                            <span>Air Conditioning</span>
+                                        </li>
+                                        <li>
+                                            <div class="list-img">
+                                                 <img src="<?= get_template_directory_uri() ?>/dashboard/images/access.png" alt="">
+
+                                            </div>
+                                            <span>Air Conditioning</span>
+                                        </li>
+                                        <li>
+                                            <div class="list-img">
+                                                 <img src="<?= get_template_directory_uri() ?>/dashboard/images/list img 2.png" alt="">
+
+                                            </div>
+                                            <span>Air Conditioning</span>
+                                        </li>
+                                        <li>
+                                            <div class="list-img">
+                                                 <img src="<?= get_template_directory_uri() ?>/dashboard/images/access.png" alt="">
+
+                                            </div>
+                                            <span>Air Conditioning</span>
+                                        </li>
+                                        <li>
+                                            <div class="list-img">
+                                                 <img src="<?= get_template_directory_uri() ?>/dashboard/images/list img 2.png" alt="">
+
+                                            </div>
+                                            <span>Air Conditioning</span>
+                                        </li>
+                                        <li>
+                                            <div class="list-img">
+                                                 <img src="<?= get_template_directory_uri() ?>/dashboard/images/access.png" alt="">
+
+                                            </div>
+                                            <span>Air Conditioning</span>
+                                        </li>
+                                        <li>
+                                            <div class="list-img">
+                                                 <img src="<?= get_template_directory_uri() ?>/dashboard/images/list img 2.png" alt="">
+
+                                            </div>
+                                            <span>Air Conditioning</span>
+                                        </li>
+                                        <li>
+                                            <div class="list-img">
+                                                 <img src="<?= get_template_directory_uri() ?>/dashboard/images/access.png" alt="">
+
+                                            </div>
+                                            <span>Air Conditioning</span>
+                                        </li>
+                                        <li>
+                                            <div class="list-img">
+                                                 <img src="<?= get_template_directory_uri() ?>/dashboard/images/list img 2.png" alt="">
+
+                                            </div>
+                                            <span>Air Conditioning</span>
+                                        </li>
+                                        <li>
+                                            <div class="list-img">
+                                                 <img src="<?= get_template_directory_uri() ?>/dashboard/images/access.png" alt="">
+
+                                            </div>
+                                            <span>Air Conditioning</span>
+                                        </li>
+                                        <li>
+                                            <div class="list-img">
+                                                 <img src="<?= get_template_directory_uri() ?>/dashboard/images/list img 2.png" alt="">
+
+                                            </div>
+                                            <span>Air Conditioning</span>
+                                        </li>
+                                        <li>
+                                            <div class="list-img">
+                                                 <img src="<?= get_template_directory_uri() ?>/dashboard/images/access.png" alt="">
+
+                                            </div>
+                                            <span>Air Conditioning</span>
+                                        </li>
+                                        <li>
+                                            <div class="list-img">
+                                                 <img src="<?= get_template_directory_uri() ?>/dashboard/images/list img 2.png" alt="">
+
+                                            </div>
+                                            <span>Air Conditioning</span>
+                                        </li>
+                                        <li>
+                                            <div class="list-img">
+                                                 <img src="<?= get_template_directory_uri() ?>/dashboard/images/access.png" alt="">
+
+                                            </div>
+                                            <span>Air Conditioning</span>
+                                        </li>
+                                        <li>
+                                            <div class="list-img">
+                                                 <img src="<?= get_template_directory_uri() ?>/dashboard/images/list img 2.png" alt="">
+
+                                            </div>
+                                            <span>Air Conditioning</span>
+                                        </li>
+                                        <li>
+                                            <div class="list-img">
+                                                 <img src="<?= get_template_directory_uri() ?>/dashboard/images/access.png" alt="">
+
+                                            </div>
+                                            <span>Air Conditioning</span>
+                                        </li>
+                                        <li>
+                                            <div class="list-img">
+                                                 <img src="<?= get_template_directory_uri() ?>/dashboard/images/list img 2.png" alt="">
 
                                             </div>
                                             <span>Air Conditioning</span>

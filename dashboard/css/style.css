@@ -1328,6 +1328,7 @@ select {
   display: flex;
   background-color: #fcfcfc;
   padding-block: 60px;
+  padding: 0;
 }
 
 .booking-section .booking-sidebar {
