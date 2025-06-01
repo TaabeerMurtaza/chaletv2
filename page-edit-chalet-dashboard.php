@@ -8,7 +8,7 @@
  * @since Your_Theme_Version
  */
 get_header('dashboard');
-
+// here is me
 // Ensure $chalet_data and $edit_mode are available
 // These variables should be passed from page-chalet-dashboard.php
 $chalet_id = $edit_mode = isset($_GET['id']) ? intval($_GET['id']) : 0;
