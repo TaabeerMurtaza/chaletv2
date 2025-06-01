@@ -358,6 +358,9 @@ button:hover {
 .dashboard-main-details .dashboard-sub-title {
   margin-bottom: 10px;
 }
+.dashboard-main-details .calender-details{
+  max-width: 750px;
+}
 
 .dashboard-section .booking-details .dashboard-sub-title {
   margin-bottom: 10px;
@@ -373,7 +376,9 @@ button:hover {
   max-width: 60%;
   margin-block: 80px;
 }
-
+.dashboard-main-details{
+  flex-wrap: wrap;
+}
 .booking-btn-detail a {
   display: flex;
   align-items: center;
@@ -1304,7 +1309,7 @@ select {
 .review-item .reply-warp form button,
 .reply-warp button {
   padding: 8px 15px;
-  background-color: #008179;
+  background-color: #008179 !important;
   border-radius: 10px;
   color: #ffffff;
 }
