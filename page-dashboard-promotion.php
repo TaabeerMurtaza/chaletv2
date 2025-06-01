@@ -4,7 +4,12 @@
  * Template Name: Dashboard Promotion
  *  */
 ?>
-<link rel="stylesheet" href="<?= get_template_directory_uri() ?>/dashboard/css/promotion.css?v=<?= filemtime(get_template_directory() . '/dashboard/css/promotion.css') ?>" />
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Promotion</title>
+    <link rel="stylesheet" href="<?= get_template_directory_uri() ?>/dashboard/css/promotion.css?v=<?= filemtime(get_template_directory() . '/dashboard/css/promotion.css') ?>" />
+</head>
    <section class="promotion-list-section">
         <div class="promotion-container">
             <div class="promotion-header">
