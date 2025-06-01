@@ -101,25 +101,25 @@ $bookings = get_my_bookings();
             // Query recent chalets (assuming 'chalet' is a custom post type)
             $recent_chalets = get_my_chalets();
 
-            if ( count($recent_chalets)): ?>
+            if ( count($recent_chalets) ): ?>
                 <div class="main-detail-row">
                     <?php foreach ($recent_chalets as $chalet):
-                        setup_postdata($chalet);
-                        print_r($chalet);
-                        ?>
+                        // make sure $chalet is a post object; if it's just an ID, fetch it
+                        $post = is_object($chalet) ? $chalet : get_post($chalet);
+                        setup_postdata($post);
+                    ?>
                         <div class="main-detail">
                             <div class="img-wrapper">
-                                <?php if (has_post_thumbnail()): ?>
-                                    <img src="<?php the_post_thumbnail_url('medium'); ?>" alt="<?php the_title_attribute(); ?>" />
+                                <?php if (has_post_thumbnail($post)): ?>
+                                    <img src="<?php echo get_the_post_thumbnail_url($post, 'medium'); ?>" alt="<?php echo esc_attr(get_the_title($post)); ?>" />
                                 <?php else: ?>
                                     <img src="<?= get_template_directory_uri() ?>/dashboard/images/chalet.jpeg" alt="" />
                                 <?php endif; ?>
                             </div>
                             <div class="detail">
-                                <a href="<?php the_permalink(); ?>"><?php the_title(); ?></a>
+                                <a href="<?php echo get_permalink($post); ?>"><?php echo get_the_title($post); ?></a>
                                 <?php
-                                // Example: get view count from post meta (replace 'view_count' with your actual meta key)
-                                $views = get_post_meta(get_the_ID(), 'view_count', true);
+                                $views = get_post_meta($post->ID, 'view_count', true);
                                 ?>
                                 <span><?php echo $views ? esc_html($views) : '0'; ?> Views</span>
                             </div>
@@ -130,6 +130,7 @@ $bookings = get_my_bookings();
             <?php else: ?>
                 <p>No recent chalets found.</p>
             <?php endif; ?>
+
         </div>
         <div class="main-booking">
             <h3 class="dashboard-sub-title">Your most booked chalets</h3>
