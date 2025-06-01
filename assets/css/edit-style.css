@@ -664,6 +664,8 @@ input[type="checkbox"]:checked:before {
 
 #chalet-dashboard-form {
     margin: 0 auto;
+    max-width: 1200px;
+    width: 100%;
 }
 
 .images-section .top-detail {
