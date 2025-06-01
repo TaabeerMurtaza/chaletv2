@@ -56,7 +56,7 @@
         ]);
         ?>
 
-        <ul>
+        <!-- <ul>
           <li>
             <h3>Featured</h3>
           </li>
@@ -97,7 +97,7 @@
               <li><img src="<?= get_template_directory_uri(); ?>/assets/images/icons/bath.svg" alt="bath">7 Baths</li>
             </ul>
           </div>
-        </div>
+        </div> -->
 
       </div>
     </nav>

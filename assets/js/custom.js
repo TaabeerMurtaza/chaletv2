@@ -104,5 +104,6 @@ $(document).ready(function () {
   $(".menu-btn").click(function () {
     $(this).toggleClass("active");
     $(".header-button").toggleClass("active");
+    $(".extra-nav").toggle();
   });
 });

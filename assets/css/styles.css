@@ -230,6 +230,7 @@ header .main-nav ul a:hover {
   border: none;
   background: none;
   cursor: pointer;
+  display: none;
 }
 .menu-btn img {
   transition: 0.3s all ease-in-out;
@@ -270,12 +271,10 @@ header > * {
 .extra-nav .inner {
   color: var(--white);
   z-index: 11;
-  display: flex;
-  justify-content: center;
   height: 100%;
-  gap: 25px;
   background-color: transparent;
   transition: 0.3s 0.2s all ease-in-out;
+  padding: 20px;
 }
 .extra-nav.active .inner {
   opacity: 1;
