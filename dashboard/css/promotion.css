@@ -4,6 +4,33 @@
     box-sizing: border-box;
 }
 
+html {
+    height: 100%;
+    scroll-behavior: smooth;
+  }
+  
+  ul,
+  ol,
+  p,
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6,
+  a,
+  span,
+  label,
+  div,
+  body {
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
+  }
+  
+.promotion-list-section{
+    padding: 70px;
+}
 .promotion-container {
     max-width: 800px;
     padding: 30px;
@@ -682,6 +709,7 @@ p {
 @media (max-width:991px) {
     .promotion-list-row {
         flex-direction: column;
+        padding: 40px 20px;
     }
 
 
@@ -701,6 +729,10 @@ p {
 }
 
 @media (max-width:500px) {
+    .promotion-list-row {
+        flex-direction: column;
+        padding: 0;
+    }
     .promotion-container {
         padding: 40px 10px;
     }

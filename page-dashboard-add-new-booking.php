@@ -4,7 +4,13 @@
  * Template Name: Add new Booking
  *  */
 ?>
-<link rel="stylesheet" href="<?= get_template_directory_uri() ?>/dashboard/css/new-booking.css?v=<?= filemtime(get_template_directory() . '/dashboard/css/new-booking.css') ?>" />
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>New booking</title>
+    <link rel="stylesheet" href="<?= get_template_directory_uri() ?>/dashboard/css/new-booking.css?v=<?= filemtime(get_template_directory() . '/dashboard/css/new-booking.css') ?>" />
+</head>
 <div class="filler-row">
         <div class="container">
             <div class="filler-left">
