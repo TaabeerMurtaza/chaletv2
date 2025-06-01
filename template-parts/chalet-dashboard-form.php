@@ -568,7 +568,7 @@ function get_features_by_category($category_slug_or_type)
             </div>
 
         </div>
-
+    <!-- show -->
         <!-- Tab: Media -->
         <div role="tabpanel" class="tab-pane" id="tab-media">
             <h3><?php _e('Media', 'chaletv2'); ?></h3>
