@@ -1187,7 +1187,7 @@ function get_features_by_category($category_slug_or_type)
                 Location settings.</button>
         </div>
     </div> -->
-    <div class="tab-content" id="tab-amenities">
+    <div class="tab-content" id="tab-amenities" style="display: none;">
             <div class="container">
                 <div class="amenties-top-details">
                     <h3>Amenities and Features</h3>
