@@ -66,13 +66,7 @@ if (!is_user_logged_in()) {
                         // Count chalets in management (custom logic, adjust as needed)
                         $managed_chalets = new WP_Query([
                             'post_type'      => 'chalet',
-                            'post_status'    => 'publish',
-                            'meta_query'     => [
-                                [
-                                    'key'   => 'is_managed',
-                                    'value' => '1'
-                                ]
-                            ],
+                            'post_status'    => 'any',
                             'author'         => $user_id,
                             'posts_per_page' => -1,
                             'fields'         => 'ids'

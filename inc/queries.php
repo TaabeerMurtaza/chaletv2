@@ -221,9 +221,9 @@ function chaletv2_handle_chalet_dashboard_submission()
             foreach ($simple_fields as $key => $sanitizer) {
                 $value = chaletv2_get_post_var($key);
                 if ($value !== null) {
-                    if($sanitizer){
+                    if ($sanitizer) {
                         $sanitized_value = call_user_func($sanitizer, $value);
-                    }else{
+                    } else {
                         $sanitized_value = $value;
                     }
                     carbon_set_post_meta($chalet_id, $key, $sanitized_value);
@@ -245,7 +245,7 @@ function chaletv2_handle_chalet_dashboard_submission()
             // Bedrooms (Array of bedroom objects)
             $bedrooms = chaletv2_get_post_var('bedrooms', []);
             if (is_array($bedrooms)) {
-                $sanitized_bedrooms = array_map(function($bedroom) {
+                $sanitized_bedrooms = array_map(function ($bedroom) {
                     return [
                         'bedroom_type' => sanitize_text_field($bedroom['bedroom_type'] ?? ''),
                         'num_beds' => intval($bedroom['num_beds'] ?? 1)
@@ -443,7 +443,8 @@ add_action('admin_post_chalet_dashboard_delete', 'chaletv2_handle_chalet_delete'
  * Handles the custom profile update form submission.
  */
 add_action('admin_post_custom_profile_update', 'handle_custom_profile_update');
-function handle_custom_profile_update() {
+function handle_custom_profile_update()
+{
     if (!is_user_logged_in()) {
         wp_redirect(home_url('/dashboard-profile/'));
         exit;
@@ -491,16 +492,16 @@ function handle_custom_profile_update() {
 
     // Handle extra fields
     $fields = [
-        'company_name'   => 'sanitize_text_field',
-        'phone_number'   => 'sanitize_text_field',
-        'about_me'       => 'sanitize_textarea_field',
-        'address'        => 'sanitize_text_field',
-        'fb_url'         => 'esc_url_raw',
-        'insta_url'      => 'esc_url_raw',
-        'youtube_url'    => 'esc_url_raw',
-        'linkedin_url'   => 'esc_url_raw',
-        'tiktok_url'     => 'esc_url_raw',
-        'pinterest_url'  => 'esc_url_raw',
+        'company_name' => 'sanitize_text_field',
+        'phone_number' => 'sanitize_text_field',
+        'about_me' => 'sanitize_textarea_field',
+        'address' => 'sanitize_text_field',
+        'fb_url' => 'esc_url_raw',
+        'insta_url' => 'esc_url_raw',
+        'youtube_url' => 'esc_url_raw',
+        'linkedin_url' => 'esc_url_raw',
+        'tiktok_url' => 'esc_url_raw',
+        'pinterest_url' => 'esc_url_raw',
     ];
 
     foreach ($fields as $field => $sanitize_cb) {
@@ -514,7 +515,8 @@ function handle_custom_profile_update() {
 add_action('admin_post_custom_change_password', 'handle_custom_change_password');
 add_action('admin_post_nopriv_custom_change_password', 'handle_custom_change_password'); // if for non-logged-in users (optional)
 
-function handle_custom_change_password() {
+function handle_custom_change_password()
+{
     // Check nonce
     if (!isset($_POST['change_password_nonce']) || !wp_verify_nonce($_POST['change_password_nonce'], 'change_password_action')) {
         wp_die('Security check failed');
@@ -527,8 +529,8 @@ function handle_custom_change_password() {
 
     $user = wp_get_current_user();
 
-    $old_password     = $_POST['old_password'] ?? '';
-    $new_password     = $_POST['new_password'] ?? '';
+    $old_password = $_POST['old_password'] ?? '';
+    $new_password = $_POST['new_password'] ?? '';
     $confirm_password = $_POST['confirm_password'] ?? '';
 
     // Validate fields
@@ -556,7 +558,8 @@ function handle_custom_change_password() {
 add_action('wp_ajax_filter_chalets', 'filter_chalets_callback');
 add_action('wp_ajax_nopriv_filter_chalets', 'filter_chalets_callback');
 
-function filter_chalets_callback() {
+function filter_chalets_callback()
+{
     $name = sanitize_text_field($_POST['name'] ?? '');
     $status = sanitize_text_field($_POST['status'] ?? '');
     // Whitelist only allowed statuses
@@ -611,7 +614,7 @@ function filter_chalets_callback() {
                     <img src="<?= get_template_directory_uri() ?>/dashboard/images/icons/edit-pen.svg" alt="">
                 </div>
             </div>
-        <?php
+            <?php
         endwhile;
     else:
         echo '<p>No chalets found.</p>';
@@ -623,41 +626,193 @@ function filter_chalets_callback() {
 add_action('admin_post_reply_to_review', 'handle_reply_to_review');
 add_action('admin_post_nopriv_reply_to_review', 'handle_reply_to_review');
 
-function handle_reply_to_review() {
-  if (!isset($_POST['reply_to_review_nonce']) || !wp_verify_nonce($_POST['reply_to_review_nonce'], 'reply_to_review_action')) {
-    wp_die('Invalid nonce.');
-  }
+function handle_reply_to_review()
+{
+    if (!isset($_POST['reply_to_review_nonce']) || !wp_verify_nonce($_POST['reply_to_review_nonce'], 'reply_to_review_action')) {
+        wp_die('Invalid nonce.');
+    }
 
-  if (!is_user_logged_in()) {
-    wp_die('You must be logged in to reply.');
-  }
+    if (!is_user_logged_in()) {
+        wp_die('You must be logged in to reply.');
+    }
 
-  $reply_content = sanitize_text_field($_POST['reply_content']);
-  $parent_id = intval($_POST['parent_comment_id']);
-  $user = wp_get_current_user();
+    $reply_content = sanitize_text_field($_POST['reply_content']);
+    $parent_id = intval($_POST['parent_comment_id']);
+    $user = wp_get_current_user();
 
-  if (!$reply_content || !$parent_id || !$user->exists()) {
-    wp_die('Missing data.');
-  }
+    if (!$reply_content || !$parent_id || !$user->exists()) {
+        wp_die('Missing data.');
+    }
 
-  $parent_comment = get_comment($parent_id);
+    $parent_comment = get_comment($parent_id);
 
-  if (!$parent_comment) {
-    wp_die('Parent comment not found.');
-  }
+    if (!$parent_comment) {
+        wp_die('Parent comment not found.');
+    }
 
-  $commentdata = array(
-    'comment_post_ID'      => $parent_comment->comment_post_ID,
-    'comment_content'      => $reply_content,
-    'user_id'              => $user->ID,
-    'comment_author'       => $user->display_name,
-    'comment_author_email' => $user->user_email,
-    'comment_parent'       => $parent_id,
-    'comment_approved'     => 1,
-  );
+    $commentdata = array(
+        'comment_post_ID' => $parent_comment->comment_post_ID,
+        'comment_content' => $reply_content,
+        'user_id' => $user->ID,
+        'comment_author' => $user->display_name,
+        'comment_author_email' => $user->user_email,
+        'comment_parent' => $parent_id,
+        'comment_approved' => 1,
+    );
 
-  wp_insert_comment($commentdata);
+    wp_insert_comment($commentdata);
 
-  wp_redirect(wp_get_referer());
-  exit;
+    wp_redirect(wp_get_referer());
+    exit;
+}
+function get_chalets_by_type()
+{
+    $type = isset($_POST['type']) ? sanitize_text_field($_POST['type']) : 'all';
+    ob_start();
+    ?>
+    <div class="ts-grid-cards">
+        <?php
+        $args = array(
+            'post_type' => 'chalet',
+            'posts_per_page' => -1,
+            'orderby' => 'date',
+            'order' => 'DESC',
+            'meta_query' => array(
+                'relation' => 'AND',
+                // Only filter by type if not 'all'
+                ($type !== 'all') ? [
+                    'key' => 'chalet_featured_in',
+                    'value' => $type,
+                    'compare' => '='
+                ] : [
+                    'key' => 'chalet_featured_in',
+                    'compare' => 'EXISTS' // Ensure we only get chalets that have this field set
+                ]
+            )
+        );
+        $chalets = new WP_Query($args);
+
+        if ($chalets->have_posts()) {
+            $i = 1;
+            while ($chalets->have_posts()) {
+                $chalets->the_post();
+                $guest_count = carbon_get_post_meta(get_the_ID(), 'guest_count');
+                $baths = carbon_get_post_meta(get_the_ID(), 'baths');
+                $bedrooms = carbon_get_post_meta(get_the_ID(), 'bedrooms');
+                $weekday_rate = carbon_get_post_meta(get_the_ID(), 'default_rate_weekday');
+                // Get region association from Carbon Fields
+                $region = carbon_get_post_meta(get_the_ID(), 'region');
+                $location = !empty($region) ? get_the_title($region[0]['id']) : 'Location not specified';
+                $featured_image = get_the_post_thumbnail_url();
+                ?>
+                <div class="card-d">
+                    <div class="ts-card-slider" id="ts-slider-<?php echo $i; ?>">
+                        <?php
+                        // Get gallery images if available
+                        $gallery = carbon_get_post_meta(get_the_ID(), 'chalet_images');
+                        if (!empty($gallery)) {
+                            foreach ($gallery as $id) {
+                                $image = wp_get_attachment_image_src($id, 'full')[0];
+                                echo '<div><img class="card_image" src="' . esc_url($image) . '" alt="' . esc_attr(get_the_title()) . '" /></div>';
+                            }
+                        } else {
+                            // Fallback to featured image if exists
+                            if (!empty($featured_image)) {
+                                echo '<div><img class="card_image" src="' . esc_url($featured_image) . '" alt="' . get_the_title() . '" /></div>';
+                            } else {
+                                // Fallback to default image
+                                $default_image = get_template_directory_uri() . '/assets/images/card-p1.png';
+                                echo '<div><img class="card_image" src="' . esc_url($default_image) . '" alt="' . get_the_title() . '" /></div>';
+                            }
+                        }
+                        ?>
+                    </div>
+                    <div class="card-details">
+                        <div class="cd-header">
+                            <div class="location">
+                                <h3><a href="<?= get_permalink() ?>" class="card_anchor"><?php the_title(); ?></a></h3>
+                                <div class="pin-type">
+                                    <img src="<?= get_template_directory_uri() ?>/assets/images/icons/location-pin.svg"
+                                        alt="location" /><?php echo esc_html($location); ?>
+                                </div>
+                            </div>
+                            <a>$<?php echo $weekday_rate; ?>/Night</a>
+                        </div>
+
+                        <ul>
+                            <li><img src="<?= get_template_directory_uri() ?>/assets/images/icons/bed.svg"
+                                    alt="bed" /><?php echo $guest_count; ?> Guests</li>
+                            <li><img src="<?= get_template_directory_uri() ?>/assets/images/icons/bed.svg"
+                                    alt="bed" /><?php echo count($bedrooms); ?> Rooms</li>
+                            <li><img src="<?= get_template_directory_uri() ?>/assets/images/icons/bed.svg" alt="bed" /><?php
+                              $total_beds = 0;
+                              foreach ($bedrooms as $room) {
+                                  $total_beds += $room['beds'];
+                              }
+                              echo $total_beds; ?> beds</li>
+                            <li><img src="<?= get_template_directory_uri() ?>/assets/images/icons/bath.svg"
+                                    alt="bed" /><?php echo $baths; ?> Baths</li>
+                        </ul>
+                    </div>
+
+                </div>
+                <?php
+                $i++;
+            }
+            wp_reset_postdata();
+        }
+        ?>
+    </div>
+    <?php
+
+    // Return the output buffer content
+    $output = ob_get_clean();
+    echo $output; // to be able to send headers before output
+    wp_die(); // This is required to terminate immediately and return a proper response
+}
+add_action('wp_ajax_get_chalets_by_type', 'get_chalets_by_type');
+add_action('wp_ajax_nopriv_get_chalets_by_type', 'get_chalets_by_type');
+
+// Add AJAX endpoint for loading chalets by region
+add_action('wp_ajax_load_chalets_by_region', 'load_chalets_by_region');
+add_action('wp_ajax_nopriv_load_chalets_by_region', 'load_chalets_by_region');
+
+function load_chalets_by_region()
+{
+
+    $args = array(
+        'post_type' => 'region',
+        'posts_per_page' => -1,
+    );
+
+    $query = new WP_Query($args);
+
+
+    if ($query->have_posts()) {
+        while ($query->have_posts()) {
+            $query->the_post();
+            ?>
+            <div class="chalet-item">
+                <div class="chalet-image">
+                    <?php the_post_thumbnail('medium'); ?>
+                </div>
+                <div class="chalet-content">
+                    <h3><?php the_title(); ?></h3>
+                    <div class="chalet-meta">
+                        <span class="guests"><?php echo get_post_meta(get_the_ID(), 'guest_count', true); ?> Guests</span>
+                        <span class="baths"><?php echo get_post_meta(get_the_ID(), 'baths', true); ?> Baths</span>
+                    </div>
+                    <div class="chalet-price">
+                        From <?php echo get_post_meta(get_the_ID(), 'monthly_rate', true); ?> / month
+                    </div>
+                </div>
+            </div>
+            <?php
+        }
+        wp_reset_postdata();
+    } else {
+        echo '<p>No featured chalets found.</p>';
+    }
+
+    wp_die();
 }

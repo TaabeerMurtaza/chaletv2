@@ -25,11 +25,19 @@
           <div class="f-col">
             <h6>Regions</h6>
             <ul>
-              <li><a href="#">Charlevoix</a></li>
-              <li><a href="#">Lanaudière</a></li>
-              <li><a href="#">Laurentides</a></li>
-              <li><a href="#">Mauricie</a></li>
-              <li><a href="#">Montérégie</a></li>
+              <?php
+              $regions = get_posts([
+                'post_type' => 'region',
+                'posts_per_page' => 9,
+                'orderby' => 'title',
+                'order' => 'ASC'
+              ]);
+              if ($regions) :
+                foreach ($regions as $region) : ?>
+                  <li><a href="<?= get_permalink($region->ID); ?>"><?= esc_html(get_the_title($region->ID)); ?></a></li>
+                <?php endforeach;
+              endif;
+              ?>
             </ul>
           </div>
           <div class="f-col">

@@ -67,7 +67,7 @@
 <section class="tabs-section">
   <div class="container">
     <h2>Featured</h2>
-    <div class="tabs-grid">
+    <div class="tabs-grid" id="featured_chalets_types">
       <div class="tab">
         <div class="icon">
           <img src="<?= get_template_directory_uri() ?>/assets/images/icons/tb-Icon1.svg" alt="tab-icon" />
@@ -116,97 +116,100 @@
     <!-- Featured Chalets Section -->
     <div class="featured-chalets">
       <div class="chalets-grid" id="featured-chalets">
-        </div>
       </div>
     </div>
-  </section>
-  <div class="container">
-  <h2>Featured Chalets by Region</h2>
-
-  <div class="ts-grid-cards">
-    <?php
-    $args = array(
-      'post_type' => 'chalet',
-      'posts_per_page' => -1,
-      'orderby' => 'date',
-      'order' => 'DESC'
-    );
-    $chalets = new WP_Query($args);
-
-    if ($chalets->have_posts()) {
-      $i = 1;
-      while ($chalets->have_posts()) {
-        $chalets->the_post();
-        $guest_count = carbon_get_post_meta(get_the_ID(), 'guest_count');
-        $baths = carbon_get_post_meta(get_the_ID(), 'baths');
-        $bedrooms = carbon_get_post_meta(get_the_ID(), 'bedrooms');
-        $weekday_rate = carbon_get_post_meta(get_the_ID(), 'default_rate_weekday');
-        // Get region association from Carbon Fields
-        $region = carbon_get_post_meta(get_the_ID(), 'region');
-        $location = !empty($region) ? get_the_title($region[0]['id']) : 'Location not specified';
-        $featured_image = get_the_post_thumbnail_url();
-        ?>
-        <div class="card-d">
-          <div class="ts-card-slider" id="ts-slider-<?php echo $i; ?>">
-            <?php
-            // Get gallery images if available
-            $gallery = carbon_get_post_meta(get_the_ID(), 'chalet_images');
-            if (!empty($gallery)) {
-              foreach ($gallery as $id) {
-                $image = wp_get_attachment_image_src($id, 'full')[0];
-                echo '<div><img class="card_image" src="' . esc_url($image) . '" alt="' . esc_attr(get_the_title()) . '" /></div>';
-              }
-            } else {
-              // Fallback to featured image if exists
-              if (!empty($featured_image)) {
-                echo '<div><img class="card_image" src="' . esc_url($featured_image) . '" alt="' . get_the_title() . '" /></div>';
-              } else {
-                // Fallback to default image
-                $default_image = get_template_directory_uri() . '/assets/images/card-p1.png';
-                echo '<div><img class="card_image" src="' . esc_url($default_image) . '" alt="' . get_the_title() . '" /></div>';
-              }
-            }
-            ?>
-          </div>
-          <div class="card-details">
-            <div class="cd-header">
-              <div class="location">
-                <h3><a href="<?= get_permalink() ?>" class="card_anchor"><?php the_title(); ?></a></h3>
-                <div class="pin-type">
-                  <img src="<?= get_template_directory_uri() ?>/assets/images/icons/location-pin.svg"
-                    alt="location" /><?php echo esc_html($location); ?>
-                </div>
-              </div>
-              <a>$<?php echo $weekday_rate; ?>/Night</a>
-            </div>
-            
-            <ul>
-              <li><img src="<?= get_template_directory_uri() ?>/assets/images/icons/bed.svg"
-                  alt="bed" /><?php echo $guest_count; ?> Guests</li>
-              <li><img src="<?= get_template_directory_uri() ?>/assets/images/icons/bed.svg"
-                  alt="bed" /><?php echo count($bedrooms); ?> Rooms</li>
-              <li><img src="<?= get_template_directory_uri() ?>/assets/images/icons/bed.svg" alt="bed" /><?php
-                $total_beds = 0;
-                foreach ($bedrooms as $room) {
-                  $total_beds += $room['beds'];
-                }
-                echo $total_beds; ?> beds</li>
-              <li><img src="<?= get_template_directory_uri() ?>/assets/images/icons/bath.svg"
-                  alt="bed" /><?php echo $baths; ?> Baths</li>
-            </ul>
-          </div>
-
-        </div>
-        <?php
-        $i++;
-      }
-      wp_reset_postdata();
-    }
-    ?>
   </div>
+</section>
+<?php if (0): ?>
+  <div class="container">
+    <h2>Featured Chalets by Region</h2>
+
+    <div class="ts-grid-cards">
+      <?php
+      $args = array(
+        'post_type' => 'chalet',
+        'posts_per_page' => -1,
+        'orderby' => 'date',
+        'order' => 'DESC'
+      );
+      $chalets = new WP_Query($args);
+
+      if ($chalets->have_posts()) {
+        $i = 1;
+        while ($chalets->have_posts()) {
+          $chalets->the_post();
+          $guest_count = carbon_get_post_meta(get_the_ID(), 'guest_count');
+          $baths = carbon_get_post_meta(get_the_ID(), 'baths');
+          $bedrooms = carbon_get_post_meta(get_the_ID(), 'bedrooms');
+          $weekday_rate = carbon_get_post_meta(get_the_ID(), 'default_rate_weekday');
+          // Get region association from Carbon Fields
+          $region = carbon_get_post_meta(get_the_ID(), 'region');
+          $location = !empty($region) ? get_the_title($region[0]['id']) : 'Location not specified';
+          $featured_image = get_the_post_thumbnail_url();
+          ?>
+          <div class="card-d">
+            <div class="ts-card-slider" id="ts-slider-<?php echo $i; ?>">
+              <?php
+              // Get gallery images if available
+              $gallery = carbon_get_post_meta(get_the_ID(), 'chalet_images');
+              if (!empty($gallery)) {
+                foreach ($gallery as $id) {
+                  $image = wp_get_attachment_image_src($id, 'full')[0];
+                  echo '<div><img class="card_image" src="' . esc_url($image) . '" alt="' . esc_attr(get_the_title()) . '" /></div>';
+                }
+              } else {
+                // Fallback to featured image if exists
+                if (!empty($featured_image)) {
+                  echo '<div><img class="card_image" src="' . esc_url($featured_image) . '" alt="' . get_the_title() . '" /></div>';
+                } else {
+                  // Fallback to default image
+                  $default_image = get_template_directory_uri() . '/assets/images/card-p1.png';
+                  echo '<div><img class="card_image" src="' . esc_url($default_image) . '" alt="' . get_the_title() . '" /></div>';
+                }
+              }
+              ?>
+            </div>
+            <div class="card-details">
+              <div class="cd-header">
+                <div class="location">
+                  <h3><a href="<?= get_permalink() ?>" class="card_anchor"><?php the_title(); ?></a></h3>
+                  <div class="pin-type">
+                    <img src="<?= get_template_directory_uri() ?>/assets/images/icons/location-pin.svg"
+                      alt="location" /><?php echo esc_html($location); ?>
+                  </div>
+                </div>
+                <a>$<?php echo $weekday_rate; ?>/Night</a>
+              </div>
+
+              <ul>
+                <li><img src="<?= get_template_directory_uri() ?>/assets/images/icons/bed.svg"
+                    alt="bed" /><?php echo $guest_count; ?> Guests</li>
+                <li><img src="<?= get_template_directory_uri() ?>/assets/images/icons/bed.svg"
+                    alt="bed" /><?php echo count($bedrooms); ?> Rooms</li>
+                <li><img src="<?= get_template_directory_uri() ?>/assets/images/icons/bed.svg" alt="bed" /><?php
+                  $total_beds = 0;
+                  foreach ($bedrooms as $room) {
+                    $total_beds += $room['beds'];
+                  }
+                  echo $total_beds; ?> beds</li>
+                <li><img src="<?= get_template_directory_uri() ?>/assets/images/icons/bath.svg"
+                    alt="bed" /><?php echo $baths; ?> Baths</li>
+              </ul>
+            </div>
+
+          </div>
+          <?php
+          $i++;
+        }
+        wp_reset_postdata();
+      }
+      ?>
+    </div>
+  </div>
+<?php endif; ?>
 </div>
 <br>
-</div>
+<br>
 
 </section>
 <!-- tabs-section-end -->
@@ -237,10 +240,12 @@
           }
           $regions->the_post();
           ?>
-          <div class="gg-card gg-<?php echo $c; ?>">
+          <a href="<?= get_the_permalink() ?>" class="gg-card gg-<?php echo $c; ?>">
             <h5><?php the_title(); ?></h5>
-            <img style="" src="<?php echo get_the_post_thumbnail_url(get_the_ID(), 'full') ? : get_template_directory_uri().'/assets/images/gg-card.png'; ?>" alt="<?php the_title(); ?>" />
-          </div>
+            <img style=""
+              src="<?php echo get_the_post_thumbnail_url(get_the_ID(), 'full') ?: get_template_directory_uri() . '/assets/images/gg-card.png'; ?>"
+              alt="<?php the_title(); ?>" />
+          </a>
           <?php
         }
         wp_reset_postdata();
@@ -254,37 +259,85 @@
 
 <section class="uniqe-slider-section">
   <div class="container">
-    <h2>Live a unique experience at the chalet </h2>
+    <h2>Live a unique experience at the chalet </h2>
     <div class="slider-gallery gall-slider">
       <?php
-      if ($regions->have_posts()) {
-        while ($regions->have_posts()) {
-          $regions->the_post();
+      $experiences = new WP_Query([
+        'post_type' => 'experience',
+        'posts_per_page' => -1,
+        'orderby' => 'title',
+        'order' => 'ASC',
+      ]);
+      if ($experiences->have_posts()) {
+        while ($experiences->have_posts()) {
+          $experiences->the_post();
           ?>
           <div class="">
             <div class="us-card">
               <h5><?php the_title(); ?></h5>
-              <img src="<?php echo get_the_post_thumbnail_url(get_the_ID(), 'full') ? : get_template_directory_uri().'/assets/images/gg-card.png'; ?>" alt="<?php the_title(); ?>" />
+              <img
+                src="<?php echo get_the_post_thumbnail_url(get_the_ID(), 'full') ?: get_template_directory_uri() . '/assets/images/gg-card.png'; ?>"
+                alt="<?php the_title(); ?>" />
             </div>
           </div>
           <?php
         }
         wp_reset_postdata();
       } else {
-        echo '<p>No regions found.</p>';
+        echo '<p>No experiences found.</p>';
       }
       ?>
     </div>
   </div>
 </section>
+<!-- banner-text-start -->
+<section class="banner-text"
+  style="background-image: url(<?= get_template_directory_uri() ?>/assets/images/banner-bg2.png)">
+  <h2>AMENITIES & FEATURES</h2>
+</section>
+<!-- banner-text-end -->
+<section class="uniqe-slider-section">
+  <div class="container">
+    <h2>FIND A CHALET WITH YOUR FAVOURITE AMENITIES </h2>
+    <div class="slider-gallery gall-slider">
+      <?php
+      $features = new WP_Query([
+        'post_type' => 'chalet_feature',
+        'posts_per_page' => -1,
+        'orderby' => 'title',
+        'order' => 'ASC',
+      ]);
+      if ($features->have_posts()) {
+        while ($features->have_posts()) {
+          $features->the_post();
+          ?>
+          <div class="">
+            <div class="us-card">
+              <h5><?php the_title(); ?></h5>
+              <img
+                src="<?php echo get_the_post_thumbnail_url(get_the_ID(), 'full') ?: get_template_directory_uri() . '/assets/images/gg-card.png'; ?>"
+                alt="<?php the_title(); ?>" />
+            </div>
+          </div>
+          <?php
+        }
+        wp_reset_postdata();
+      } else {
+        echo '<p>No features found.</p>';
+      }
+      ?>
+    </div>
+  </div>
+</section>
+
 <section class="three-column">
   <div class="container">
     <div class="thc-card">
       <img src="<?= get_template_directory_uri() ?>/assets/images/icons/thc-1.svg" alt="card-icons" />
       <h5>Agency Approved</h5>
       <p>
-        At "<span> Book Ton Chalet</span> ", each advert is carefully <span>checked & validated</span> to
-        guarantee compliance , security and an exceptional stay 
+        At "<span> Book Ton Chalet</span> ", each advert is carefully <span>checked & validated</span> to
+        guarantee compliance , security and an exceptional stay 
       </p>
     </div>
     <div class="thc-card">
@@ -292,99 +345,72 @@
       <h5>Online booking</h5>
       <p>
         Visit our
-        <span>' Online Booking ' section to easily book a chalet via
-          our 100%</span> secure payment platform !
+        <span>' Online Booking ' section to easily book a chalet via
+          our 100%</span> secure payment platform !
       </p>
     </div>
     <div class="thc-card">
       <img src="<?= get_template_directory_uri() ?>/assets/images/icons/thc-3.svg" alt="card-icons" />
       <h5>CITQ</h5>
       <p>
-        All chalets displayed <span>have a certificate</span>  from
-        the Corporation de l'Industrie Tourismique du Québec.
+        All chalets displayed <span>have a certificate</span>  from
+        the Corporation de l'Industrie Tourismique du Québec.
       </p>
     </div>
   </div>
 </section>
 <?php
-// Add AJAX endpoint for loading chalets by region
-add_action('wp_ajax_load_chalets_by_region', 'load_chalets_by_region');
-add_action('wp_ajax_nopriv_load_chalets_by_region', 'load_chalets_by_region');
-
-function load_chalets_by_region()
-{
-
-  $args = array(
-    'post_type' => 'region',
-    'posts_per_page' => -1,
-  );
-
-  $query = new WP_Query($args);
-
-
-  if ($query->have_posts()) {
-    while ($query->have_posts()) {
-      $query->the_post();
-      ?>
-      <div class="chalet-item">
-        <div class="chalet-image">
-          <?php the_post_thumbnail('medium'); ?>
-        </div>
-        <div class="chalet-content">
-          <h3><?php the_title(); ?></h3>
-          <div class="chalet-meta">
-            <span class="guests"><?php echo get_post_meta(get_the_ID(), 'guest_count', true); ?> Guests</span>
-            <span class="baths"><?php echo get_post_meta(get_the_ID(), 'baths', true); ?> Baths</span>
-          </div>
-          <div class="chalet-price">
-            From <?php echo get_post_meta(get_the_ID(), 'monthly_rate', true); ?> / month
-          </div>
-        </div>
-      </div>
-      <?php
-    }
-    wp_reset_postdata();
-  } else {
-    echo '<p>No featured chalets found.</p>';
-  }
-
-  wp_die();
-}
 
 // Add script to handle region selection
 add_action('wp_footer', function () { ?>
   <script>
+    const featuredChalets = document.getElementById('featured-chalets');
+    function loadChalets(type = 'all') {
+      const data = {
+        action: 'get_chalets_by_type',
+        type: type
+      };
+      // loading animation
+      featuredChalets.innerHTML = '<div class="loading"></div>';
+      fetch(ajaxurl, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: new URLSearchParams(data)
+      })
+        .then(response => response.text())
+        .then(html => {
+          featuredChalets.innerHTML = html;
+          $('#featured-chalets .ts-card-slider').each(function () {
+            $(this).slick({
+              infinite: true,
+              speed: 500,
+              fade: true,
+              cssEase: "linear",
+              prevArrow:
+                "<button type='button' class='slick-prev cs-arrow'><img src='" + theme_url + "/assets/images/icons/arrow-l.svg' alt='icons' /></button>",
+              nextArrow:
+                "<button type='button' class='slick-next cs-arrow'><img src='" + theme_url + "/assets/images/icons/arrow-r.svg' alt='icons' /></button>",
+            });
+          });
+        })
+        .catch(error => console.error('Error:', error));
+    }
     document.addEventListener('DOMContentLoaded', function () {
-      const regionSelect = document.getElementById('region-select');
-      const featuredChalets = document.getElementById('featured-chalets');
 
       // Load initial featured chalets
       loadChalets();
 
-      // Update featured chalets when region changes
-      regionSelect.addEventListener('change', function () {
-        loadChalets(this.value);
+
+    });
+    document.querySelectorAll('#featured_chalets_types .tab').forEach(tab => {
+      tab.addEventListener('click', function () {
+        document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+        this.classList.add('active');
+        const type = this.textContent.trim().toLowerCase();
+        loadChalets(type);
       });
-
-      function loadChalets(regionSlug = '') {
-        const data = {
-          action: 'load_chalets_by_region',
-          region_slug: regionSlug
-        };
-
-        fetch(ajaxurl, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/x-www-form-urlencoded',
-          },
-          body: new URLSearchParams(data)
-        })
-          .then(response => response.text())
-          .then(html => {
-            featuredChalets.innerHTML = html;
-          })
-          .catch(error => console.error('Error:', error));
-      }
     });
   </script>
 <?php });

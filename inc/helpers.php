@@ -139,7 +139,27 @@ function get_chalet_data($chalet_id = false)
 
     return $data;
 }
-
+function get_my_chalets()
+{
+    if (current_user_can('manage_options')) {
+        // Admin: return all chalets
+        $args = [
+            'post_type' => 'chalet',
+            'posts_per_page' => -1,
+            'post_status' => 'publish',
+        ];
+    } else {
+        // Non-admin: return only chalets authored by current user
+        $args = [
+            'post_type' => 'chalet',
+            'posts_per_page' => -1,
+            'post_status' => 'publish',
+            'author' => get_current_user_id(),
+        ];
+    }
+    $query = new WP_Query($args);
+    return $query->posts;
+}
 
 // /**
 //  * Cancel a user's active subscription.

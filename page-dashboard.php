@@ -6,6 +6,11 @@
 get_header('dashboard');
 $bookings = get_my_bookings();
 ?>
+<style>
+    .fc-resourceTimelineDay-button.fc-button.fc-button-primary {
+  margin-right: 5px;
+}
+</style>
 <div class="dashboard-content">
     <div class="dashboard-title">
         <button class="menu-btn openPanel"><img
@@ -94,19 +99,14 @@ $bookings = get_my_bookings();
             <h3 class="dashboard-sub-title">Your most visited chalets</h3>
             <?php
             // Query recent chalets (assuming 'chalet' is a custom post type)
-            $args = array(
-                'post_type' => 'chalet',
-                'posts_per_page' => 3,
-                'post_status' => 'publish',
-                'orderby' => 'date',
-                'order' => 'DESC',
-            );
-            $recent_chalets = new WP_Query($args);
+            $recent_chalets = get_my_chalets();
 
-            if ($recent_chalets->have_posts()): ?>
+            if ( count($recent_chalets)): ?>
                 <div class="main-detail-row">
-                    <?php while ($recent_chalets->have_posts()):
-                        $recent_chalets->the_post(); ?>
+                    <?php foreach ($recent_chalets as $chalet):
+                        setup_postdata($chalet);
+                        print_r($chalet);
+                        ?>
                         <div class="main-detail">
                             <div class="img-wrapper">
                                 <?php if (has_post_thumbnail()): ?>
@@ -124,7 +124,7 @@ $bookings = get_my_bookings();
                                 <span><?php echo $views ? esc_html($views) : '0'; ?> Views</span>
                             </div>
                         </div>
-                    <?php endwhile;
+                    <?php endforeach;
                     wp_reset_postdata(); ?>
                 </div>
             <?php else: ?>
@@ -147,7 +147,11 @@ $bookings = get_my_bookings();
                 ),
                 'fields' => 'ids',
             );
+            if(!current_user_can('manage_options')) {
+                $booking_args['author'] = get_current_user_id(); // Only show bookings for the current user
+            }
             $booking_query = new WP_Query($booking_args);
+
 
             $chalet_counts = array();
 
@@ -215,24 +219,23 @@ $bookings = get_my_bookings();
             color: '#cccccc60'
         };
 
-        // Booked events
+        // Booked events (from PHP)
         const bookedEvents = [
             <?php
-            // Helper: generate a random color with good contrast for white text
-
-            foreach ($bookings as $booking) {
+             foreach ($bookings as $booking) {
                 $checkin = carbon_get_post_meta($booking->ID, 'booking_checkin');
                 $checkout = carbon_get_post_meta($booking->ID, 'booking_checkout');
+                $chalet_id = @carbon_get_post_meta($booking->ID, 'booking_chalet')[0]['id'] ?? null;
                 $title = esc_js(get_the_title($booking->ID));
                 $color = get_random_color();
 
-                // Only output if both dates exist
-                if ($checkin && $checkout) {
+                if ($checkin && $checkout && $chalet_id) {
                     echo "{";
                     echo "title: '{$title}',";
                     echo "start: '{$checkin}',";
                     echo "end: '{$checkout}',";
-                    echo "color: '{$color}'";
+                    echo "color: '{$color}',";
+                    echo "resourceId: '{$chalet_id}'";
                     echo "},";
                 }
             }
@@ -251,18 +254,54 @@ $bookings = get_my_bookings();
             ...bookedEvents
         ];
 
+        // ==== PHP: Generate RESOURCES (chalets) ====
+        const resources = [
+            <?php
+            $chalets = get_my_chalets();
+            foreach ($chalets as $chalet) {
+                $title = esc_js(get_the_title($chalet->ID));
+                echo "{ id: '{$chalet->ID}', title: '{$title}' },";
+            }
+            ?>
+        ];
+
         const calendar = new FullCalendar.Calendar(calendarEl, {
-            initialView: 'dayGridMonth',
+            initialView: 'resourceTimelineMonth',
             selectable: true,
             editable: false,
+            height: 600,
             headerToolbar: {
                 left: 'prev,next today',
                 center: 'title',
-                right: 'dayGridMonth,timeGridWeek,timeGridDay,listWeek'
+                right: 'resourceTimelineMonth,resourceTimelineWeek,resourceTimelineDay,dayGridMonth,timeGridWeek,listWeek'
             },
+
+            views: {
+                resourceTimelineDay: {
+                    buttonText: 'Timeline Day'
+                },
+                resourceTimelineWeek: {
+                    buttonText: 'Timeline Week'
+                },
+                resourceTimelineMonth: {
+                    buttonText: 'Timeline Month'
+                },
+                dayGridMonth: {
+                    buttonText: 'Month'
+                },
+                timeGridWeek: {
+                    buttonText: 'Week'
+                },
+                listWeek: {
+                    buttonText: 'List'
+                }
+            },
+
             navLinks: true,
             nowIndicator: true,
             events: events,
+            resources: resources,
+
             dateClick: function (info) {
                 const clicked = info.dateStr;
 
@@ -285,10 +324,12 @@ $bookings = get_my_bookings();
                 }
 
                 alert(`You clicked: ${clicked}`);
-            }
+            },
+            schedulerLicenseKey: 'CC-Attribution-NonCommercial-NoDerivatives'
         });
 
         calendar.render();
     });
 </script>
+
 <?php get_footer('dashboard'); ?>

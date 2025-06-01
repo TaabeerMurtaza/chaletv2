@@ -135,6 +135,28 @@ add_action('carbon_fields_register_fields', function (): void {
             // Chalet Name uses the default Post Title
             // Field::make('text', 'chalet_title', 'Name of cottage')
             //     ->set_required(true),
+            Field::make('select', 'chalet_type', 'Chalet Type')
+                ->set_options([
+                    'houses' => 'Houses',
+                    'apartments' => 'Apartments',
+                    'office' => 'Office',
+                    'villa' => 'Villa',
+                    'townhome' => 'Townhome',
+                    'bungalow' => 'Bungalow',
+                    'loft' => 'Loft',
+                ])
+                ->set_default_value('houses'),
+            Field::make('multiselect', 'chalet_featured_in', 'Featured In')
+                ->set_options([
+                    'houses' => 'Houses',
+                    'apartments' => 'Apartments',
+                    'office' => 'Office',
+                    'villa' => 'Villa',
+                    'townhome' => 'Townhome',
+                    'bungalow' => 'Bungalow',
+                    'loft' => 'Loft',
+                ]),
+
             Field::make('rich_text', 'description', 'Description'),
             Field::make('text', 'affiliate_booking_link', 'Reservation link')
                 ->set_help_text('Enter the booking link (URL)'),
@@ -618,7 +640,7 @@ add_action('init', function () {
         'label' => 'Chalet Features',
         'public' => true,
         'menu_icon' => 'dashicons-list-view',
-        'supports' => ['title'],
+        'supports' => ['title', 'thumbnail'],
         'show_in_rest' => true,
         'show_in_menu' => 'edit.php?post_type=chalet',
     ]);
@@ -748,13 +770,13 @@ function register_booking_fields()
                     ]
                 ])
                 ->set_max(1)
-                ,
+            ,
 
             // 2. Booking Dates
             Field::make('date', 'booking_checkin', 'Check-in Date')
-                ,
+            ,
             Field::make('date', 'booking_checkout', 'Check-out Date')
-                ,
+            ,
 
             // 3. Guests
             Field::make('text', 'booking_adults', 'Adults')->set_attribute('type', 'number'),
@@ -824,3 +846,35 @@ function register_booking_fields()
 
         ]);
 }
+/**
+ * Register Experiences Custom Post Type
+ * This CPT is used to manage experiences associated with chalets.
+ */
+function register_experiences_cpt() {
+    $labels = array(
+        'name'               => 'Experiences',
+        'singular_name'      => 'Experience',
+        'add_new'            => 'Add New',
+        'add_new_item'       => 'Add New Experience',
+        'edit_item'          => 'Edit Experience',
+        'new_item'           => 'New Experience',
+        'view_item'          => 'View Experience',
+        'search_items'       => 'Search Experiences',
+        'not_found'          => 'No experiences found',
+        'not_found_in_trash' => 'No experiences found in Trash',
+        'menu_name'          => 'Experiences',
+    );
+
+    $args = array(
+        'labels'             => $labels,
+        'public'             => true,
+        'has_archive'        => true,
+        'rewrite'            => array('slug' => 'experiences'),
+        'supports'           => array('title', 'thumbnail'),
+        'menu_icon'          => 'dashicons-palmtree', // Change icon if needed
+        'show_in_rest'       => true, // Enables Gutenberg/REST API
+    );
+
+    register_post_type('experience', $args);
+}
+add_action('init', 'register_experiences_cpt');
