@@ -83,7 +83,7 @@
     <!-- js start-->
     <script src="<?= get_template_directory_uri() ?>/assets/js/Jquery.js"></script>
     <script src="<?= get_template_directory_uri() ?>/assets/js/slick.min.js"></script>
-    <script src="<?= get_template_directory_uri() ?>/assets/js/custom.js"></script>
+    <script src="<?= get_template_directory_uri() ?>/assets/js/custom.js?v=<?= filemtime(get_template_directory() . '/assets/js/custom.js') ?>"></script>
     <?php wp_footer() ?>
     <!-- js end-->
   </body>
