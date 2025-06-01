@@ -8,7 +8,7 @@
  * @since Your_Theme_Version
  */
 get_header('dashboard');
-
+// here is me
 // Ensure $chalet_data and $edit_mode are available
 // These variables should be passed from page-chalet-dashboard.php
 $chalet_id = $edit_mode = isset($_GET['id']) ? intval($_GET['id']) : 0;
@@ -1177,7 +1177,7 @@ function get_features_by_category($category_slug_or_type)
                 Amenities settings.</button>
         </div>
     </div>
-    <div class="tab-content" id="amenities-tab" style="display: none;">
+    <!-- <div class="tab-content" id="amenities-tab" style="display: none;">
         <div class="container">
             <h1> amenities comming soon</h1>
         </div>
@@ -1186,7 +1186,741 @@ function get_features_by_category($category_slug_or_type)
             <button class="next-tab-link" data-id="location-tab" onclick="showContent(event, this)">Go to
                 Location settings.</button>
         </div>
-    </div>
+    </div> -->
+    <div class="tab-content tab-pane" role="tabpanel" id="tab-amenities">
+            <div class="container">
+                <div class="amenties-top-details">
+                    <h3>Amenities and Features</h3>
+                    <p>Select the amenities and features by
+                        clicking on those available at your chalet</p>
+                </div>
+                <div class="amenities-wrapper">
+                    <div class="amenities-left">
+                        <h2>Amenities</h2>
+                    </div>
+                    <div class="amenities-right">
+                        <div class="amenities-row">
+                            <div class="amenities-details">
+                                <h4>Indoor Features</h4>
+                                <div class="list-wrapper">
+                                    <ul>
+                                        <li>
+                                            <div class="list-img">
+                                                <img src="./images/access.png" alt="">
+
+                                            </div>
+                                            <span>Air Conditioning</span>
+                                        </li>
+                                        <li>
+                                            <div class="list-img">
+                                                <img src="./images/list img 2.png" alt="">
+
+                                            </div>
+                                            <span>Air Conditioning</span>
+                                        </li>
+                                        <li>
+                                            <div class="list-img">
+                                                <img src="./images/access.png" alt="">
+
+                                            </div>
+                                            <span>Air Conditioning</span>
+                                        </li>
+                                        <li>
+                                            <div class="list-img">
+                                                <img src="./images/list img 2.png" alt="">
+
+                                            </div>
+                                            <span>Air Conditioning</span>
+                                        </li>
+                                        <li>
+                                            <div class="list-img">
+                                                <img src="./images/access.png" alt="">
+
+                                            </div>
+                                            <span>Air Conditioning</span>
+                                        </li>
+                                        <li>
+                                            <div class="list-img">
+                                                <img src="./images/list img 2.png" alt="">
+
+                                            </div>
+                                            <span>Air Conditioning</span>
+                                        </li>
+                                        <li>
+                                            <div class="list-img">
+                                                <img src="./images/access.png" alt="">
+
+                                            </div>
+                                            <span>Air Conditioning</span>
+                                        </li>
+                                        <li>
+                                            <div class="list-img">
+                                                <img src="./images/list img 2.png" alt="">
+
+                                            </div>
+                                            <span>Air Conditioning</span>
+                                        </li>
+                                        <li>
+                                            <div class="list-img">
+                                                <img src="./images/access.png" alt="">
+
+                                            </div>
+                                            <span>Air Conditioning</span>
+                                        </li>
+                                        <li>
+                                            <div class="list-img">
+                                                <img src="./images/list img 2.png" alt="">
+
+                                            </div>
+                                            <span>Air Conditioning</span>
+                                        </li>
+                                        <li>
+                                            <div class="list-img">
+                                                <img src="./images/access.png" alt="">
+
+                                            </div>
+                                            <span>Air Conditioning</span>
+                                        </li>
+                                        <li>
+                                            <div class="list-img">
+                                                <img src="./images/list img 2.png" alt="">
+
+                                            </div>
+                                            <span>Air Conditioning</span>
+                                        </li>
+                                        <li>
+                                            <div class="list-img">
+                                                <img src="./images/access.png" alt="">
+
+                                            </div>
+                                            <span>Air Conditioning</span>
+                                        </li>
+                                        <li>
+                                            <div class="list-img">
+                                                <img src="./images/list img 2.png" alt="">
+
+                                            </div>
+                                            <span>Air Conditioning</span>
+                                        </li>
+                                        <li>
+                                            <div class="list-img">
+                                                <img src="./images/access.png" alt="">
+
+                                            </div>
+                                            <span>Air Conditioning</span>
+                                        </li>
+                                        <li>
+                                            <div class="list-img">
+                                                <img src="./images/list img 2.png" alt="">
+
+                                            </div>
+                                            <span>Air Conditioning</span>
+                                        </li>
+                                        <li>
+                                            <div class="list-img">
+                                                <img src="./images/access.png" alt="">
+
+                                            </div>
+                                            <span>Air Conditioning</span>
+                                        </li>
+                                        <li>
+                                            <div class="list-img">
+                                                <img src="./images/list img 2.png" alt="">
+
+                                            </div>
+                                            <span>Air Conditioning</span>
+                                        </li>
+                                        <li>
+                                            <div class="list-img">
+                                                <img src="./images/access.png" alt="">
+
+                                            </div>
+                                            <span>Air Conditioning</span>
+                                        </li>
+                                        <li>
+                                            <div class="list-img">
+                                                <img src="./images/list img 2.png" alt="">
+
+                                            </div>
+                                            <span>Air Conditioning</span>
+                                        </li>
+                                        <li>
+                                            <div class="list-img">
+                                                <img src="./images/access.png" alt="">
+
+                                            </div>
+                                            <span>Air Conditioning</span>
+                                        </li>
+                                        <li>
+                                            <div class="list-img">
+                                                <img src="./images/list img 2.png" alt="">
+
+                                            </div>
+                                            <span>Air Conditioning</span>
+                                        </li>
+                                        <li>
+                                            <div class="list-img">
+                                                <img src="./images/access.png" alt="">
+
+                                            </div>
+                                            <span>Air Conditioning</span>
+                                        </li>
+                                        <li>
+                                            <div class="list-img">
+                                                <img src="./images/list img 2.png" alt="">
+
+                                            </div>
+                                            <span>Air Conditioning</span>
+                                        </li>
+                                        <li>
+                                            <div class="list-img">
+                                                <img src="./images/access.png" alt="">
+
+                                            </div>
+                                            <span>Air Conditioning</span>
+                                        </li>
+                                        <li>
+                                            <div class="list-img">
+                                                <img src="./images/list img 2.png" alt="">
+
+                                            </div>
+                                            <span>Air Conditioning</span>
+                                        </li>
+                                        <li>
+                                            <div class="list-img">
+                                                <img src="./images/access.png" alt="">
+
+                                            </div>
+                                            <span>Air Conditioning</span>
+                                        </li>
+                                        <li>
+                                            <div class="list-img">
+                                                <img src="./images/list img 2.png" alt="">
+
+                                            </div>
+                                            <span>Air Conditioning</span>
+                                        </li>
+                                        <li>
+                                            <div class="list-img">
+                                                <img src="./images/access.png" alt="">
+
+                                            </div>
+                                            <span>Air Conditioning</span>
+                                        </li>
+                                        <li>
+                                            <div class="list-img">
+                                                <img src="./images/list img 2.png" alt="">
+
+                                            </div>
+                                            <span>Air Conditioning</span>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="amenities-details">
+                                <h4>Indoor Features</h4>
+                                <div class="list-wrapper">
+                                    <ul>
+                                        <li>
+                                            <div class="list-img">
+                                                <img src="./images/access.png" alt="">
+
+                                            </div>
+                                            <span>Air Conditioning</span>
+                                        </li>
+                                        <li>
+                                            <div class="list-img">
+                                                <img src="./images/list img 2.png" alt="">
+
+                                            </div>
+                                            <span>Air Conditioning</span>
+                                        </li>
+                                        <li>
+                                            <div class="list-img">
+                                                <img src="./images/access.png" alt="">
+
+                                            </div>
+                                            <span>Air Conditioning</span>
+                                        </li>
+                                        <li>
+                                            <div class="list-img">
+                                                <img src="./images/list img 2.png" alt="">
+
+                                            </div>
+                                            <span>Air Conditioning</span>
+                                        </li>
+                                        <li>
+                                            <div class="list-img">
+                                                <img src="./images/access.png" alt="">
+
+                                            </div>
+                                            <span>Air Conditioning</span>
+                                        </li>
+                                        <li>
+                                            <div class="list-img">
+                                                <img src="./images/list img 2.png" alt="">
+
+                                            </div>
+                                            <span>Air Conditioning</span>
+                                        </li>
+                                        <li>
+                                            <div class="list-img">
+                                                <img src="./images/access.png" alt="">
+
+                                            </div>
+                                            <span>Air Conditioning</span>
+                                        </li>
+                                        <li>
+                                            <div class="list-img">
+                                                <img src="./images/list img 2.png" alt="">
+
+                                            </div>
+                                            <span>Air Conditioning</span>
+                                        </li>
+                                        <li>
+                                            <div class="list-img">
+                                                <img src="./images/access.png" alt="">
+
+                                            </div>
+                                            <span>Air Conditioning</span>
+                                        </li>
+                                        <li>
+                                            <div class="list-img">
+                                                <img src="./images/list img 2.png" alt="">
+
+                                            </div>
+                                            <span>Air Conditioning</span>
+                                        </li>
+                                        <li>
+                                            <div class="list-img">
+                                                <img src="./images/access.png" alt="">
+
+                                            </div>
+                                            <span>Air Conditioning</span>
+                                        </li>
+                                        <li>
+                                            <div class="list-img">
+                                                <img src="./images/list img 2.png" alt="">
+
+                                            </div>
+                                            <span>Air Conditioning</span>
+                                        </li>
+                                        <li>
+                                            <div class="list-img">
+                                                <img src="./images/access.png" alt="">
+
+                                            </div>
+                                            <span>Air Conditioning</span>
+                                        </li>
+                                        <li>
+                                            <div class="list-img">
+                                                <img src="./images/list img 2.png" alt="">
+
+                                            </div>
+                                            <span>Air Conditioning</span>
+                                        </li>
+                                        <li>
+                                            <div class="list-img">
+                                                <img src="./images/access.png" alt="">
+
+                                            </div>
+                                            <span>Air Conditioning</span>
+                                        </li>
+                                        <li>
+                                            <div class="list-img">
+                                                <img src="./images/list img 2.png" alt="">
+
+                                            </div>
+                                            <span>Air Conditioning</span>
+                                        </li>
+                                        <li>
+                                            <div class="list-img">
+                                                <img src="./images/access.png" alt="">
+
+                                            </div>
+                                            <span>Air Conditioning</span>
+                                        </li>
+                                        <li>
+                                            <div class="list-img">
+                                                <img src="./images/list img 2.png" alt="">
+
+                                            </div>
+                                            <span>Air Conditioning</span>
+                                        </li>
+                                        <li>
+                                            <div class="list-img">
+                                                <img src="./images/access.png" alt="">
+
+                                            </div>
+                                            <span>Air Conditioning</span>
+                                        </li>
+                                        <li>
+                                            <div class="list-img">
+                                                <img src="./images/list img 2.png" alt="">
+
+                                            </div>
+                                            <span>Air Conditioning</span>
+                                        </li>
+                                        <li>
+                                            <div class="list-img">
+                                                <img src="./images/access.png" alt="">
+
+                                            </div>
+                                            <span>Air Conditioning</span>
+                                        </li>
+                                        <li>
+                                            <div class="list-img">
+                                                <img src="./images/list img 2.png" alt="">
+
+                                            </div>
+                                            <span>Air Conditioning</span>
+                                        </li>
+                                        <li>
+                                            <div class="list-img">
+                                                <img src="./images/access.png" alt="">
+
+                                            </div>
+                                            <span>Air Conditioning</span>
+                                        </li>
+                                        <li>
+                                            <div class="list-img">
+                                                <img src="./images/list img 2.png" alt="">
+
+                                            </div>
+                                            <span>Air Conditioning</span>
+                                        </li>
+                                        <li>
+                                            <div class="list-img">
+                                                <img src="./images/access.png" alt="">
+
+                                            </div>
+                                            <span>Air Conditioning</span>
+                                        </li>
+                                        <li>
+                                            <div class="list-img">
+                                                <img src="./images/list img 2.png" alt="">
+
+                                            </div>
+                                            <span>Air Conditioning</span>
+                                        </li>
+                                        <li>
+                                            <div class="list-img">
+                                                <img src="./images/access.png" alt="">
+
+                                            </div>
+                                            <span>Air Conditioning</span>
+                                        </li>
+                                        <li>
+                                            <div class="list-img">
+                                                <img src="./images/list img 2.png" alt="">
+
+                                            </div>
+                                            <span>Air Conditioning</span>
+                                        </li>
+                                        <li>
+                                            <div class="list-img">
+                                                <img src="./images/access.png" alt="">
+
+                                            </div>
+                                            <span>Air Conditioning</span>
+                                        </li>
+                                        <li>
+                                            <div class="list-img">
+                                                <img src="./images/list img 2.png" alt="">
+
+                                            </div>
+                                            <span>Air Conditioning</span>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="amenities-details">
+                                <h4>Indoor Features</h4>
+                                <div class="list-wrapper">
+                                    <ul>
+                                        <li>
+                                            <div class="list-img">
+                                                <img src="./images/access.png" alt="">
+
+                                            </div>
+                                            <span>Air Conditioning</span>
+                                        </li>
+                                        <li>
+                                            <div class="list-img">
+                                                <img src="./images/list img 2.png" alt="">
+
+                                            </div>
+                                            <span>Air Conditioning</span>
+                                        </li>
+                                        <li>
+                                            <div class="list-img">
+                                                <img src="./images/access.png" alt="">
+
+                                            </div>
+                                            <span>Air Conditioning</span>
+                                        </li>
+                                        <li>
+                                            <div class="list-img">
+                                                <img src="./images/list img 2.png" alt="">
+
+                                            </div>
+                                            <span>Air Conditioning</span>
+                                        </li>
+                                        <li>
+                                            <div class="list-img">
+                                                <img src="./images/access.png" alt="">
+
+                                            </div>
+                                            <span>Air Conditioning</span>
+                                        </li>
+                                        <li>
+                                            <div class="list-img">
+                                                <img src="./images/list img 2.png" alt="">
+
+                                            </div>
+                                            <span>Air Conditioning</span>
+                                        </li>
+                                        <li>
+                                            <div class="list-img">
+                                                <img src="./images/access.png" alt="">
+
+                                            </div>
+                                            <span>Air Conditioning</span>
+                                        </li>
+                                        <li>
+                                            <div class="list-img">
+                                                <img src="./images/list img 2.png" alt="">
+
+                                            </div>
+                                            <span>Air Conditioning</span>
+                                        </li>
+                                        <li>
+                                            <div class="list-img">
+                                                <img src="./images/access.png" alt="">
+
+                                            </div>
+                                            <span>Air Conditioning</span>
+                                        </li>
+                                        <li>
+                                            <div class="list-img">
+                                                <img src="./images/list img 2.png" alt="">
+
+                                            </div>
+                                            <span>Air Conditioning</span>
+                                        </li>
+                                        <li>
+                                            <div class="list-img">
+                                                <img src="./images/access.png" alt="">
+
+                                            </div>
+                                            <span>Air Conditioning</span>
+                                        </li>
+                                        <li>
+                                            <div class="list-img">
+                                                <img src="./images/list img 2.png" alt="">
+
+                                            </div>
+                                            <span>Air Conditioning</span>
+                                        </li>
+                                        <li>
+                                            <div class="list-img">
+                                                <img src="./images/access.png" alt="">
+
+                                            </div>
+                                            <span>Air Conditioning</span>
+                                        </li>
+                                        <li>
+                                            <div class="list-img">
+                                                <img src="./images/list img 2.png" alt="">
+
+                                            </div>
+                                            <span>Air Conditioning</span>
+                                        </li>
+                                        <li>
+                                            <div class="list-img">
+                                                <img src="./images/access.png" alt="">
+
+                                            </div>
+                                            <span>Air Conditioning</span>
+                                        </li>
+                                        <li>
+                                            <div class="list-img">
+                                                <img src="./images/list img 2.png" alt="">
+
+                                            </div>
+                                            <span>Air Conditioning</span>
+                                        </li>
+                                        <li>
+                                            <div class="list-img">
+                                                <img src="./images/access.png" alt="">
+
+                                            </div>
+                                            <span>Air Conditioning</span>
+                                        </li>
+                                        <li>
+                                            <div class="list-img">
+                                                <img src="./images/list img 2.png" alt="">
+
+                                            </div>
+                                            <span>Air Conditioning</span>
+                                        </li>
+                                        <li>
+                                            <div class="list-img">
+                                                <img src="./images/access.png" alt="">
+
+                                            </div>
+                                            <span>Air Conditioning</span>
+                                        </li>
+                                        <li>
+                                            <div class="list-img">
+                                                <img src="./images/list img 2.png" alt="">
+
+                                            </div>
+                                            <span>Air Conditioning</span>
+                                        </li>
+                                        <li>
+                                            <div class="list-img">
+                                                <img src="./images/access.png" alt="">
+
+                                            </div>
+                                            <span>Air Conditioning</span>
+                                        </li>
+                                        <li>
+                                            <div class="list-img">
+                                                <img src="./images/list img 2.png" alt="">
+
+                                            </div>
+                                            <span>Air Conditioning</span>
+                                        </li>
+                                        <li>
+                                            <div class="list-img">
+                                                <img src="./images/access.png" alt="">
+
+                                            </div>
+                                            <span>Air Conditioning</span>
+                                        </li>
+                                        <li>
+                                            <div class="list-img">
+                                                <img src="./images/list img 2.png" alt="">
+
+                                            </div>
+                                            <span>Air Conditioning</span>
+                                        </li>
+                                        <li>
+                                            <div class="list-img">
+                                                <img src="./images/access.png" alt="">
+
+                                            </div>
+                                            <span>Air Conditioning</span>
+                                        </li>
+                                        <li>
+                                            <div class="list-img">
+                                                <img src="./images/list img 2.png" alt="">
+
+                                            </div>
+                                            <span>Air Conditioning</span>
+                                        </li>
+                                        <li>
+                                            <div class="list-img">
+                                                <img src="./images/access.png" alt="">
+
+                                            </div>
+                                            <span>Air Conditioning</span>
+                                        </li>
+                                        <li>
+                                            <div class="list-img">
+                                                <img src="./images/list img 2.png" alt="">
+
+                                            </div>
+                                            <span>Air Conditioning</span>
+                                        </li>
+                                        <li>
+                                            <div class="list-img">
+                                                <img src="./images/access.png" alt="">
+
+                                            </div>
+                                            <span>Air Conditioning</span>
+                                        </li>
+                                        <li>
+                                            <div class="list-img">
+                                                <img src="./images/list img 2.png" alt="">
+
+                                            </div>
+                                            <span>Air Conditioning</span>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="container">
+                    <button class="details-btn main-btn">Save</button>
+                    <button class="next-tab-link" data-id="location-tab" onclick="showContent(event, this)">Go to
+                        Location settings.</button>
+                </div>
+            </div>
+            <div class="location-section tab-content" id="location-tab" style="display: none;">
+                <div class="container">
+                    <h2 class="title-xl"> Location</h2>
+                    <span class="light-text"> location details</span>
+                    <div class="location-details">
+                        <div class="information-row">
+                            <div class="text-details"><span class="light-text"> Name</span></div>
+                            <div class="input-details">
+                                <div class="form-detail">
+                                    <label class="light-text"> Name</label>
+                                    <input type="text" placeholder=" Name" class="big-input">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="information-row">
+                            <div class="text-details"><span class="light-text">Guest Capacity</span></div>
+                            <div class="input-details">
+                                <div class="form-detail">
+                                    <label class="light-text">Guest No (mandatory)</label>
+                                    <select class="details-select">
+                                        <option>26</option>
+                                        <option>27</option>
+                                        <option>28</option>
+                                        <option>29</option>
+                                    </select>
+                                </div>
+                                <div class="form-detail">
+                                    <label class="light-text">Guest No (mandatory)</label>
+                                    <select class="details-select">
+                                        <option>26</option>
+                                        <option>27</option>
+                                        <option>28</option>
+                                        <option>29</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="map-details">
+                        <button class="details-btn">Place Pin with Address</button>
+                    </div>
+                </div>
+                <div class="container">
+                    <button class="details-btn main-btn">Save</button>
+                    <button class="next-tab-link" data-id="calendar-tab" onclick="showContent(event, this)">Go to
+                        Calendar settings.</button>
+                </div>
+            </div>
+            <div class="tab-content" id="calendar-tab" style="display: none;">
+                <div class="container">
+                    <h1> calendar comming soon</h1>
+                </div>
+                <div class="container">
+                    <button class="details-btn main-btn">Save</button>
+                    <button class="next-tab-link" data-id="information-tab" onclick="showContent(event, this)">back
+                        to
+                        start</button>
+                </div>
+            </div>
+        </div>
     <div class="location-section tab-content" id="location-tab" style="display: none;">
         <div class="container">
             <h2 class="title-xl"> Location</h2>
