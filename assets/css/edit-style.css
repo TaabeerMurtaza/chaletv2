@@ -661,7 +661,8 @@ input[type="checkbox"]:checked:before {
     width: 100%;
     height: 100%;
 }
-#chalet-dashboard-form{
+
+#chalet-dashboard-form {
     margin: 0 auto;
 }
 
@@ -795,7 +796,7 @@ textarea {
 
 .condition-section .left-details {
     max-width: 610px;
-    width:100%;
+    width: 100%;
 }
 
 [type="radio"] {
@@ -885,6 +886,75 @@ textarea {
     color: #000;
 }
 
+.amenities-wrapper ul li {
+    list-style: none;
+}
+
+.amenities-wrapper ul li img {
+    width: 100%;
+}
+
+.amenities-wrapper ul li svg {
+    width: 100%;
+}
+
+.amenities-wrapper ul li .list-img {
+    max-width: 25px;
+}
+
+.amenities-wrapper ul li .list-img {
+    max-width: 25px;
+}
+
+.amenities-wrapper ul li {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 10px;
+    cursor: pointer;
+}
+
+.amenities-wrapper ul li:hover span {
+    background-color: rgba(0, 105, 92, 0.3);
+    color: #00796b;
+}
+
+.amenities-wrapper h4 {
+    margin-bottom: 20px;
+    font-size: 18px;
+}
+
+.amenities-wrapper ul li span {
+    color: #666;
+    background-color: rgba(136, 136, 136, 0.1);
+    padding: 0 10px;
+    border-radius: 4px;
+    transition: 0.4s;
+}
+
+.amenities-wrapper {
+    display: flex;
+    justify-content: space-between;
+}
+
+.amenities-right {
+    max-width: 70%;
+    width: 100%;
+}
+
+.amenities-row ul {
+    column-count: 3;
+}
+
+.amenties-top-details {
+    max-width: 341px;
+    margin-bottom: 80px;
+}
+
+.amenities-details {
+    margin-bottom: 60px;
+}
+
 /* Responsivenes start here */
 
 
@@ -938,7 +1008,17 @@ textarea {
         grid-template-columns: 1fr;
     }
 
+    .amenities-wrapper {
+        flex-direction: column;
+    }
 
+    .amenities-right {
+        max-width: 100%;
+    }
+
+    .amenities-left h2 {
+        font-size: 22px !important;
+    }
 }
 
 @media (max-width: 768px) {
@@ -1027,12 +1107,18 @@ textarea {
         margin-right: 0;
         width: 100%;
     }
-      #chalet-dashboard-form  {
-    padding-top: 70px;
-}
-  #chalet-dashboard-form .container {
-    padding: 0;
-}
+
+    #chalet-dashboard-form {
+        padding-top: 70px;
+    }
+
+    #chalet-dashboard-form .container {
+        padding: 0;
+    }
+
+    .amenities-row ul {
+        column-count: 2;
+    }
 }
 
 @media (max-width: 640px) {
@@ -1061,6 +1147,10 @@ textarea {
 
     .images-section .sm-input {
         width: 100% !important;
+    }
+
+    .amenities-row ul {
+        column-count: 1;
     }
 
 }
