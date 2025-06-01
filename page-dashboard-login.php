@@ -52,7 +52,34 @@
             </form>
         </div>
     </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const loginForm = document.getElementById('login-form');
+            const signupForm = document.getElementById('signup-form');
+            const showSignupBtn = document.getElementById('show-signup');
+            const showLoginBtn = document.getElementById('show-login');
 
-    <script src="script.js"></script>
+            // Function to show a specific form
+            const showForm = (formToShow) => {
+                if (formToShow === 'login') {
+                    signupForm.classList.remove('active');
+                    loginForm.classList.add('active');
+                } else if (formToShow === 'signup') {
+                    loginForm.classList.remove('active');
+                    signupForm.classList.add('active');
+                }
+            };
+
+            // Event listeners to switch forms
+            showSignupBtn.addEventListener('click', () => {
+                showForm('signup');
+            });
+
+            showLoginBtn.addEventListener('click', () => {
+                showForm('login');
+            });
+        });
+
+    </script>
 </body>
 </html>
