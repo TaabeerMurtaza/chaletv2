@@ -1,4 +1,9 @@
-<?php get_header(); ?>
+<?php 
+/* Template Name: Search Chalet */
+if (!defined('ABSPATH')) {
+    exit; // Exit if accessed directly
+}
+get_header(); ?>
 
 <!-- banner-start -->
 <div class="banner-section search-banner" style="background-image: none">
@@ -55,7 +60,7 @@
                 <div class="icon">
                     <img src="<?= get_template_directory_uri() ?>/assets/images/icons/tb-Icon1.svg" alt="tab-icon" />
                 </div>
-                Houses
+                Housessssssssssssssssssssssss
             </div>
             <div class="tab">
                 <div class="icon">

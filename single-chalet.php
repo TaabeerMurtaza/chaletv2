@@ -245,6 +245,9 @@ $chalet_id = get_the_ID();
         comments_template();
 
       ?>
+      <br>
+      <br>
+      <br>
     </div>
     <div class="form-right">
       <form>

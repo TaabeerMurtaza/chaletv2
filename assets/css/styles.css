@@ -347,7 +347,8 @@ height: fit-content;
   grid-template-columns: repeat(5, 1fr);
   gap: 8px;
 }
-.form-wraper form select {
+.form-wraper form select,
+.form-wraper form input.filter_opt {
   font-size: 15px;
   font-weight: 400;
   line-height: 28px;

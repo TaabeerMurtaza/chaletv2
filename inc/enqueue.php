@@ -41,6 +41,32 @@ function theme_enqueue_styles() {
         '6.1.17',
         true
     );
+    // Dequeue default jQuery
+    wp_dequeue_script('jquery');
+    wp_deregister_script('jquery');
+
+    // Enqueue jQuery from CDN
+    wp_enqueue_script(
+        'jquery',
+        'https://code.jquery.com/jquery-3.7.1.min.js',
+        [],
+        '3.7.1',
+        true
+    );
+    // Select2
+    wp_enqueue_script(
+        'select2',
+        'https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js',
+        ['jquery'],
+        '4.1.0',
+        true
+    );
+    wp_enqueue_style(
+        'select2',
+        'https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css',
+        [],
+        '4.1.0'
+    );
 
 }
 add_action('wp_enqueue_scripts', 'theme_enqueue_styles');

@@ -5,60 +5,7 @@
   <div class="banner-inner">
     <h1 class="main-title">AT THE HEART OF YOUR HOLIDAYS</h1>
     <p>Discover our chalets for rent in Quebec</p>
-    <div class="form-wraper">
-      <form action="">
-        <div class="form-g">
-          <select name="region" id="region-select">
-            <option value="">Select Region</option>
-            <?php
-            $query = new WP_Query([
-              'post_type' => 'region',
-              'posts_per_page' => -1,
-              'orderby' => 'name',
-            ]);
-            if ($query->have_posts()) {
-
-              while ($query->have_posts()) {
-                $query->the_post();
-                ?>
-                <option value="<?php echo get_the_ID(); ?>">
-                  <?php echo get_the_title(); ?>
-                </option>
-                <?php
-              }
-            }
-            ?>
-          </select>
-        </div>
-        <div class="form-g">
-          <select name="When" id="cars">
-            <option value="Region">Region</option>
-            <option value="saab">Saab</option>
-            <option value="mercedes">Mercedes</option>
-            <option value="audi">Audi</option>
-          </select>
-        </div>
-        <div class="form-g">
-          <select name="Guests" id="cars">
-            <option value="Region">Region</option>
-            <option value="saab">Saab</option>
-            <option value="mercedes">Mercedes</option>
-            <option value="audi">Audi</option>
-          </select>
-        </div>
-        <div class="form-g option">
-          <select name="Options" id="cars">
-            <option value="Region">Region</option>
-            <option value="saab">Saab</option>
-            <option value="mercedes">Mercedes</option>
-            <option value="audi">Audi</option>
-          </select>
-        </div>
-        <div class="form-g">
-          <input type="submit" class="btn" />
-        </div>
-      </form>
-    </div>
+    <?php get_template_part('template-parts/search-form') ?>
   </div>
 </div>
 <!-- banner-end -->

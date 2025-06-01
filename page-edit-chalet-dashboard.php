@@ -136,7 +136,7 @@ function get_features_by_category($category_slug_or_type)
                     <div class="form-detail">
                         <label class="light-text"> <?php _e('Name:', 'chaletv2'); ?></label>
                         <input type="text" id="title" class="big-input" name="chalet_title"
-                            value="<?php echo $chalet_data['title']; ?>"
+                            value="<?php echo @$chalet_data['title']; ?>"
                             required>
                     </div>
                 </div>

@@ -2,13 +2,25 @@
 /* Template Name: Chalet Dashboard */
 
 get_header('dashboard');
-$query = new WP_Query([
-    'post_type' => 'chalet',
-    'posts_per_page' => -1,
-    'post_status' => ['publish', 'pending', 'draft', 'private'],
-]);
-?>
 
+?>
+<style>
+    .add_chalet_wrapper{
+        display:flex;
+        align-items:flex-end;
+        width:100%;
+    }
+    .add_chalet_wrapper .add-chalet{
+        background-color: #004944;
+        color: white;
+        padding: 15px 48px;
+        font-size: 16px;
+        font-family: Arial, sans-serif;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+    }
+</style>
 <div class="dashboard-content">
     <div class="dashboard-title">
         <button class="menu-btn openPanel"><img
@@ -59,6 +71,9 @@ $query = new WP_Query([
 
     </div>
     <div class="divider"></div>
+    <div class="add_chalet_wrapper">
+        <a href="<?= get_home_url() ?>/dashboard-edit-chalet" class="add-chalet" style="margin-left:auto">Add Chalet</a>
+    </div>
     <div class="listing-wrapper">
         <div class="listing-head">
             <span>Name</span>
@@ -69,6 +84,7 @@ $query = new WP_Query([
         <div id="chalets">
 
             <?php
+            $query = get_my_chalets(true);
             if ($query->have_posts()):
                 while ($query->have_posts()):
                     $query->the_post();

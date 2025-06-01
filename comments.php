@@ -17,7 +17,15 @@ if (post_password_required()) {
     return;
 }
 ?>
-
+<style>
+    #comments hr{
+        border-bottom:none;
+        border-color:#ddd;
+        opacity:.5;
+        margin:1rem auto;
+        /* width:75%; */
+    }
+</style>
 <div id="comments" class="comments-area">
 
     <?php if (have_comments()): ?>
@@ -67,6 +75,8 @@ if (post_password_required()) {
         'title_reply' => 'Leave a Review',
         'label_submit' => 'Submit Review',
         'comment_notes_after' => '',
+        'class_submit' => 'btn',
+        'logged_in_as' => ''
     ]);
     ?>
 

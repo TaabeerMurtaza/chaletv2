@@ -139,7 +139,7 @@ function get_chalet_data($chalet_id = false)
 
     return $data;
 }
-function get_my_chalets()
+function get_my_chalets($query_only=false)
 {
     if (current_user_can('manage_options')) {
         // Admin: return all chalets
@@ -158,7 +158,7 @@ function get_my_chalets()
         ];
     }
     $query = new WP_Query($args);
-    return $query->posts;
+    return $query_only ? $query : $query->posts;
 }
 
 // /**
