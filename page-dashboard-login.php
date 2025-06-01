@@ -10,7 +10,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login & Signup</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="<?= get_template_directory_uri() ?>/dashboard/css/login.css?v=<?= filemtime(get_template_directory() . '/dashboard/css/login.css') ?>" />
 </head>
 <body>
     <div class="container">
