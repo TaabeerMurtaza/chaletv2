@@ -38,21 +38,21 @@
     </nav>
 
     <div class="menu-right">
-      <a href="#" class="btn">Propriétaires</a>
+      <a href="<?= get_home_url() ?>/dashboard" class="btn">Profile</a>
       <button class="menu-btn">
         <img src="<?= get_template_directory_uri(); ?>/assets/images/icons/Link.svg" alt="">
       </button>
     </div>
 
-    <nav class="extra-nav">
+    <nav class="extra-nav" style="display:none;">
       <div class="inner">
 
         <?php
         wp_nav_menu([
-          'theme_location' => 'extra_nav',
+          'theme_location' => 'main_nav',
           'container' => false,
-          'menu_class' => 'destop-nav',
-          'items_wrap' => '<ul class="destop-nav"><li><h3>Main Links</h3></li>%3$s</ul>',
+          'menu_class' => '',
+          'items_wrap' => '<ul>%3$s</ul>',
         ]);
         ?>
 

@@ -359,7 +359,7 @@ button:hover {
   margin-bottom: 10px;
 }
 .dashboard-main-details .calender-details{
-  max-width: 750px;
+  /* max-width: 750px; */
 }
 
 .dashboard-section .booking-details .dashboard-sub-title {

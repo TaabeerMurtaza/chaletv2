@@ -303,29 +303,29 @@ $bookings = get_my_bookings();
             events: events,
             resources: resources,
 
-            dateClick: function (info) {
-                const clicked = info.dateStr;
+            // dateClick: function (info) {
+            //     const clicked = info.dateStr;
 
-                const isPast = clicked < today;
-                const isInDisabledRange = disabledRanges.some(range =>
-                    clicked >= range.start && clicked <= range.end
-                );
+            //     const isPast = clicked < today;
+            //     const isInDisabledRange = disabledRanges.some(range =>
+            //         clicked >= range.start && clicked <= range.end
+            //     );
 
-                const booked = bookedEvents.find(event =>
-                    clicked >= event.start && clicked < event.end
-                );
+            //     const booked = bookedEvents.find(event =>
+            //         clicked >= event.start && clicked < event.end
+            //     );
 
-                if (isPast || isInDisabledRange || booked) {
-                    if (booked) {
-                        alert(`Already Booked by ${booked.title}`);
-                    } else {
-                        alert('You cannot book this date.');
-                    }
-                    return;
-                }
+            //     if (isPast || isInDisabledRange || booked) {
+            //         if (booked) {
+            //             alert(`Already Booked by ${booked.title}`);
+            //         } else {
+            //             alert('You cannot book this date.');
+            //         }
+            //         return;
+            //     }
 
-                alert(`You clicked: ${clicked}`);
-            },
+            //     alert(`You clicked: ${clicked}`);
+            // },
             schedulerLicenseKey: 'CC-Attribution-NonCommercial-NoDerivatives'
         });
 

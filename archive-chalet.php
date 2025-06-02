@@ -4,45 +4,7 @@
 <div class="banner-section search-banner" style="background-image: none">
     <div class="banner-inner">
         <h1 class="main-title">DISCOVER OUR CHALETS FOR RENT</h1>
-        <div class="form-wraper">
-            <form action="">
-                <div class="form-g">
-                    <select name="Region" id="cars">
-                        <option value="Region">Region</option>
-                        <option value="saab">Saab</option>
-                        <option value="mercedes">Mercedes</option>
-                        <option value="audi">Audi</option>
-                    </select>
-                </div>
-                <div class="form-g">
-                    <select name="When" id="cars">
-                        <option value="Region">Region</option>
-                        <option value="saab">Saab</option>
-                        <option value="mercedes">Mercedes</option>
-                        <option value="audi">Audi</option>
-                    </select>
-                </div>
-                <div class="form-g">
-                    <select name="Guests" id="cars">
-                        <option value="Region">Region</option>
-                        <option value="saab">Saab</option>
-                        <option value="mercedes">Mercedes</option>
-                        <option value="audi">Audi</option>
-                    </select>
-                </div>
-                <div class="form-g option">
-                    <select name="Options" id="cars">
-                        <option value="Region">Region</option>
-                        <option value="saab">Saab</option>
-                        <option value="mercedes">Mercedes</option>
-                        <option value="audi">Audi</option>
-                    </select>
-                </div>
-                <div class="form-g">
-                    <input type="submit" class="btn" />
-                </div>
-            </form>
-        </div>
+        <?php get_template_part('template-parts/search-form') ?>
     </div>
 </div>
 <!-- banner-end -->
@@ -50,7 +12,7 @@
 <!-- tabs-section-start -->
 <section class="tabs-section wtt-section">
     <div class="container">
-        <div class="tabs-grid">
+        <div class="tabs-grid" style="display: none;">
             <div class="tab">
                 <div class="icon">
                     <img src="<?= get_template_directory_uri() ?>/assets/images/icons/tb-Icon1.svg" alt="tab-icon" />

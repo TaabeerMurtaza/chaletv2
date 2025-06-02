@@ -56,3 +56,13 @@ add_action('wp_enqueue_scripts', function () {
     wp_enqueue_script('dashboard-ajax', get_template_directory_uri() . '/dashboard/js/ajax-filter.js', ['jquery'], null, true);
     wp_localize_script('dashboard-ajax', 'ajaxurl', admin_url('admin-ajax.php'));
 });
+
+function redirect_after_login($redirect_to, $request, $user) {
+    // Check if it's a real user and not a failed login
+    if (isset($user->roles) && is_array($user->roles)) {
+        return home_url('/dashboard');
+    }
+    return $redirect_to;
+}
+add_filter('login_redirect', 'redirect_after_login', 10, 3);
+

@@ -145,7 +145,8 @@ get_header('dashboard');
                                 <li><span>Expires on 2026-02-01</span></li>
                             </ul>
                         </div>
-                        <a href="<?= get_home_url() ?>/dashboard-edit-chalet?id=<?= get_the_ID() ?>" class="edit">
+                        <!-- <a href="<?= get_home_url() ?>/dashboard-edit-chalet?id=<?= get_the_ID() ?>" class="edit"> -->
+                        <a href="javascript:void(0)" class="edit" onclick="alert('Coming Soon...');">
                             <img src="<?= get_template_directory_uri() ?>/dashboard/images/icons/edit-pen.svg" alt="">
                         </a>
                     </div>

@@ -240,6 +240,11 @@ $chalet_id = get_the_ID();
           </ul>
         </div>
       </div>
+      <div class="map">
+        <h3>Map</h3>
+        <img src="<?= get_template_directory_uri() ?>/assets/images/map.png" style="max-width:100%;"/>
+
+      </div>
       <?php
       // Show reviews
         comments_template();
@@ -276,4 +281,18 @@ $chalet_id = get_the_ID();
     </div>
   </div>
 </section>
+<!-- <script>
+  function initMap() {
+    const location = { lat: 33.6844, lng: 73.0479 }; // Example: Islamabad
+    const map = new google.maps.Map(document.getElementById("map"), {
+      zoom: 10,
+      center: location,
+    });
+
+    new google.maps.Marker({
+      position: location,
+      map: map,
+    });
+  }
+</script> -->
 <?php get_footer(); ?>

@@ -9,45 +9,7 @@ get_header(); ?>
 <div class="banner-section search-banner" style="background-image: none">
     <div class="banner-inner">
         <h1 class="main-title">DISCOVER OUR CHALETS FOR RENT</h1>
-        <div class="form-wraper">
-            <form action="">
-                <div class="form-g">
-                    <select name="Region" id="cars">
-                        <option value="Region">Region</option>
-                        <option value="saab">Saab</option>
-                        <option value="mercedes">Mercedes</option>
-                        <option value="audi">Audi</option>
-                    </select>
-                </div>
-                <div class="form-g">
-                    <select name="When" id="cars">
-                        <option value="Region">Region</option>
-                        <option value="saab">Saab</option>
-                        <option value="mercedes">Mercedes</option>
-                        <option value="audi">Audi</option>
-                    </select>
-                </div>
-                <div class="form-g">
-                    <select name="Guests" id="cars">
-                        <option value="Region">Region</option>
-                        <option value="saab">Saab</option>
-                        <option value="mercedes">Mercedes</option>
-                        <option value="audi">Audi</option>
-                    </select>
-                </div>
-                <div class="form-g option">
-                    <select name="Options" id="cars">
-                        <option value="Region">Region</option>
-                        <option value="saab">Saab</option>
-                        <option value="mercedes">Mercedes</option>
-                        <option value="audi">Audi</option>
-                    </select>
-                </div>
-                <div class="form-g">
-                    <input type="submit" class="btn" />
-                </div>
-            </form>
-        </div>
+        <?php get_template_part('template-parts/search-form') ?>
     </div>
 </div>
 <!-- banner-end -->
@@ -55,12 +17,12 @@ get_header(); ?>
 <!-- tabs-section-start -->
 <section class="tabs-section wtt-section">
     <div class="container">
-        <div class="tabs-grid">
+        <div class="tabs-grid" style="display:none;">
             <div class="tab">
                 <div class="icon">
                     <img src="<?= get_template_directory_uri() ?>/assets/images/icons/tb-Icon1.svg" alt="tab-icon" />
                 </div>
-                Housessssssssssssssssssssssss
+                Houses
             </div>
             <div class="tab">
                 <div class="icon">
@@ -111,10 +73,10 @@ get_header(); ?>
 
             );
 
-            $region = @$_POST['region'] ?? '';
-            $date = @$_POST['date'] ?? '';
-            $guests = @$_POST['guests'] ?? '';
-            $options = @$_POST['chalet_features'] ?? '';
+            $region = @$_GET['_region'] ?? '';
+            $date = @$_GET['_date'] ?? '';
+            $guests = @$_GET['_guests'] ?? '';
+            $feature_id = @$_GET['_chalet_features'] ?? '';
 
             // Update $args based on filters
             if (!empty($region)) {
@@ -134,13 +96,13 @@ get_header(); ?>
                 );
             }
 
-            if (!empty($options)) {
-                $args['meta_query'][] = array(
-                    'key' => 'chalet_features',
-                    'value' => $options,
-                    'compare' => 'LIKE',
-                );
-            }
+            // if (!empty($feature_id)) {
+            //     $args['meta_query'][] = array(
+            //         'key'     => 'chalet_features',
+            //         'value'   => '"' . strval($feature_id) . '"',
+            //         'compare' => 'LIKE',
+            //     );
+            // }
 
             // Ensure meta_query is set if any filters are used
             if (!empty($args['meta_query'])) {
@@ -153,6 +115,36 @@ get_header(); ?>
                 $i = 1;
                 while ($chalets->have_posts()) {
                     $chalets->the_post();
+                    // continue;
+                    $indoor = carbon_get_post_meta(get_the_ID(), 'indoor_features');
+                    $outdoor = carbon_get_post_meta(get_the_ID(), 'outdoor_features');
+                    $kitchen = carbon_get_post_meta(get_the_ID(), 'kitchen_features');
+                    $family = carbon_get_post_meta(get_the_ID(), 'family_features');
+                    $sports = carbon_get_post_meta(get_the_ID(), 'sports_features');
+                    $services = carbon_get_post_meta(get_the_ID(), 'services_features');
+                    $accessibility = carbon_get_post_meta(get_the_ID(), 'accessibility_features');
+                    $events = carbon_get_post_meta(get_the_ID(), 'events_features');
+                    // if none of the features include $feature_id, continue
+                    if (!empty($feature_id)) {
+                        $all_features = array_merge(
+                            is_array($indoor) ? $indoor : [],
+                            is_array($outdoor) ? $outdoor : [],
+                            is_array($kitchen) ? $kitchen : [],
+                            is_array($family) ? $family : [],
+                            is_array($sports) ? $sports : [],
+                            is_array($services) ? $services : [],
+                            is_array($accessibility) ? $accessibility : [],
+                            is_array($events) ? $events : []
+                        );
+                        $has_feature = false;
+                        foreach($all_features as $f){
+                            if($f['id'] == $feature_id) $has_feature = true;
+                        }
+                        if (!$has_feature) {
+                            continue;
+                        }
+                    }
+
                     $guest_count = carbon_get_post_meta(get_the_ID(), 'guest_count');
                     $baths = carbon_get_post_meta(get_the_ID(), 'baths');
                     $bedrooms = carbon_get_post_meta(get_the_ID(), 'bedrooms');

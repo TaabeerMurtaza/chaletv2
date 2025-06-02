@@ -260,6 +260,142 @@ $bookings = get_my_bookings();
     </div>
   </div>
   <script>
+    <?php $chalets = get_my_chalets(); ?>
+    document.addEventListener('DOMContentLoaded', function () {
+        const calendarEl = document.getElementById('calendar');
+        const today = new Date().toISOString().split('T')[0];
+
+        // Disabled date ranges
+        const disabledRanges = [
+            { start: '2025-06-10', end: '2025-06-15' },
+            { start: '2025-07-01', end: '2025-07-05' }
+        ];
+
+        // Past date blocking
+        const blockPastDates = {
+            start: '1900-01-01',
+            end: today,
+            display: 'background',
+            color: '#cccccc60'
+        };
+
+        // Booked events (from PHP)
+        const bookedEvents = [
+            <?php
+             foreach ($bookings as $booking) {
+                $checkin = carbon_get_post_meta($booking->ID, 'booking_checkin');
+                $checkout = carbon_get_post_meta($booking->ID, 'booking_checkout');
+                $chalet_id = @carbon_get_post_meta($booking->ID, 'booking_chalet')[0]['id'] ?? null;
+                $my_chalet = false;
+                foreach($chalets as $c){
+                  if($c->ID == $chalet_id) $my_chalet = true;
+                }
+                if(!$my_chalet) continue;
+                $title = esc_js(get_the_title($booking->ID));
+                $color = get_random_color();
+
+                if ($checkin && $checkout && $chalet_id) {
+                    echo "{";
+                    echo "title: '{$title}',";
+                    echo "start: '{$checkin}',";
+                    echo "end: '{$checkout}',";
+                    echo "color: '{$color}',";
+                    echo "resourceId: '{$chalet_id}'";
+                    echo "},";
+                }
+            }
+            ?>
+        ];
+
+        // All events merged
+        const events = [
+            ...disabledRanges.map(range => ({
+                start: range.start,
+                end: range.end,
+                display: 'background',
+                color: '#ff000040'
+            })),
+            blockPastDates,
+            ...bookedEvents
+        ];
+
+        // ==== PHP: Generate RESOURCES (chalets) ====
+        const resources = [
+            <?php
+            foreach ($chalets as $chalet) {
+                $title = esc_js(get_the_title($chalet->ID));
+                echo "{ id: '{$chalet->ID}', title: '{$title}' },";
+            }
+            ?>
+        ];
+
+        const calendar = new FullCalendar.Calendar(calendarEl, {
+            initialView: 'resourceTimelineMonth',
+            selectable: true,
+            editable: false,
+            height: 600,
+            headerToolbar: {
+                left: 'prev,next today',
+                center: 'title',
+                right: 'resourceTimelineMonth,resourceTimelineWeek,resourceTimelineDay,dayGridMonth,timeGridWeek,listWeek'
+            },
+
+            views: {
+                resourceTimelineDay: {
+                    buttonText: 'Timeline Day'
+                },
+                resourceTimelineWeek: {
+                    buttonText: 'Timeline Week'
+                },
+                resourceTimelineMonth: {
+                    buttonText: 'Timeline Month'
+                },
+                dayGridMonth: {
+                    buttonText: 'Month'
+                },
+                timeGridWeek: {
+                    buttonText: 'Week'
+                },
+                listWeek: {
+                    buttonText: 'List'
+                }
+            },
+
+            navLinks: true,
+            nowIndicator: true,
+            events: events,
+            resources: resources,
+
+            // dateClick: function (info) {
+            //     const clicked = info.dateStr;
+
+            //     const isPast = clicked < today;
+            //     const isInDisabledRange = disabledRanges.some(range =>
+            //         clicked >= range.start && clicked <= range.end
+            //     );
+
+            //     const booked = bookedEvents.find(event =>
+            //         clicked >= event.start && clicked < event.end
+            //     );
+
+            //     if (isPast || isInDisabledRange || booked) {
+            //         if (booked) {
+            //             alert(`Already Booked by ${booked.title}`);
+            //         } else {
+            //             alert('You cannot book this date.');
+            //         }
+            //         return;
+            //     }
+
+            //     alert(`You clicked: ${clicked}`);
+            // },
+            schedulerLicenseKey: 'CC-Attribution-NonCommercial-NoDerivatives'
+        });
+
+        calendar.render();
+    });
+</script>
+  <!-- <script>
     const openBtn = document.getElementById('openModal');
     const modal = document.getElementById('configModal');
     const overlay = modal.querySelector('.close-overlay');
@@ -366,32 +502,32 @@ $bookings = get_my_bookings();
         navLinks: true,
         nowIndicator: true,
         events: events,
-        dateClick: function (info) {
-          const clicked = info.dateStr;
+        // dateClick: function (info) {
+        //   const clicked = info.dateStr;
 
-          const isPast = clicked < today;
-          const isInDisabledRange = disabledRanges.some(range =>
-            clicked >= range.start && clicked <= range.end
-          );
+        //   const isPast = clicked < today;
+        //   const isInDisabledRange = disabledRanges.some(range =>
+        //     clicked >= range.start && clicked <= range.end
+        //   );
 
-          const booked = bookedEvents.find(event =>
-            clicked >= event.start && clicked < event.end
-          );
+        //   const booked = bookedEvents.find(event =>
+        //     clicked >= event.start && clicked < event.end
+        //   );
 
-          if (isPast || isInDisabledRange || booked) {
-            if (booked) {
-              alert(`Already Booked by ${booked.title}`);
-            } else {
-              alert('You cannot book this date.');
-            }
-            return;
-          }
+        //   if (isPast || isInDisabledRange || booked) {
+        //     if (booked) {
+        //       alert(`Already Booked by ${booked.title}`);
+        //     } else {
+        //       alert('You cannot book this date.');
+        //     }
+        //     return;
+        //   }
 
-          alert(`You clicked: ${clicked}`);
-        }
+        //   alert(`You clicked: ${clicked}`);
+        // }
       });
 
       calendar.render();
     });
-  </script>
+  </script> -->
   <?php get_footer('dashboard'); ?>

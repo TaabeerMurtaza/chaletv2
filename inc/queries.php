@@ -66,7 +66,10 @@ function chaletv2_handle_chalet_dashboard_submission()
     if (!is_user_logged_in()) {
         wp_die('You must be logged in to perform this action.', 'Permission Denied', ['response' => 403]);
     }
-
+    echo '<pre>';
+    print_r($_POST);
+    echo '</pre>';
+    exit;
 
     $current_user = wp_get_current_user();
     $is_admin = current_user_can('manage_options');
@@ -178,6 +181,14 @@ function chaletv2_handle_chalet_dashboard_submission()
                 'province' => 'sanitize_text_field',
                 'region' => 'sanitize_text_field',
                 'full_address' => 'sanitize_text_field',
+
+                'price_night_saturday' => 'floatval',
+                'price_night_sunday' => 'floatval',
+                'price_night_monday' => 'floatval',
+                'price_night_tuesday' => 'floatval',
+                'price_night_wednesday' => 'floatval',
+                'price_night_thursday' => 'floatval',
+                'price_night_friday' => 'floatval',
 
                 'weekly_discount' => 'intval',
                 'monthly_rate' => 'intval',

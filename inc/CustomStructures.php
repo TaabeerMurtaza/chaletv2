@@ -38,6 +38,10 @@ function register_chalet_cpt(): void
         'rewrite' => ['slug' => 'chalets'],
         'menu_icon' => 'dashicons-admin-home',
         'show_in_rest' => true,
+
+        'capability_type' => 'post',
+        'map_meta_cap'    => true,
+
     ];
 
     register_post_type('chalet', $args);
@@ -226,6 +230,10 @@ add_action('carbon_fields_register_fields', function (): void {
             Field::make('text', 'extra_price_child', 'Extra Price per Child/Night (3-17)')
                 ->set_attribute('type', 'number')
                 ->set_attribute('step', '0.01'),
+            Field::make('text', 'extra_price_baby', 'Extra Price per Baby/Night (3-17)')
+                ->set_attribute('type', 'number')
+                ->set_attribute('step', '0.01'),
+            
             Field::make('checkbox', 'free_for_babies', 'Free for Babies (0-2)')
                 ->set_option_value('yes')
                 ->set_help_text('If checked, babies are free. If unchecked, child rates apply.'),
@@ -356,6 +364,27 @@ add_action('carbon_fields_register_fields', function (): void {
 
                 ])
                 ->set_header_template('<%- start_date && end_date ? start_date + " - " + end_date : "Seasonal Period" %>'),
+                Field::make('text', 'price_night_saturday', 'Price for Saturday night')
+                        ->set_attribute('type', 'number')
+                        ->set_attribute('step', '0.01'),
+                    Field::make('text', 'price_night_sunday', 'Price for Sunday night')
+                        ->set_attribute('type', 'number')
+                        ->set_attribute('step', '0.01'),
+                    Field::make('text', 'price_night_monday', 'Price for Monday night')
+                        ->set_attribute('type', 'number')
+                        ->set_attribute('step', '0.01'),
+                    Field::make('text', 'price_night_tuesday', 'Price for Tuesday night')
+                        ->set_attribute('type', 'number')
+                        ->set_attribute('step', '0.01'),
+                    Field::make('text', 'price_night_wednesday', 'Price for Wednesday night')
+                        ->set_attribute('type', 'number')
+                        ->set_attribute('step', '0.01'),
+                    Field::make('text', 'price_night_thursday', 'Price for Thursday night')
+                        ->set_attribute('type', 'number')
+                        ->set_attribute('step', '0.01'),
+                    Field::make('text', 'price_night_friday', 'Price for Friday night')
+                        ->set_attribute('type', 'number')
+                        ->set_attribute('step', '0.01'),
         ])
         ->add_tab('Terms', [
             Field::make('radio', 'reservation_policy', 'Reservation Policy')
