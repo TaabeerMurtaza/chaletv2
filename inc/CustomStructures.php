@@ -40,7 +40,7 @@ function register_chalet_cpt(): void
         'show_in_rest' => true,
 
         'capability_type' => 'post',
-        'map_meta_cap'    => true,
+        'map_meta_cap' => true,
 
     ];
 
@@ -201,8 +201,15 @@ add_action('carbon_fields_register_fields', function (): void {
                             'twin' => 'Twin/Single',
                             'bunk' => 'Bunk Bed',
                             'sofa' => 'Sofa Bed',
+                            'murphy' => 'Murphy Bed',
+                            'air' => 'Air Mattress',
+                            'crib' => 'Crib',
+                            'futon' => 'Futon',
+                            'loft' => 'Loft Bed',
+                            'rollaway' => 'Rollaway Bed',
                             'other' => 'Other',
-                        ]),
+                        ])
+
                 ])
                 ->set_header_template('<%- name ? name : "Bedroom" %>'),
         ])
@@ -233,7 +240,7 @@ add_action('carbon_fields_register_fields', function (): void {
             Field::make('text', 'extra_price_baby', 'Extra Price per Baby/Night (3-17)')
                 ->set_attribute('type', 'number')
                 ->set_attribute('step', '0.01'),
-            
+
             Field::make('checkbox', 'free_for_babies', 'Free for Babies (0-2)')
                 ->set_option_value('yes')
                 ->set_help_text('If checked, babies are free. If unchecked, child rates apply.'),
@@ -305,14 +312,14 @@ add_action('carbon_fields_register_fields', function (): void {
             Field::make('complex', 'seasonal_rates', 'Seasonal Rate Periods')
                 ->set_layout('tabbed-vertical') // Vertical might be better for many fields
                 ->add_fields([
+                    Field::make('text', 'name', 'Period Name')
+                        ->set_help_text('Optional name for this seasonal period'),
                     Field::make('date', 'start_date', 'Start Date'),
                     Field::make('date', 'end_date', 'End Date'),
                     // Specific day pricing
                     Field::make('text', 'price_night', 'Default Price Per Night (Fallback)')
                         ->set_attribute('type', 'number')
-                        ->set_attribute('step', '0.01')
-                    // ->set_required(true)
-                    ,
+                        ->set_attribute('step', '0.01'),
                     Field::make('text', 'price_saturday', 'Price for Saturday')
                         ->set_attribute('type', 'number')
                         ->set_attribute('step', '0.01'),
@@ -339,7 +346,6 @@ add_action('carbon_fields_register_fields', function (): void {
                     Field::make('text', 'charge_after_guests', 'Charge After # Guests')
                         ->set_attribute('type', 'number')
                         ->set_attribute('min', 0)
-                        // ->set_required(true)
                         ->set_help_text('These charges apply after exceeding this number.'),
                     Field::make('text', 'extra_adult', 'Extra Price/Adult/Night (18+)')
                         ->set_attribute('type', 'number')
@@ -358,33 +364,85 @@ add_action('carbon_fields_register_fields', function (): void {
                         ->add_options(['saturday' => 'Sat', 'sunday' => 'Sun', 'monday' => 'Mon', 'tuesday' => 'Tue', 'wednesday' => 'Wed', 'thursday' => 'Thu', 'friday' => 'Fri']),
                     Field::make('set', 'checkout_unavailable', 'Check-out Unavailable Days')
                         ->add_options(['saturday' => 'Sat', 'sunday' => 'Sun', 'monday' => 'Mon', 'tuesday' => 'Tue', 'wednesday' => 'Wed', 'thursday' => 'Thu', 'friday' => 'Fri']),
-                    // Note: dev_notes mentions unavailable early check-in/late check-out days, but maybe handle this via booking logic instead of specific fields?
-                    // Field::make('set', 'early_checkin_unavailable', 'Early Check-in Unavailable Days') ...
-                    // Field::make('set', 'late_checkout_unavailable', 'Late Check-out Unavailable Days') ...
-
+                    Field::make('set', 'early_checkin_unavailable', 'Early Check-in Unavailable Days')
+                        ->add_options(['saturday' => 'Sat', 'sunday' => 'Sun', 'monday' => 'Mon', 'tuesday' => 'Tue', 'wednesday' => 'Wed', 'thursday' => 'Thu', 'friday' => 'Fri']),
+                    Field::make('set', 'late_checkout_unavailable', 'Late Check-out Unavailable Days')
+                        ->add_options(['saturday' => 'Sat', 'sunday' => 'Sun', 'monday' => 'Mon', 'tuesday' => 'Tue', 'wednesday' => 'Wed', 'thursday' => 'Thu', 'friday' => 'Fri']),
                 ])
-                ->set_header_template('<%- start_date && end_date ? start_date + " - " + end_date : "Seasonal Period" %>'),
-                Field::make('text', 'price_night_saturday', 'Price for Saturday night')
-                        ->set_attribute('type', 'number')
-                        ->set_attribute('step', '0.01'),
-                    Field::make('text', 'price_night_sunday', 'Price for Sunday night')
-                        ->set_attribute('type', 'number')
-                        ->set_attribute('step', '0.01'),
-                    Field::make('text', 'price_night_monday', 'Price for Monday night')
-                        ->set_attribute('type', 'number')
-                        ->set_attribute('step', '0.01'),
-                    Field::make('text', 'price_night_tuesday', 'Price for Tuesday night')
-                        ->set_attribute('type', 'number')
-                        ->set_attribute('step', '0.01'),
-                    Field::make('text', 'price_night_wednesday', 'Price for Wednesday night')
-                        ->set_attribute('type', 'number')
-                        ->set_attribute('step', '0.01'),
-                    Field::make('text', 'price_night_thursday', 'Price for Thursday night')
-                        ->set_attribute('type', 'number')
-                        ->set_attribute('step', '0.01'),
-                    Field::make('text', 'price_night_friday', 'Price for Friday night')
-                        ->set_attribute('type', 'number')
-                        ->set_attribute('step', '0.01'),
+                ->set_header_template('<%- name ? name : (start_date && end_date ? start_date + " - " + end_date : "Seasonal Period") %>'),
+            Field::make('text', 'price_night_saturday', 'Price for Saturday night')
+                ->set_attribute('type', 'number')
+                ->set_attribute('step', '0.01'),
+            Field::make('text', 'price_night_sunday', 'Price for Sunday night')
+                ->set_attribute('type', 'number')
+                ->set_attribute('step', '0.01'),
+            Field::make('text', 'price_night_monday', 'Price for Monday night')
+                ->set_attribute('type', 'number')
+                ->set_attribute('step', '0.01'),
+            Field::make('text', 'price_night_tuesday', 'Price for Tuesday night')
+                ->set_attribute('type', 'number')
+                ->set_attribute('step', '0.01'),
+            Field::make('text', 'price_night_wednesday', 'Price for Wednesday night')
+                ->set_attribute('type', 'number')
+                ->set_attribute('step', '0.01'),
+            Field::make('text', 'price_night_thursday', 'Price for Thursday night')
+                ->set_attribute('type', 'number')
+                ->set_attribute('step', '0.01'),
+            Field::make('text', 'price_night_friday', 'Price for Friday night')
+                ->set_attribute('type', 'number')
+                ->set_attribute('step', '0.01'),
+
+            Field::make('multiselect', 'checkin_unavailable_days', 'Checkin Unavailable Days')
+                ->set_options([
+                    'monday' => 'Monday',
+                    'tuesday' => 'Tuesday',
+                    'wednesday' => 'Wednesday',
+                    'thursday' => 'Thursday',
+                    'friday' => 'Friday',
+                    'saturday' => 'Saturday',
+                    'sunday' => 'Sunday',
+                ]),
+
+
+            Field::make('multiselect', 'checkout_unavailable_days', 'Checkout Unavailable Days')
+                ->set_options([
+                    'monday' => 'Monday',
+                    'tuesday' => 'Tuesday',
+                    'wednesday' => 'Wednesday',
+                    'thursday' => 'Thursday',
+                    'friday' => 'Friday',
+                    'saturday' => 'Saturday',
+                    'sunday' => 'Sunday',
+                ]),
+
+
+
+            Field::make('multiselect', 'early_checkin_unavailable_days', 'Early Checkin Unavailable Days')
+                ->set_options([
+                    'monday' => 'Monday',
+                    'tuesday' => 'Tuesday',
+                    'wednesday' => 'Wednesday',
+                    'thursday' => 'Thursday',
+                    'friday' => 'Friday',
+                    'saturday' => 'Saturday',
+                    'sunday' => 'Sunday',
+                ]),
+
+
+            Field::make('multiselect', 'late_checkout_unavailable_days', 'Early Checkout Unavailable Days')
+                ->set_options([
+                    'monday' => 'Monday',
+                    'tuesday' => 'Tuesday',
+                    'wednesday' => 'Wednesday',
+                    'thursday' => 'Thursday',
+                    'friday' => 'Friday',
+                    'saturday' => 'Saturday',
+                    'sunday' => 'Sunday',
+                ]),
+
+
+
+
         ])
         ->add_tab('Terms', [
             Field::make('radio', 'reservation_policy', 'Reservation Policy')
@@ -599,9 +657,10 @@ add_action('carbon_fields_register_fields', function (): void {
                 ->set_help_text('Place the pin accurately on the map. Address, Latitude, and Longitude will be saved.'),
             // Add separate fields for country/province/region if needed for easier filtering,
             // though the map field stores structured address data.
+            Field::make('text', 'full_address', 'Full Address'),
             Field::make('text', 'country', 'Country'),
             Field::make('text', 'province', 'Province/State'),
-            Field::make('text', 'full_address', 'Full Address'),
+            Field::make('text', 'city', 'City'),
         ])
 
         ->where('post_type', '=', 'chalet');
@@ -740,6 +799,7 @@ add_action('carbon_fields_register_fields', function () {
                 ->set_attribute('min', 0),
         ]);
 });
+
 /**
  * Register Booking Custom Post Type
  * This CPT is used to manage bookings for chalets.
@@ -879,29 +939,30 @@ function register_booking_fields()
  * Register Experiences Custom Post Type
  * This CPT is used to manage experiences associated with chalets.
  */
-function register_experiences_cpt() {
+function register_experiences_cpt()
+{
     $labels = array(
-        'name'               => 'Experiences',
-        'singular_name'      => 'Experience',
-        'add_new'            => 'Add New',
-        'add_new_item'       => 'Add New Experience',
-        'edit_item'          => 'Edit Experience',
-        'new_item'           => 'New Experience',
-        'view_item'          => 'View Experience',
-        'search_items'       => 'Search Experiences',
-        'not_found'          => 'No experiences found',
+        'name' => 'Experiences',
+        'singular_name' => 'Experience',
+        'add_new' => 'Add New',
+        'add_new_item' => 'Add New Experience',
+        'edit_item' => 'Edit Experience',
+        'new_item' => 'New Experience',
+        'view_item' => 'View Experience',
+        'search_items' => 'Search Experiences',
+        'not_found' => 'No experiences found',
         'not_found_in_trash' => 'No experiences found in Trash',
-        'menu_name'          => 'Experiences',
+        'menu_name' => 'Experiences',
     );
 
     $args = array(
-        'labels'             => $labels,
-        'public'             => true,
-        'has_archive'        => true,
-        'rewrite'            => array('slug' => 'experiences'),
-        'supports'           => array('title', 'thumbnail'),
-        'menu_icon'          => 'dashicons-palmtree', // Change icon if needed
-        'show_in_rest'       => true, // Enables Gutenberg/REST API
+        'labels' => $labels,
+        'public' => true,
+        'has_archive' => true,
+        'rewrite' => array('slug' => 'experiences'),
+        'supports' => array('title', 'thumbnail'),
+        'menu_icon' => 'dashicons-palmtree', // Change icon if needed
+        'show_in_rest' => true, // Enables Gutenberg/REST API
     );
 
     register_post_type('experience', $args);

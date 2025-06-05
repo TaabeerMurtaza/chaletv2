@@ -66,18 +66,18 @@ function chaletv2_handle_chalet_dashboard_submission()
     if (!is_user_logged_in()) {
         wp_die('You must be logged in to perform this action.', 'Permission Denied', ['response' => 403]);
     }
-    echo '<pre>';
-    print_r($_POST);
-    echo '</pre>';
-    exit;
+    // echo '<pre>';
+    // print_r($_FILES);
+    // echo '</pre>';
+    // exit;
 
     $current_user = wp_get_current_user();
     $is_admin = current_user_can('manage_options');
 
     // Get Action and Nonce
-    $form_action = chaletv2_get_post_var('chalet_action'); // 'create' or 'edit'
-    $nonce = chaletv2_get_post_var('chalet_nonce');
-    $nonce_action = $form_action === 'create' ? 'create_chalet' : 'edit_chalet';
+    $form_action = chaletv2_get_post_var('form_action'); // 'create' or 'edit'
+    $nonce = chaletv2_get_post_var('chalet_dashboard_nonce_field');
+    $nonce_action = 'chalet_dashboard_nonce';
 
     // Verify Nonce
     if (!$nonce || !wp_verify_nonce($nonce, $nonce_action)) {
@@ -104,7 +104,6 @@ function chaletv2_handle_chalet_dashboard_submission()
     $result_id = null;
     $message = '';
     $message_type = 'error'; // Default to error
-
     try {
         if ($form_action === 'create') {
             $post_data['post_author'] = $current_user->ID;
@@ -137,16 +136,19 @@ function chaletv2_handle_chalet_dashboard_submission()
 
         // --- Save Custom Fields using Carbon Fields (Only if create/update was successful) --- //
         if ($chalet_id && ($form_action === 'create' || $form_action === 'edit')) {
+
             // Simple Text/Number Fields (Sanitize as text/numbers)
             $simple_fields = [
-                'chalet_title' => 'sanitize_text_field', // Changed from title
+                // Information tab
+                'chalet_type' => 'sanitize_text_field',
+                'description' => 'wp_kses_post',
+                // 'affiliate_booking_link' => 'esc_url_raw',
+                // 'featured' => 'sanitize_text_field',
+                // 'monthly_rate' => 'floatval',
                 'guest_count' => 'intval',
                 'baths' => 'intval',
-                'description' => 'wp_kses_post',
-                'chalet_code' => 'sanitize_text_field',
-                'instant_booking' => 'sanitize_text_field', // Expect 'yes' or 'no'
-                'base_price' => 'floatval',
 
+                // Price tab
                 'default_rate_weekend' => 'floatval',
                 'default_rate_weekday' => 'floatval',
                 'default_rate_week' => 'floatval',
@@ -154,11 +156,39 @@ function chaletv2_handle_chalet_dashboard_submission()
                 'guests_included' => 'intval',
                 'extra_price_adult' => 'floatval',
                 'extra_price_child' => 'floatval',
+                // 'extra_price_baby' => 'floatval',
                 'free_for_babies' => 'sanitize_text_field',
 
+                'min_nights' => 'intval',
+
+                'tax_gst' => 'sanitize_text_field',
+                'tax_thq' => 'sanitize_text_field',
+                'tax_qst' => 'sanitize_text_field',
+
+                'security_deposit' => 'floatval',
+
+                'cleaning_fee' => 'floatval',
+                // 'cleaning_fee_type' => 'sanitize_text_field',
                 'checkin_time' => 'sanitize_text_field',
                 'checkout_time' => 'sanitize_text_field',
 
+                'price_night_monday' => 'floatval',
+                'price_night_tuesday' => 'floatval',
+                'price_night_wednesday' => 'floatval',
+                'price_night_thursday' => 'floatval',
+                'price_night_friday' => 'floatval',
+                'price_night_saturday' => 'floatval',
+                'price_night_sunday' => 'floatval',
+
+                // Terms tab
+                'reservation_policy' => 'sanitize_text_field',
+                'cancellation_policy' => 'sanitize_text_field',
+                'preparation_time' => 'intval',
+                'reservation_window' => 'intval',
+                'reservation_notice' => 'intval',
+                'reservation_contract' => 'wp_kses_post',
+
+                // Instructions tab
                 'checkin_instructions' => 'wp_kses_post',
                 'checkin_instructions_days' => 'intval',
                 'checkout_instructions' => 'wp_kses_post',
@@ -169,67 +199,40 @@ function chaletv2_handle_chalet_dashboard_submission()
                 'rules_reminder_days' => 'intval',
                 'local_guide' => 'wp_kses_post',
                 'local_guide_days' => 'intval',
-                'emergency_contact' => 'wp_kses_post',
+                'emergency_contact' => 'sanitize_text_field',
 
-                'preparation_time' => 'intval',
-                'reservation_window' => 'intval',
-                'reservation_notice' => 'intval',
-                'reservation_contract' => 'wp_kses_post',
+                // Media tab
+                'video_link' => 'esc_url_raw',
 
-                'chalet_location' => 'sanitize_text_field',
+                // Location tab
+                'full_address' => 'sanitize_text_field',
                 'country' => 'sanitize_text_field',
                 'province' => 'sanitize_text_field',
-                'region' => 'sanitize_text_field',
-                'full_address' => 'sanitize_text_field',
-
-                'price_night_saturday' => 'floatval',
-                'price_night_sunday' => 'floatval',
-                'price_night_monday' => 'floatval',
-                'price_night_tuesday' => 'floatval',
-                'price_night_wednesday' => 'floatval',
-                'price_night_thursday' => 'floatval',
-                'price_night_friday' => 'floatval',
-
-                'weekly_discount' => 'intval',
-                'monthly_rate' => 'intval',
-                'monthly_discount' => 'intval',
-                'security_deposit' => 'floatval',
-                'additional_guest_fee' => 'floatval',
-                'additional_guest_limit' => 'intval',
-                'cleaning_fee_type' => 'wp_kses_post',
-                'cleaning_fee' => 'floatval',
-                'city_fee' => 'floatval',
-                'min_nights' => 'intval',
-                'max_nights' => 'intval',
-                'tax_gst' => 'sanitize_text_field',
-                'tax_thq' => 'sanitize_text_field',
-                'tax_qst' => 'sanitize_text_field',
-                'late_checkout_fee' => 'floatval',
-                'reservation_policy' => 'wp_kses_post',
-                'cancellation_policy' => 'wp_kses_post',
-                'parking_info' => 'wp_kses_post',
-                'notes' => 'wp_kses_post',
-                'host_message' => 'wp_kses_post',
-                'reservation_confirmation_message' => 'wp_kses_post',
-                'wifi_info' => 'wp_kses_post',
-                'house_manual' => 'wp_kses_post',
-                'rules_text' => 'wp_kses_post',
-                'contract' => 'wp_kses_post',
-                'video_link' => 'esc_url_raw',
-                'ical_feed_url' => 'esc_url_raw',
-                'booking_form_shortcode' => 'sanitize_text_field',
-                'availability_calendar_shortcode' => 'sanitize_text_field',
-                'reservation_window_min' => 'intval',
-                'reservation_window_max' => 'intval',
-                'featured' => 'sanitize_text_field' // Added featured field
+                'city' => 'sanitize_text_field',
             ];
+            $simple_arrays = [
+                'checkin_unavailable_days' => null, // No sanitizer needed, just store as array
+                'checkout_unavailable_days' => null, // No sanitizer needed, just store as array,
+                'early_checkin_unavailable_days' => null, // No sanitizer needed, just store as array,
+                'late_checkout_unavailable_days' => null, // No sanitizer needed, just store as array,
+
+                'indoor_features' => null, // No sanitizer needed, just store as array
+                'outdoor_features' => null, // No sanitizer needed, just store as array
+                'kitchen_features' => null, // No sanitizer needed, just store as array
+                'family_features' => null, // No sanitizer needed, just store as array
+                'sports_features' => null, // No sanitizer needed, just store as array
+                'services_features' => null, // No sanitizer needed, just store as array
+                'accessibility_features' => null, // No sanitizer needed, just store as array
+                'events_features' => null, // No sanitizer needed, just store as array
+
+            ];
+
             // Get title from form field
             $title = sanitize_text_field(chaletv2_get_post_var('title', 'Untitled Chalet'));
             // Update post_data with the correct title field
             $post_data['post_title'] = $title;
 
-
-            foreach ($simple_fields as $key => $sanitizer) {
+            foreach (array_merge($simple_fields, $simple_arrays) as $key => $sanitizer) {
                 $value = chaletv2_get_post_var($key);
                 if ($value !== null) {
                     if ($sanitizer) {
@@ -243,107 +246,133 @@ function chaletv2_handle_chalet_dashboard_submission()
                     carbon_set_post_meta($chalet_id, $key, '');
                 }
             }
+            $seasonal_rates = chaletv2_get_post_var('seasonal_rates', []);
+            if ($seasonal_rates && is_array($seasonal_rates)) {
+                // Sanitize seasonal rates
+                $sanitized = [];
+                foreach ($seasonal_rates as $key => $rate) {
+                    if ($rate['name'] != '') {
+                        $sanitized[] = $rate;
+                    }
+                }
+                carbon_set_post_meta($chalet_id, 'seasonal_rates', $sanitized);
+
+            }
 
             // Gallery (Array of IDs)
-            $gallery_ids = chaletv2_get_post_var('chalet_images', []);
-            $sanitized_gallery_ids = [];
-            if (is_array($gallery_ids)) {
-                $sanitized_gallery_ids = array_map('intval', $gallery_ids);
-                $sanitized_gallery_ids = array_filter($sanitized_gallery_ids); // Remove zeros/invalid IDs
+            // $gallery_ids = chaletv2_get_post_var('chalet_images', []);
+            // $sanitized_gallery_ids = [];
+            // if (is_array($gallery_ids)) {
+            //     $sanitized_gallery_ids = array_map('intval', $gallery_ids);
+            //     $sanitized_gallery_ids = array_filter($sanitized_gallery_ids); // Remove zeros/invalid IDs
+            // }
+            // carbon_set_post_meta($chalet_id, 'chalet_images', $sanitized_gallery_ids);
+
+            // Files
+            if (!empty($_FILES['citq_document']['name'])) {
+                require_once ABSPATH . 'wp-admin/includes/file.php';
+                require_once ABSPATH . 'wp-admin/includes/media.php';
+                require_once ABSPATH . 'wp-admin/includes/image.php';
+
+                $attachment_id = media_handle_upload('citq_document', $chalet_id);
+                if (is_wp_error($attachment_id)) {
+                    // Optionally handle error, e.g. set a message or log
+                    // carbon_set_post_meta($chalet_id, 'citq_document', '');
+                } else {
+                    if ($old_attachment_id = carbon_get_post_meta($chalet_id, 'citq_document')) {
+                        wp_delete_attachment($old_attachment_id, true);
+                    }
+                    carbon_set_post_meta($chalet_id, 'citq_document', $attachment_id);
+                }
             }
-            carbon_set_post_meta($chalet_id, 'chalet_images', $sanitized_gallery_ids);
+            if (!empty($_FILES['chalet_images'])) {
+                require_once ABSPATH . 'wp-admin/includes/file.php';
+                require_once ABSPATH . 'wp-admin/includes/media.php';
+                require_once ABSPATH . 'wp-admin/includes/image.php';
+
+                $gallery_ids = [];
+                // Handle both single and multiple file uploads
+                $files = $_FILES['chalet_images'];
+                $file_count = is_array($files['name']) ? count($files['name']) : 0;
+
+                for ($i = 0; $i < $file_count; $i++) {
+                    if (!empty($files['name'][$i])) {
+                        $file_array = [
+                            'name' => $files['name'][$i],
+                            'type' => $files['type'][$i],
+                            'tmp_name' => $files['tmp_name'][$i],
+                            'error' => $files['error'][$i],
+                            'size' => $files['size'][$i],
+                        ];
+                        $_FILES['chalet_images_single'] = $file_array;
+                        $attachment_id = media_handle_upload('chalet_images_single', $chalet_id);
+                        if (!is_wp_error($attachment_id)) {
+                            $gallery_ids[] = $attachment_id;
+                        }
+                    }
+                }
+                if (!empty($gallery_ids)) {
+                    carbon_set_post_meta($chalet_id, 'chalet_images', $gallery_ids);
+                    set_post_thumbnail($chalet_id, $gallery_ids[0]);
+                }
+            }
 
             // Bedrooms (Array of bedroom objects)
             $bedrooms = chaletv2_get_post_var('bedrooms', []);
             if (is_array($bedrooms)) {
-                $sanitized_bedrooms = array_map(function ($bedroom) {
+                // Sanitize and filter out empty bedrooms
+                $sanitized_bedrooms = array_values(array_filter(array_map(function ($bedroom) {
+                    // Only keep if at least name or beds or guests or type is not empty
+                    $name = sanitize_text_field($bedroom['name'] ?? '');
+                    $guests = intval($bedroom['guests'] ?? 1);
+                    $beds = intval($bedroom['beds'] ?? 1);
+                    $type = sanitize_text_field($bedroom['type'] ?? '');
+
+                    // Consider a bedroom valid if it has a name or at least 1 bed or guest
+                    if ($name === '' && $guests < 1 && $beds < 1 && $type === '') {
+                        return null;
+                    }
+
                     return [
-                        'bedroom_type' => sanitize_text_field($bedroom['bedroom_type'] ?? ''),
-                        'num_beds' => intval($bedroom['num_beds'] ?? 1)
+                        'name' => $name,
+                        'guests' => $guests,
+                        'beds' => $beds,
+                        'type' => $type,
                     ];
-                }, $bedrooms);
+                }, $bedrooms)));
                 carbon_set_post_meta($chalet_id, 'bedrooms', $sanitized_bedrooms);
             }
 
-            // Amenities (Array of term IDs for each taxonomy)
-            $amenity_keys = [
-                'indoor_features',
-                'outdoor_features',
-                'kitchen_features',
-                'family_features',
-                'sports_features',
-                'services_features',
-                'accessibility_features',
-                'events_features'
-            ];
-            foreach ($amenity_keys as $key) {
-                $term_ids = chaletv2_get_post_var($key, []);
-                $sanitized_term_ids = [];
-                if (is_array($term_ids)) {
-                    $sanitized_term_ids = array_map('intval', $term_ids);
-                    $sanitized_term_ids = array_filter($sanitized_term_ids); // Remove zeros
-                }
-                // Carbon Fields handles association saving correctly with an array of IDs
-                carbon_set_post_meta($chalet_id, $key, $sanitized_term_ids);
+            $extra_options = chaletv2_get_post_var('extra_options', []);
+            if (is_array($extra_options)) {
+                // Sanitize and filter out empty extra options
+                $sanitized_extra_options = array_values(array_filter(array_map(function ($option) {
+                    $name = sanitize_text_field($option['name'] ?? '');
+                    $price = floatval($option['price'] ?? 0);
+                    $type = sanitize_text_field($option['type'] ?? '');
+
+                    // Consider an extra option valid if it has a name or type or price > 0
+                    if ($name === '' && $type === '' && $price <= 0) {
+                        return null;
+                    }
+
+                    return [
+                        'name' => $name,
+                        'price' => $price,
+                        'type' => $type,
+                    ];
+                }, $extra_options)));
+                carbon_set_post_meta($chalet_id, 'extra_options', $sanitized_extra_options);
             }
 
-            // Location (Map Field)
-            $map_data_input = chaletv2_get_post_var('chalet_location', []);
-            $map_data = [
-                'address' => isset($map_data_input['address']) ? sanitize_text_field($map_data_input['address']) : '',
-                'lat' => isset($map_data_input['lat']) ? floatval($map_data_input['lat']) : '',
-                'lng' => isset($map_data_input['lng']) ? floatval($map_data_input['lng']) : '',
-                'zoom' => isset($map_data_input['zoom']) ? intval($map_data_input['zoom']) : 10,
-            ];
             // Save only if we have address or coords
             if (!empty($map_data['address']) || (!empty($map_data['lat']) && !empty($map_data['lng']))) {
-                carbon_set_post_meta($chalet_id, 'chalet_location', $map_data);
+                // carbon_set_post_meta($chalet_id, 'chalet_location', $map_data);
             } else {
                 // Delete meta if all parts are empty to clear the map
                 // Use set_post_meta with empty value to clear
-                carbon_set_post_meta($chalet_id, 'chalet_location', '');
+                // carbon_set_post_meta($chalet_id, 'chalet_location', '');
             }
-
-            // Chambers (Complex Field)
-            $chambers_input = chaletv2_get_post_var('chalet_chambers', []);
-            $sanitized_chambers = [];
-            if (is_array($chambers_input)) {
-                foreach ($chambers_input as $chamber) {
-                    if (!is_array($chamber))
-                        continue;
-                    $sanitized_chamber = [
-                        '_type' => 'chamber_group', // Assuming a fixed type
-                        'chamber_name' => sanitize_text_field($chamber['chamber_name'] ?? ''),
-                        'chamber_description' => wp_kses_post($chamber['chamber_description'] ?? ''),
-                        'chamber_beds' => [], // Handle beds separately
-                        'chamber_amenities' => [], // Handle amenities separately
-                    ];
-
-                    // Sanitize beds (assuming it's another complex field or similar structure)
-                    if (isset($chamber['chamber_beds']) && is_array($chamber['chamber_beds'])) {
-                        foreach ($chamber['chamber_beds'] as $bed) {
-                            if (!is_array($bed))
-                                continue;
-                            $sanitized_chamber['chamber_beds'][] = [
-                                '_type' => 'bed_group', // Assuming type
-                                'bed_type' => sanitize_text_field($bed['bed_type'] ?? ''),
-                                'bed_count' => intval($bed['bed_count'] ?? 0),
-                            ];
-                        }
-                    }
-                    // Sanitize amenities (assuming array of term IDs)
-                    if (isset($chamber['chamber_amenities']) && is_array($chamber['chamber_amenities'])) {
-                        $sanitized_chamber['chamber_amenities'] = array_map('intval', $chamber['chamber_amenities']);
-                        $sanitized_chamber['chamber_amenities'] = array_filter($sanitized_chamber['chamber_amenities']);
-                    }
-
-                    // Only add if chamber has a name
-                    if (!empty($sanitized_chamber['chamber_name'])) {
-                        $sanitized_chambers[] = $sanitized_chamber;
-                    }
-                }
-            }
-            carbon_set_post_meta($chalet_id, 'chalet_chambers', $sanitized_chambers);
 
 
         } // End saving custom fields
@@ -690,7 +719,7 @@ function get_chalets_by_type()
             'order' => 'DESC',
             'meta_query' => array(
                 'relation' => 'AND',
-                // Only filter by type if not 'all'
+                    // Only filter by type if not 'all'
                 ($type !== 'all') ? [
                     'key' => 'chalet_featured_in',
                     'value' => $type,

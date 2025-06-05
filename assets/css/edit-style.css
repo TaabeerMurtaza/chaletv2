@@ -344,6 +344,7 @@ label {
 input[type="time" i],
 input[type="text"],
 input[type="number"],
+input[type="date"],
 select {
     padding: 10px;
     height: 50px;
@@ -486,7 +487,8 @@ input[type="checkbox"]:checked:before {
 }
 
 
-.edit-listing-price button {
+.edit-listing-price button,
+.green_button {
     background-color: #00796b;
     color: white;
     padding: 12px 20px;

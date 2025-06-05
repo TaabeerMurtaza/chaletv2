@@ -130,7 +130,7 @@ if (!is_user_logged_in()) {
                             </a>
                         </li>
                         <li>
-                            <a class="tab-link">
+                            <a class="tab-link" href="<?= get_home_url()?>/dashboard-subscriptions">
                                 <img src="<?= get_template_directory_uri() ?>/dashboard/images/icons/Chield_check.svg" alt="tab-icon">
                                 Subscriptions
                             </a>

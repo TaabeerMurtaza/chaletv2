@@ -15,6 +15,7 @@ function showContent(event, button) {
     // Get target content and tab link
     const targetId = button.getAttribute('data-id');
     const targetElement = document.getElementById(targetId);
+    console.log(targetElement);
     const targetTab = document.getElementById(targetId + '-link');
 
     // Show the selected tab content
@@ -28,6 +29,7 @@ function showContent(event, button) {
         if (activate) link.classList.add('active');
         if (link === targetTab) activate = false;
     });
+    window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
 document.querySelectorAll('.img-detail').forEach(card => {
