@@ -1,0 +1,373 @@
+    .subs {
+        background-color: #00403b;
+        border-radius: 24px;
+        padding: 40px 20px 20px;
+        position: relative;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+        text-align: center;
+    }
+
+    .icon-container {
+        background: white;
+        border-radius: 50%;
+        width: 60px;
+        height: 60px;
+        position: absolute;
+        top: -30px;
+        left: 50%;
+        transform: translateX(-50%);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .icon {
+        width: 40px;
+        height: 40px;
+    }
+
+    .subs-content {
+        background: white;
+        border-radius: 16px;
+        padding: 20px;
+        margin-top: 30px;
+    }
+
+    .subs-content h2 {
+        color: #014b43;
+        font-size: 18px;
+        font-weight: bold;
+        margin-bottom: 16px;
+        line-height: 1.4;
+        max-width: 200px;
+        padding-bottom: 10px;
+        margin: 0 auto;
+        border-bottom: 2px solid #014b43;
+    }
+
+    .subs-content ul {
+        list-style: none;
+        padding: 0;
+        margin: 0 0 20px 0;
+        text-align: left;
+    }
+
+    .subs-content ul li {
+        font-size: 13px;
+        padding: 6px 0;
+        position: relative;
+        padding-left: 20px;
+    }
+
+    .subs-content ul li::before {
+        content: "✓";
+        color: #014b43;
+        font-weight: bold;
+        position: absolute;
+        left: 0;
+    }
+
+    .subs-btn {
+        background-color: white;
+        color: #014b43;
+        border-radius: 30px;
+        padding: 10px 20px;
+        font-weight: bold;
+        cursor: pointer;
+        transition: 0.3s;
+        margin-top: 20px;
+    }
+
+    .subs-btn:hover {
+        scale: 1.1;
+    }
+
+    .subs-card-row {
+        display: grid;
+        grid-template-columns: 0.4fr 0.4fr 0.4fr;
+        gap: 100px;
+    }
+
+    .light-clr {
+        background-color: #008179 !important;
+    }
+
+    .orange-clr {
+        background-color: #f87551 !important;
+    }
+
+    .contact-box {
+        background-color: #00857f;
+        border-radius: 64px;
+        padding: 20px;
+        width: 100%;
+        max-width: 764px;
+        box-sizing: border-box;
+        text-align: center;
+        margin: 0 auto;
+    }
+
+    .contact-box-inner {
+        background: white;
+        border-radius: 64px;
+        padding: 40px 20px;
+    }
+
+    .contact-box h3 {
+        font-size: 18px;
+        color: #333;
+        margin-bottom: 10px;
+        font-weight: bold;
+    }
+
+    .contact-box a {
+        color: #333;
+        text-decoration: underline;
+        font-size: 16px;
+        display: inline-block;
+        margin-bottom: 20px;
+    }
+
+    .contact-details {
+        display: flex;
+        align-items: center;
+        flex-wrap: wrap;
+        flex-direction: column;
+        margin-top: 20px;
+    }
+
+    .contact-details a {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        font-size: 18px;
+        color: #333;
+        text-decoration: none;
+    }
+
+    .contact-details img {
+        width: 24px;
+        height: 24px;
+    }
+
+    .phone-link {
+        letter-spacing: 7px;
+    }
+
+    .inner-details-section .main-title {
+        max-width: calc(100% - 418px);
+        width: 100%;
+        text-align: center;
+        margin-left: auto;
+        margin-right: 0;
+        margin-bottom: 50px;
+    }
+
+    .inner-details-section .subs {
+        display: flex;
+        gap: 20px;
+        align-items: center;
+        position: relative;
+    }
+
+    .inner-details-section .icon-container {
+        width: 140px;
+        position: unset;
+        transform: unset;
+    }
+
+    .inner-details-section .subs-btn {
+        position: absolute;
+        border: 2px solid #014b43;
+    }
+
+    .inner-details-section .subs-content {
+        width: 100%;
+        min-height: 452px;
+    }
+
+    .inner-details-section .subs-card {
+        max-width: 71%;
+        margin: 0 auto;
+    }
+
+    .inner-details-section .subs-content h2 {
+        max-width: 100%;
+        margin-bottom: 30px;
+    }
+
+    .inner-details-section .subs {
+        padding: 20px 20px 60px;
+    }
+
+    .inner-details-section .left-btn {
+        transform: translateX(-50%);
+        bottom: -20px;
+
+    }
+
+    .inner-details-section .right-btn {
+        transform: translateX(-50%);
+        bottom: -20px;
+
+    }
+
+    .inner-details-section .subs-content p {
+        font-size: 14px;
+        margin: 8px 0;
+    }
+
+    .inner-details-section .highlight {
+        color: #00bfa6;
+        font-weight: 600;
+    }
+
+    .inner-details-section .italic {
+        font-style: italic;
+        margin-bottom: 30px !important;
+    }
+
+    .inner-details-section .highlight span {
+        color: #000;
+    }
+
+    .inner-details-section .top-logo-bar {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+    }
+
+    .inner-details-section .logo-bg-bar {
+        background-color: #013c36;
+        height: 64px;
+        width: 400px;
+        border-radius: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+    }
+
+    .inner-details-section .logo-circle {
+        position: absolute;
+        background-color: white;
+        border-radius: 50%;
+        width: 90px;
+        height: 90px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+        z-index: 2;
+    }
+
+    .inner-details-section .logo-circle img {
+        width: 50px;
+        height: 50px;
+    }
+
+    .inner-details-section .top-inner-wrapper {
+        margin-bottom: 40px;
+    }
+
+    .bottom-heading-details {
+        max-width: 800px;
+        width: 100%;
+        text-align: center;
+        line-height: 1.6;
+        padding: 20px;
+        box-sizing: border-box;
+    }
+
+    .bottom-heading-details p {
+        margin-bottom: 24px;
+        font-size: 17.6px;
+    }
+
+    .bottom-heading-details h3 {
+        font-size: 16px;
+        margin-top: 15px;
+        margin-bottom: 12.8px;
+        font-weight: 700;
+        text-decoration: underline;
+    }
+
+
+
+
+    .bottom-heading-details .benefits-text {
+        line-height: 28.8px;
+        font-size: 17.6px;
+        margin-bottom: 32px;
+    }
+
+
+    .bottom-heading-details strong {
+        font-weight: 700;
+    }
+
+
+
+    /* Responsive styles for max-width: 1200px */
+    @media (max-width: 1200px) {
+        .total-details-row span {
+            font-size: 14px;
+        }
+        .inner-details-section .subs-card {
+            max-width: 100%;
+        }
+    }
+
+    /* Responsive styles for max-width: 1024px */
+    @media (max-width: 1024px) {
+        .subs-card-row {
+            grid-template-columns: 0.5fr 0.5fr;
+        }
+        .inner-details-section .subs {
+            flex-direction: column;
+        }
+        .inner-details-section .icon-container {
+            position: absolute;
+            width: 60px;
+            transform: translateX(-50%);
+        }
+        .inner-details-section .subs-btn {
+            position: unset;
+            transform: unset;
+        }
+        .inner-details-section .subs-card {
+            margin-bottom: 50px;
+        }
+        .inner-details-section .top-logo-bar {
+            display: none;
+        }
+    }
+
+    /* Responsive styles for max-width: 786px */
+    @media (max-width: 786px) {
+        .subs-card-row {
+            grid-template-columns: 1fr;
+        }
+        .contact-details a {
+            font-size: 14px;
+        }
+        .inner-details-section .main-title {
+            max-width: 37%;
+            margin-bottom: 0;
+        }
+        .inner-details-section {
+            padding-inline: 10px;
+        }
+        .inner-details-section .main-title {
+            max-width: 100%;
+        }
+    }
+
+    /* Responsive styles for max-width: 500px */
+    @media (max-width: 500px) {
+        .inner-details-section .main-title {
+            max-width: 100%;
+        }
+    }

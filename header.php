@@ -17,9 +17,16 @@
 
     let notifier = new AWN({});
   </script>
+  <style>
+    .woocommerce-cart .main_content ,
+    .woocommerce-checkout .main_content
+    {
+      padding: 0 3rem;
+    }
+  </style>
 </head>
 
-<body>
+<body <?php body_class(); ?>>
   <!-- header-start -->
   <header>
     <a href="<?= home_url(); ?>" class="logo">

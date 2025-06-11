@@ -1,121 +1,198 @@
-<?php
-/**
- * Template Name: Dashboard Subscribe
- *  */
-get_header('dashboard');
-?>
-
-<div class="dashboard-subscribe">
-    <style>
-        .subscription-cards {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 2rem;
-            justify-content: center;
-            margin: 2rem 0;
-        }
-        .subscription-card {
-            background: #fff;
-            border: 1px solid #e0e0e0;
-            border-radius: 12px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-            padding: 2rem;
-            width: 320px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            transition: box-shadow 0.2s;
-        }
-        .subscription-card:hover {
-            box-shadow: 0 4px 16px rgba(0,0,0,0.10);
-        }
-        .plan-title {
-            font-size: 1.5rem;
-            margin-bottom: 1rem;
-            color: #2c3e50;
-        }
-        .plan-content {
-            font-size: 1rem;
-            color: #555;
-            margin-bottom: 1.5rem;
-            text-align: center;
-        }
-        .plan-price {
-            font-size: 2rem;
-            font-weight: bold;
-            color: #27ae60;
-            margin-bottom: 1.5rem;
-        }
-        .subscribe-btn {
-            background: #27ae60;
-            color: #fff;
-            padding: 0.75rem 2rem;
-            border: none;
-            border-radius: 6px;
-            text-decoration: none;
-            font-size: 1rem;
-            font-weight: 600;
-            transition: background 0.2s;
-        }
-        .subscribe-btn:hover {
-            background: #219150;
-        }
-    </style>
-    <?php
-    $args = array(
-        'post_type'      => 'subscription_plan',
-        'posts_per_page' => -1,
-        'post_status'    => 'publish',
-        'orderby'        => 'menu_order',
-        'order'          => 'ASC',
-    );
-
-    $plans = new WP_Query($args);
-
-    if ($plans->have_posts()) : ?>
-        <div class="subscription-cards">
-            <?php while ($plans->have_posts()) : $plans->the_post(); ?>
-            <div class="subscription-card">
-                <h2 class="plan-title"><?php the_title(); ?></h2>
-                <div class="plan-content">
-                <?php
-                $description = carbon_get_post_meta(get_the_ID(), 'subscription_description');
-                echo esc_html($description);
-                ?>
-                </div>
-                <?php
-                $price = carbon_get_post_meta(get_the_ID(), 'subscription_price');
-                $interval = carbon_get_post_meta(get_the_ID(), 'subscription_interval');
-                $interval_duration = carbon_get_post_meta(get_the_ID(), 'subscription_interval_duration');
-                if ($price && $interval && $interval_duration) :
-                $interval_label = ucfirst($interval);
-                ?>
-                <div class="plan-price">
-                    <?php
-                    $currency = get_option('woocommerce_currency');
-                    $currency_symbol = get_woocommerce_currency_symbol($currency);
-                    echo esc_html($currency_symbol . ' ' . $price);
-                    ?>
-                    <span style="font-size:1rem;font-weight:normal;color:#888;">
-                    / <?php echo esc_html($interval_duration . ' ' . $interval_label . ($interval_duration > 1 ? 's' : '')); ?>
-                    </span>
-                </div>
-                <?php endif; ?>
-                <div style="margin-bottom:1rem;">
-                <?php
-                $chalets_allowed = carbon_get_post_meta(get_the_ID(), 'chalets_allowed');
-                $featured_allowed = carbon_get_post_meta(get_the_ID(), 'featured_allowed');
-                ?>
-                <div>Chalets Allowed: <strong><?php echo esc_html($chalets_allowed); ?></strong></div>
-                <div>Featured Allowed: <strong><?php echo esc_html($featured_allowed); ?></strong></div>
-                </div>
-                <a href="<?= get_the_permalink() ?>" class="subscribe-btn">Subscribe</a>
-            </div>
-            <?php endwhile; wp_reset_postdata(); ?>
+<?php get_header('dashboard'); ?>
+<link rel="stylesheet" href="<?php echo get_template_directory_uri(); ?>/dashboard/css/subscriptions.css">
+<div class="dashboard-content sub_main_section">
+    <div class="dashboard-title">
+        <button class="menu-btn openPanel"><img src="images/slide-icon.svg" alt=""></button>
+        <h2 class="main-title"> Subscribe to a package to proceed </h2>
+        <div class="dashboard-title-details">
+            <a href="<?= get_home_url() ?>" class="dashboard-top-btn btn-h">Home page</a>
+            <button class="shop-btn">
+                <img src="<?= get_template_directory_uri() ?>/assets/images/icons/bell.svg" alt="" />
+                <span class="notife">2</span>
+            </button>
         </div>
-    <?php else : ?>
-        <p>No subscription plans found.</p>
-    <?php endif; ?>
+    </div>
+    <br>
+    <br>
+    <div class="subs-card-row">
+        <?php
+        $args = array(
+            'post_type' => 'subscription_plan',
+            'posts_per_page' => -1,
+            'post_status' => 'publish',
+            'orderby' => 'menu_order',
+            'order' => 'ASC',
+        );
 
+        $plans = new WP_Query($args);
+
+        if ($plans->have_posts()):
+            while ($plans->have_posts()):
+                $plans->the_post(); ?>
+                <!--  -->
+                <div class="subs-card">
+                    <div class="subs"
+                        style="background-color: <?php echo esc_attr(carbon_get_post_meta(get_the_ID(), 'subscription_color')); ?>;">
+                        <div class="icon-container">
+                            <img src="<?= carbon_get_post_meta(get_the_ID(), 'subscription_icon') ?: get_template_directory_uri() . '/assets/images/icons/check.svg' ?>"
+                                alt="House Icon" class="icon" />
+                        </div>
+                        <div class="subs-content">
+                            <h2 class="subs-heading"><?= get_the_title() ?></h2>
+                            <?php
+                            // $chalets_allowed = carbon_get_post_meta(get_the_ID(), 'chalets_allowed');
+                            // $featured_allowed = carbon_get_post_meta(get_the_ID(), 'featured_allowed');
+                            echo wp_kses_post(carbon_get_post_meta(get_the_ID(), 'subscription_description'));
+                            ?>
+                        </div>
+                        <button class="subs-btn" onclick="show_secondary(<?= get_the_ID() ?>)">SEE OUR PACKAGES</button>
+                    </div>
+                </div>
+                <!--  -->
+            <?php endwhile;
+            wp_reset_postdata(); ?>
+        <?php else: ?>
+            <p>No subscription plans found.</p>
+        <?php endif; ?>
+
+    </div>
+    <div class="divider"></div>
+    <div class="contact-box">
+        <div class="contact-box-inner">
+            <h3>Need help choosing the perfect package for your chalet(s)?</h3>
+            <a href="#">Contact us to discuss!</a>
+            <div class="contact-details">
+                <a href="#"><img src="<?= get_template_directory_uri() ?>/assets/images/icons/mail.svg"
+                        alt="Email Icon">info@booktonchalet.com</a>
+                <a href="#" class="phone-link"><img
+                        src="<?= get_template_directory_uri() ?>/assets/images/icons/phone.svg" alt="Phone Icon">(581)
+                    814-2225</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!--  -->
 <?php
-get_footer('dashboard');
+$args = array(
+    'post_type' => 'subscription_plan',
+    'posts_per_page' => -1,
+    'post_status' => 'publish',
+    'orderby' => 'menu_order',
+    'order' => 'ASC',
+);
+
+$plans = new WP_Query($args);
+
+if ($plans->have_posts()):
+    while ($plans->have_posts()):
+        $plans->the_post(); ?>
+        <section class="inner-details-section dashboard-section dashboard-content sub_secondary_section"
+            id="sub_secondary_<?= get_the_ID() ?>" style="display: none;">
+            <div class="dashboard-title">
+                <button class="menu-btn openPanel"><img src="images/slide-icon.svg" alt=""></button>
+                <h2 class="main-title"><?= get_the_title() ?></h2>
+                <div class="dashboard-title-details">
+                    <a href="<?= get_home_url() ?>" class="dashboard-top-btn btn-h">Home page</a>
+                    <button class="shop-btn">
+                        <img src="<?= get_template_directory_uri() ?>/assets/images/icons/bell.svg" alt="" />
+                        <span class="notife">2</span>
+                    </button>
+                </div>
+            </div>
+            <div class="main-inner-details">
+                <div class="top-inner-wrapper">
+                    <div class="top-logo-bar">
+                        <div class="logo-bg-bar " style="background-color:  <?php echo esc_attr(carbon_get_post_meta(get_the_ID(), 'subscription_color')); ?>;"></div>
+                        <div class="logo-circle">
+                            <img src="<?= carbon_get_post_meta(get_the_ID(), 'subscription_icon') ?: get_template_directory_uri() . '/assets/images/icons/check.svg' ?>" alt="Logo" />
+                        </div>
+                    </div>
+                </div>
+                <div class="subs-card">
+                    <div class="subs " style="background-color:  <?php echo esc_attr(carbon_get_post_meta(get_the_ID(), 'subscription_color')); ?>;">
+
+                        <div class="subs-content">
+                            <h2 class="subs-heading">NON-EXCLUSIVE MANAGEMENT PACKAGE</h2>
+                            <?= carbon_get_post_meta(get_the_ID(), 'non_exclusive_description') ?>
+                            <button class="subs-btn left-btn" onclick="show_secondary(<?= get_the_ID() ?>, true)">SEE OUR PACKAGES</button>
+                        </div>
+                        <div class="icon-container">
+                            <img src="<?= carbon_get_post_meta(get_the_ID(), 'subscription_icon') ?: get_template_directory_uri() . '/assets/images/icons/check.svg' ?>" alt="House Icon" class="icon" />
+                        </div>
+                        <div class="subs-content">
+                            <h2 class="subs-heading">COMMISSIONS</h2>
+                            <?= carbon_get_post_meta(get_the_ID(), 'non_exclusive_commission') ?>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!--  -->
+        
+        <section class="inner-details-section dashboard-section dashboard-content sub_tertiary_section"
+            id="sub_tertiary_<?= get_the_ID() ?>" style="display: none;">
+            <div class="dashboard-title">
+                <button class="menu-btn openPanel"><img src="images/slide-icon.svg" alt=""></button>
+                <h2 class="main-title"><?= get_the_title() ?></h2>
+                <div class="dashboard-title-details">
+                    <a href="<?= get_home_url() ?>" class="dashboard-top-btn btn-h">Home page</a>
+                    <button class="shop-btn">
+                        <img src="<?= get_template_directory_uri() ?>/assets/images/icons/bell.svg" alt="" />
+                        <span class="notife">2</span>
+                    </button>
+                </div>
+            </div>
+            <div class="main-inner-details">
+                <div class="top-inner-wrapper">
+                    <div class="top-logo-bar">
+                        <div class="logo-bg-bar " style="background-color:  <?php echo esc_attr(carbon_get_post_meta(get_the_ID(), 'subscription_color')); ?>;"></div>
+                        <div class="logo-circle">
+                            <img src="<?= carbon_get_post_meta(get_the_ID(), 'subscription_icon') ?: get_template_directory_uri() . '/assets/images/icons/check.svg' ?>" alt="Logo" />
+                        </div>
+                    </div>
+                </div>
+                <div class="subs-card">
+                    <div class="subs " style="background-color:  <?php echo esc_attr(carbon_get_post_meta(get_the_ID(), 'subscription_color')); ?>;">
+
+                        <div class="subs-content">
+                            <h2 class="subs-heading">EXCLUSIVE MANAGEMENT PACKAGE</h2>
+                            <?= carbon_get_post_meta(get_the_ID(), 'exclusive_description') ?>
+                            <button class="subs-btn left-btn" onclick="window.location='<?= get_the_permalink() ?>'">BUY PACKAGES</button>
+                        </div>
+                        <div class="icon-container">
+                            <img src="<?= carbon_get_post_meta(get_the_ID(), 'subscription_icon') ?: get_template_directory_uri() . '/assets/images/icons/check.svg' ?>" alt="House Icon" class="icon" />
+                        </div>
+                        <div class="subs-content">
+                            <h2 class="subs-heading">COMMISSIONS</h2>
+                            <?= carbon_get_post_meta(get_the_ID(), 'exclusive_commission') ?>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!--  -->
+
+    <?php endwhile;
+    wp_reset_postdata(); ?>
+<?php else: ?>
+<?php endif; ?>
+<script>
+    function show_secondary(id, _tertiary=false) {
+        var secondary = document.getElementById('sub_secondary_' + id);
+        var tertiary = document.getElementById('sub_tertiary_' + id);
+        document.querySelector('.sub_main_section').style.display = 'none';
+        if(_tertiary) {
+            tertiary.style.display = "block";
+            secondary.style.display = "none";
+        } else {
+            secondary.style.display = "block";
+            tertiary.style.display = "none";
+        }
+    }
+
+</script>
+<?php get_footer('dashboard') ?>

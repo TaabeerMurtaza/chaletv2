@@ -777,7 +777,12 @@ add_action('carbon_fields_register_fields', function () {
     Container::make('post_meta', 'Subscription Details')
         ->where('post_type', '=', 'subscription_plan')
         ->add_fields([
-            Field::make('textarea', 'subscription_description', 'Description'),
+            Field::make('color', 'subscription_color', 'Plan Color')
+                ->set_help_text('Choose a color to represent this subscription plan.'),
+            Field::make('image', 'subscription_icon', 'Plan Icon')
+                ->set_value_type('url')
+                ->set_help_text('Upload an icon for this subscription plan.'),
+            Field::make('rich_text', 'subscription_description', 'Description'),
             Field::make('text', 'subscription_price', 'Price')
                 ->set_attribute('type', 'number')
                 ->set_attribute('step', '0.01'),
@@ -797,6 +802,12 @@ add_action('carbon_fields_register_fields', function () {
             Field::make('text', 'featured_allowed', 'Featured Allowed')
                 ->set_attribute('type', 'number')
                 ->set_attribute('min', 0),
+
+            Field::make('rich_text', 'exclusive_description', 'Exclusive Package Description'),
+            Field::make('rich_text', 'exclusive_commission', 'Exclusive Package Commission'),
+            Field::make('rich_text', 'non_exclusive_description', 'Non-Exclusive Package Description'),
+            Field::make('rich_text', 'non_exclusive_commission', 'Non-Exclusive Package Commission'),
+
         ]);
 });
 

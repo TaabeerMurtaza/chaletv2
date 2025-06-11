@@ -89,14 +89,12 @@ function chaletv2_handle_chalet_dashboard_submission()
 
     // --- Basic Post Data --- //
     $title = sanitize_text_field(chaletv2_get_post_var('chalet_title', 'Untitled Chalet'));
-    // Using 'description' field from form for post_content // REMOVED - Description is a Carbon Field
-    // $content = wp_kses_post(chaletv2_get_post_var('description', ''));
 
     $post_data = [
         'post_title' => $title,
         // 'post_content' => $content, // REMOVED
         'post_content' => '', // Set post_content to empty
-        'post_status' => 'publish', // Default to publish, adjust if draft status needed
+        'post_status' => 'pending', // Default to publish, adjust if draft status needed
         'post_type' => 'chalet',
     ];
 

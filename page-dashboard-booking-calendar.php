@@ -105,7 +105,7 @@ get_header('dashboard');
         <div class="dashboard-title-details">
           <a href="" class="dashboard-top-btn btn-h">Home page</a>
           <button class="shop-btn">
-            <img src="./images/Bell.svg" alt="" />
+            <img src="<?= get_template_directory_uri() ?>/assets/images/icons/bell.svg" alt="" />
             <span class="notife">2</span>
           </button>
         </div>
