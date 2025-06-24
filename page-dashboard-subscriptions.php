@@ -1,122 +1,65 @@
-<?php
-/**
- * Template Name: Dashboard Subscriptions
- *  */
-get_header('dashboard');
+<?php get_header('dashboard');
+if(isset($_GET['cancel_subscription']) && isset($_GET['subscription_id'])) {
+    $subscription_id = intval($_GET['subscription_id']);
+    if (cancel_subscription($subscription_id)) {
+        echo '<script>notifier.success("Subscription cancelled successfully.");</script>';
+    } else {
+        echo '<script>notifier.alert("Failed to cancel subscription. Please try again.");</script>';
+    }
+    // remove the GET params from url without reloading the page
+    echo '<script>history.pushState({}, "", window.location.pathname);</script>';
+
+}
 ?>
-
-<?php
-$current_user_id = get_current_user_id();
-
-// Example: Fetch user subscriptions (replace with your actual logic)
-$user_subscriptions = get_user_subscriptions();
-
-
-// Example: Fetch chalets posted by user (replace with your actual logic)
-$user_chalets = get_my_chalets();
-
-$total_chalets_posted = count($user_chalets);
-$total_slots = total_chalet_slots($current_user_id); // Assuming this function exists to calculate total slots
-$total_chalet_slots_available = get_available_chalet_slots($current_user_id); // Assuming this function exists to calculate available chalet slots
-
-
-?>
-<style>
-.dashboard-subscriptions-cute {
-    width: 100%;
-    margin: 2rem;
-    padding: 2rem;
-    background: #fff;
-    border-radius: 12px;
-    box-shadow: 0 2px 12px #eee;
-}
-.dashboard-subscriptions-cute h2 {
-    text-align: center;
-    margin-bottom: 1.5rem;
-}
-.dashboard-subscriptions-cute .dashboard-stats {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 2rem;
-}
-.dashboard-subscriptions-cute .dashboard-stat {
-    text-align: center;
-}
-.dashboard-subscriptions-cute .dashboard-stat .stat-value {
-    font-size: 2rem;
-    font-weight: bold;
-}
-.dashboard-subscriptions-cute .dashboard-stat .stat-label {
-    color: #888;
-}
-.dashboard-subscriptions-cute .no-subscriptions {
-    text-align: center;
-    color: #aaa;
-}
-.dashboard-subscriptions-cute table {
-    width: 100%;
-    border-collapse: collapse;
-    background: #fafbfc;
-}
-.dashboard-subscriptions-cute thead tr {
-    background: #f0f4f8;
-}
-.dashboard-subscriptions-cute th,
-.dashboard-subscriptions-cute td {
-    padding: 10px;
-    border-bottom: 1px solid #eee;
-}
-.dashboard-subscriptions-cute th {
-    text-align: left;
-}
-.dashboard-subscriptions-cute th:not(:first-child),
-.dashboard-subscriptions-cute td:not(:first-child) {
-    text-align: center;
-}
-</style>
-<div class="dashboard-subscriptions-cute">
-    <h2>Your Subscriptions</h2>
-    <div class="dashboard-stats">
-        <div class="dashboard-stat">
-            <div class="stat-value"><?php echo $total_chalets_posted; ?></div>
-            <div class="stat-label">Total chalets posted</div>
-        </div>
-        <div class="dashboard-stat">
-            <div class="stat-value"><?php echo $total_slots; ?></div>
-            <div class="stat-label">Total Slots</div>
-        </div>
-        <div class="dashboard-stat">
-            <div class="stat-value"><?php echo $total_chalet_slots_available; ?></div>
-            <div class="stat-label">Total chalet slots available</div>
+<link rel="stylesheet" href="<?php echo get_template_directory_uri(); ?>/dashboard/css/subscriptions.css">
+<div class="dashboard-content">
+    <div class="dashboard-title">
+        <button class="menu-btn openPanel"><img src="images/slide-icon.svg" alt=""></button>
+        <h2 class="main-title"> Active Subscriptions </h2>
+        <div class="dashboard-title-details">
+            <a href="" class="dashboard-top-btn btn-h">Home page</a>
+            <button class="shop-btn">
+                <img src="<?= get_template_directory_uri() ?>/assets/images/icons/bell.svg" alt="" />
+                <span class="notife">2</span>
+            </button>
         </div>
     </div>
-    <?php if (empty($user_subscriptions)): ?>
-        <div class="no-subscriptions">You have no active subscriptions.</div>
-    <?php else: ?>
-        <table>
-            <thead>
-                <tr>
-                    <th>Subscription</th>
-                    <th>Chalet Slots</th>
-                    <th>Featured Slots</th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php foreach ($user_subscriptions as $sub):
-                    $sub_name = get_subscription_name($sub);
-                    $sub_slots = get_subscription_slots($sub);
-                    $feature_slots = get_featured_slots($sub);
-                    ?>
-                    <tr>
-                        <td><?php echo esc_html($sub_name ?? 'N/A'); ?></td>
-                        <td><?php echo intval($sub_slots ?? 0); ?></td>
-                        <td><?php echo intval($featured_slots ?? 0); ?></td>
-                    </tr>
-                <?php endforeach; ?>
-            </tbody>
-        </table>
-    <?php endif; ?>
-</div>
 
-<?php
-get_footer('dashboard');
+    <div class="divider"></div>
+    <div class="subs-card-row">
+        <?php
+        $user_subscriptions = get_user_subscriptions(get_current_user_id());
+        if (!empty($user_subscriptions)):
+            foreach ($user_subscriptions as $sub_id):
+                $details = get_subscription_details($sub_id);
+                $cpt = get_subscription_cpt($sub_id);
+                ?>
+                <div class="subs-card">
+                    <div class="subs"
+                        style="background-color: <?= esc_attr(carbon_get_post_meta($cpt->ID, 'subscription_color')); ?>;">
+                        <div class="icon-container">
+                            <img src="<?= carbon_get_post_meta($cpt->ID, 'subscription_icon') ?: get_template_directory_uri() . '/assets/images/icons/check.svg' ?>"
+                                alt="House Icon" class="icon" />
+                        </div>
+                        <div class="subs-content">
+                            <h2 class="subs-heading"><?= get_the_title($cpt->ID) ?></h2>
+                            <?= wp_kses_post(carbon_get_post_meta($cpt->ID, 'subscription_description')) ?>
+                        </div>
+                        <button class="subs-btn" onclick="cancel_subscription(<?= $sub_id ?>)">Cancel Subscription</button>
+                    </div>
+                </div>
+
+            <?php endforeach; endif; ?>
+
+    </div>
+    <div class="divider"></div>
+
+</div>
+<script>
+function cancel_subscription(subscriptionId) {
+    if (confirm("Are you sure you want to cancel this subscription?")) {
+        window.location.href = `?cancel_subscription&subscription_id=${subscriptionId}`;
+    }
+}
+</script>
+<?php get_footer('dashboard') ?>

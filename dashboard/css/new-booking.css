@@ -28,7 +28,7 @@ html {
   body {
     margin: 0;
     padding: 0;
-    list-style-type: none;
+    list-style-type: no;
   }
   
 .container {
@@ -276,7 +276,8 @@ html {
     gap: 10px;
 }
 
-.summary-header img {
+.summary-header img,
+.thankyou-logo img {
     width: 60px;
     height: 60px;
     border-radius: 8px;
@@ -319,8 +320,14 @@ hr {
     font-size: 21px;
     font-family: "Poppins", sans-serif;
 }
-
-.continue-btn {
+.nav_buttons{
+    display:flex;
+    justify-content: space-between;
+    width:100%;
+    gap:1rem;
+}
+.continue-btn,
+.back-btn {
     display: block;
     width: 100%;
     padding: 12px;
@@ -345,7 +352,7 @@ hr {
 
 .date-details-row {
     display: grid;
-    grid-template-columns: 0.7fr 0.6fr 0.8fr;
+    grid-template-columns: 1fr 1fr;
     gap: 20px;
 }
 
@@ -460,7 +467,8 @@ hr {
     pointer-events: none;
 }
 
-.add-button {
+.add-button,
+.remove-button {
     background: #20b486;
     color: white;
     border: none;
@@ -476,9 +484,17 @@ hr {
     justify-content: center;
     transition: background-color 0.2s ease;
 }
+.remove-button {
+    background: #f44336;
+    margin-right:10px;
+    margin-left:auto;
+}
 
 .add-button:hover {
     background: #1a9973;
+}
+.remove-button:hover {
+    background: #d32f2f;
 }
 
 .add-button:active {

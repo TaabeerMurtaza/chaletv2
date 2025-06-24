@@ -72,7 +72,8 @@ Text Domain: chaletv2
   font-size: 1rem;
 }
 .container .dashboard-form button[type="submit"],
-.container form button[type="submit"] {
+.container form button[type="submit"],
+.book_button {
   background: #7b8cff;
   color: #fff;
   border: none;

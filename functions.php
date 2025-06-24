@@ -157,3 +157,8 @@ add_action('admin_init', function () {
 
     echo "<div class='notice notice-warning'><p>🧹 Cleaned up $deleted duplicate feature posts.</p></div>";
 });
+add_action('init', function(){
+    // print_r(carbon_get_post_meta(2626, 'booking_chalet'));
+    // exit;
+    // carbon_set_post_meta(2626, 'booking_chalet',  121);
+});

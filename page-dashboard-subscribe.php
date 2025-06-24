@@ -40,8 +40,6 @@
                         <div class="subs-content">
                             <h2 class="subs-heading"><?= get_the_title() ?></h2>
                             <?php
-                            // $chalets_allowed = carbon_get_post_meta(get_the_ID(), 'chalets_allowed');
-                            // $featured_allowed = carbon_get_post_meta(get_the_ID(), 'featured_allowed');
                             echo wp_kses_post(carbon_get_post_meta(get_the_ID(), 'subscription_description'));
                             ?>
                         </div>

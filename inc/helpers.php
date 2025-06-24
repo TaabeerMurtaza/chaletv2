@@ -312,9 +312,113 @@ function get_user_subscriptions($user_id = false)
         $wps_subscription_status = wps_sfw_get_meta_data($order, 'wps_subscription_status', true);
         if ($wps_subscription_status == 'active') {
             $active[] = $order;
+        }else{
+            // TODO
         }
     }
     return $active;
+}
+function cancel_subscription($sub_id)
+{
+    if (!$sub_id) {
+        return false;
+    }
+    $order = wc_get_order(wps_sfw_get_meta_data($sub_id, 'wps_parent_order', true));
+    $is_admin = current_user_can('manage_options');
+    if (!$order) {
+        return false;
+    }
+    if (!$is_admin && $order->get_user_id() !== get_current_user_id()) {
+        return false; // User is not authorized to cancel this subscription
+    }
+    $order->update_status('cancelled', __('Subscription cancelled by user.', 'textdomain'));
+    // Optionally, you can also update the subscription status
+    wps_sfw_update_meta_data($sub_id, 'wps_subscription_status', 'cancelled');
+    update_unpaid_chalet_slots(); // Reset unpaid chalet slots
+    return true;
+}
+function update_unpaid_chalet_slots()
+{
+    $user_id = get_current_user_id();
+    if (!$user_id) {
+        return false;
+    }
+    $subscriptions = get_user_subscriptions($user_id);
+    if (empty($subscriptions)) {
+        return false;
+    }
+    $slots = total_chalet_slots($user_id);
+    $args = [
+        'post_type' => 'chalet',
+        'posts_per_page' => -1,
+        'post_status' => 'publish',
+        'author' => $user_id,
+    ];
+    $query = new WP_Query($args);
+    if (!$query->have_posts()) {
+        return false; // No chalets found
+    }
+    $chalets = $query->posts; // not using get_my_chalets() because it may be admin doing this action
+    $chalets_count = count($chalets);
+    // Unpublish the unpaid chalet slots
+    if($chalets_count != 0 && $chalets_count > $slots){
+        // Trim the chalets array to the number of unpaid slots
+        $unpaid = array_slice($chalets, $slots);
+        foreach ($unpaid as $chalet) {
+            wp_update_post([
+                'ID' => $chalet->ID,
+                'post_status' => 'draft',
+            ]);
+            // Optionally, you can also delete the chalet's linked product
+            $product_id = get_chalet_linked_product_id($chalet->ID);
+            if ($product_id) {
+                wp_delete_post($product_id, true); // Force delete the product
+            }
+        }
+    }
+    return true;
+}
+function get_subscription_details($sub_id)
+{
+    $subscription = [];
+    $order = wc_get_order(wps_sfw_get_meta_data($sub_id, 'wps_parent_order', true));
+    foreach ($order->get_items() as $item) {
+        $product_id = $item->get_product_id();
+        $sub_id = get_post_meta($product_id, 'subscription_id', true);
+        if (!$sub_id) {
+            continue; // Skip if no subscription ID is found
+        }
+        $product = wc_get_product($product_id);
+        $subscription['name'] = $product ? $product->get_name() : '';
+        $sub_cpt = get_post($sub_id);
+        
+        if ($sub_cpt) {
+            $subscription['id'] = $sub_cpt->ID;
+            $subscription['description'] = carbon_get_post_meta($sub_cpt->ID, 'subscription_description');
+            $subscription['color'] = carbon_get_post_meta($sub_cpt->ID, 'subscription_color');
+        } else {
+            $subscription['id'] = 0;
+            $subscription['description'] = 0;
+            $subscription['color'] = get_random_color(); // Fallback color if no subscription CPT found
+        }
+    }
+    return $subscription;
+}
+function get_subscription_cpt($sub_id){
+    $subscription = [];
+    $sub_cpt = false;
+    $order = wc_get_order(wps_sfw_get_meta_data($sub_id, 'wps_parent_order', true));
+    foreach ($order->get_items() as $item) {
+        $product_id = $item->get_product_id();
+        $sub_id = get_post_meta($product_id, 'subscription_id', true);
+        if (!$sub_id) {
+            continue; // Skip if no subscription ID is found
+        }
+        $product = wc_get_product($product_id);
+        $subscription['name'] = $product ? $product->get_name() : '';
+        $sub_cpt = get_post($sub_id);
+    }
+    return $sub_cpt;
 }
 function total_chalet_slots($user_id = false)
 {
@@ -341,6 +445,31 @@ function total_chalet_slots($user_id = false)
     }
     return $slots;
 }
+function total_featured_slots($user_id = false)
+{
+    $user_id = $user_id ?: get_current_user_id();
+    if (!$user_id) {
+        return 0;
+    }
+    $subscriptions = get_user_subscriptions($user_id);
+    if (empty($subscriptions)) {
+        return 0;
+    }
+    $slots = 0;
+    foreach ($subscriptions as $id) {
+        $order = wc_get_order(wps_sfw_get_meta_data($id, 'wps_parent_order', true));
+        foreach ($order->get_items() as $item) {
+            $product_id = $item->get_product_id();
+            $sub_id = get_post_meta($product_id, 'subscription_id', true);
+            if (!$sub_id) {
+                continue; // Skip if no subscription ID is found
+            }
+            $allowed = get_post_meta($product_id, 'featured_allowed', true);
+            $slots += intval($allowed);
+        }
+    }
+    return $slots;
+}
 function get_available_chalet_slots($user_id = false)
 {
     $user_id = $user_id ?: get_current_user_id();
@@ -355,6 +484,23 @@ function get_available_chalet_slots($user_id = false)
         return $slots - $chalets; // Return available slots
     }
 
+}
+function get_available_featured_slots($user_id = false)
+{
+    $user_id = $user_id ?: get_current_user_id();
+    if (!$user_id) {
+        return 0;
+    }
+    $slots = total_featured_slots($user_id);
+    $chalets = count(get_my_chalets());
+    $featured_chalets = count(array_filter(get_my_chalets(), function($chalet) {
+        return carbon_get_post_meta($chalet->ID, 'featured');
+    }));
+    if ($slots <= $featured_chalets) {
+        return 0; // No available slots
+    } else {
+        return $slots - $featured_chalets; // Return available slots
+    }
 }
 function has_available_chalet_slot($user_id = false)
 {

@@ -5,12 +5,13 @@ get_header('dashboard');
 
 ?>
 <style>
-    .add_chalet_wrapper{
-        display:flex;
-        align-items:flex-end;
-        width:100%;
+    .add_chalet_wrapper {
+        display: flex;
+        align-items: flex-end;
+        width: 100%;
     }
-    .add_chalet_wrapper .add-chalet{
+
+    .add_chalet_wrapper .add-chalet {
         background-color: #004944;
         color: white;
         padding: 15px 48px;
@@ -19,6 +20,9 @@ get_header('dashboard');
         border: none;
         border-radius: 8px;
         cursor: pointer;
+    }
+    .featured_star{
+        cursor:pointer;
     }
 </style>
 <div class="dashboard-content">
@@ -76,7 +80,8 @@ get_header('dashboard');
     </div>
     <div class="listing-wrapper">
         <div class="listing-head">
-            <span>Name</span>
+            <span>Chalet</span>
+            <span>Featured</span>
             <span>Reviews </span>
             <span>Status</span>
             <span>Actions</span>
@@ -96,6 +101,7 @@ get_header('dashboard');
                     } else {
                         $region = '';
                     }
+                    $featured = carbon_get_post_meta(get_the_ID(), 'featured');
                     ?>
 
                     <div class="listing-body">
@@ -108,6 +114,25 @@ get_header('dashboard');
                                 <p><span>City:</span> Sainte-Adèle</p>
                                 <p><span>Region:</span> <?= $region ?></p>
                             </div>
+                        </div>
+                        <div class="featured">
+                            <?php if ($featured): ?>
+                                <div class="featured_star" onclick="feature_chalet(<?= get_the_ID() ?>, 0)">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24"
+                                        fill="#fa7753">
+                                        <path
+                                            d="M8.243 7.34l-6.38 .925l-.113 .023a1 1 0 0 0 -.44 1.684l4.622 4.499l-1.09 6.355l-.013 .11a1 1 0 0 0 1.464 .944l5.706 -3l5.693 3l.1 .046a1 1 0 0 0 1.352 -1.1l-1.091 -6.355l4.624 -4.5l.078 -.085a1 1 0 0 0 -.633 -1.62l-6.38 -.926l-2.852 -5.78a1 1 0 0 0 -1.794 0l-2.853 5.78z" />
+                                    </svg>
+                                </div>
+                            <?php else: ?>
+                                <div class="featured_star" onclick="feature_chalet(<?= get_the_ID() ?>)">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none"
+                                        stroke="#fa7753" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <path
+                                            d="M12 17.75l-6.172 3.245l1.179 -6.873l-5 -4.867l6.9 -1l3.086 -6.253l3.086 6.253l6.9 1l-5 4.867l1.179 6.873z" />
+                                    </svg>
+                                </div>
+                            <?php endif; ?>
                         </div>
                         <div class="review">
                             <?php
@@ -138,7 +163,8 @@ get_header('dashboard');
                                 ?>
                                 <li>
                                     <span>
-                                        <img src="<?= get_template_directory_uri() ?>/dashboard/images/icons/<?= $status_icon ?>" alt="">
+                                        <img src="<?= get_template_directory_uri() ?>/dashboard/images/icons/<?= $status_icon ?>"
+                                            alt="">
                                         <?= $status_label ?>
                                     </span>
                                 </li>
@@ -146,7 +172,7 @@ get_header('dashboard');
                             </ul>
                         </div>
                         <a href="<?= get_home_url() ?>/dashboard-edit-chalet?edit=<?= get_the_ID() ?>" class="edit">
-                        <!-- <a href="javascript:void(0)" class="edit" onclick="alert('Coming Soon...'"> -->
+                            <!-- <a href="javascript:void(0)" class="edit" onclick="alert('Coming Soon...'"> -->
                             <img src="<?= get_template_directory_uri() ?>/dashboard/images/icons/edit-pen.svg" alt="">
                         </a>
                     </div>
@@ -157,33 +183,59 @@ get_header('dashboard');
 </div>
 <script>
     jQuery(document).ready(function ($) {
-    function fetchChalets() {
-        const name = $('input[name="name"]').val();
-        const status = $('#chalet-status').val();
+        function fetchChalets() {
+            const name = $('input[name="name"]').val();
+            const status = $('#chalet-status').val();
 
-        $.ajax({
+            $.ajax({
+                url: ajaxurl,
+                type: 'POST',
+                data: {
+                    action: 'filter_chalets',
+                    name: name,
+                    status: status,
+                },
+                beforeSend: function () {
+                    $('#chalets').html('<p>Loading...</p>');
+                },
+                success: function (res) {
+                    $('#chalets').html(res);
+                }
+            });
+        }
+
+        $('.filter-btn').on('click', function (e) {
+            e.preventDefault();
+            fetchChalets();
+        });
+    });
+    function feature_chalet(chalet_id, feature = 1) {
+        const actionText = feature ? 'feature' : 'unfeature';
+        if (!confirm(`Are you sure you want to ${actionText} this chalet?`)) {
+            return;
+        }
+        jQuery.ajax({
             url: ajaxurl,
             type: 'POST',
             data: {
-                action: 'filter_chalets',
-                name: name,
-                status: status,
+                action: 'feature_chalet',
+                chalet_id: chalet_id,
+                feature: feature
             },
-            beforeSend: function () {
-                $('#chalets').html('<p>Loading...</p>');
+            success: function (response) {
+                console.log(response);
+                if (response.success) {
+                    location.reload();
+                } else {
+                    alert('Error: ' + response.data.message);
+                }
             },
-            success: function (res) {
-                $('#chalets').html(res);
+            error: function () {
+                alert('An error occurred while processing your request.');
             }
         });
+
     }
-
-    $('.filter-btn').on('click', function (e) {
-        e.preventDefault();
-        fetchChalets();
-    });
-});
-
 </script>
 
 <?php get_footer('dashboard') ?>

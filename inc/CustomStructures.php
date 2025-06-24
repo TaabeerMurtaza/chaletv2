@@ -979,3 +979,87 @@ function register_experiences_cpt()
     register_post_type('experience', $args);
 }
 add_action('init', 'register_experiences_cpt');
+
+
+/**
+ * Register CPT Booking
+ * 
+ *  */
+add_action('carbon_fields_register_fields', function () {
+    Container::make('post_meta', 'Experience Details')
+        ->where('post_type', '=', 'experience')
+        ->add_fields([
+            Field::make('text', 'chalet_id', 'Chalet ID')
+                ->set_attribute('type', 'number')
+                ->set_help_text('ID of the associated chalet'),
+            Field::make('date_time', 'checkin_date', 'Check-in Date & Time'),
+            Field::make('date_time', 'checkout_date', 'Check-out Date & Time'),
+            Field::make('text', 'adults', 'Number of Adults')
+                ->set_attribute('type', 'number')
+                ->set_attribute('min', 0),
+            Field::make('text', 'children', 'Number of Children')
+                ->set_attribute('type', 'number')
+                ->set_attribute('min', 0),
+            Field::make('text', 'infants', 'Number of Infants')
+                ->set_attribute('type', 'number')
+                ->set_attribute('min', 0),
+            Field::make('complex', 'addons', 'Addons')
+                ->set_layout('tabbed-horizontal')
+                ->add_fields([
+                    Field::make('text', 'name', 'Option Name'),
+                    Field::make('text', 'qty', 'Quantity')
+                        ->set_attribute('type', 'number')
+                        ->set_attribute('min', 0),
+                    Field::make('text', 'price', 'Price')
+                        ->set_attribute('type', 'number')
+                        ->set_attribute('step', '0.01'),
+                    Field::make('text', 'total', 'Total')
+                        ->set_attribute('type', 'number')
+                        ->set_attribute('step', '0.01'),
+                    Field::make('select', 'type', 'Type')
+                        ->add_options([
+                            'per_item' => 'Per Item',
+                            'per_stay' => 'Per Stay',
+                        ]),
+                    Field::make('text', 'idx', 'Index'),
+                ])
+                ->set_header_template('<%- name ? name : "Addon" %>'),
+            Field::make('text', 'email', 'Email'),
+            Field::make('text', 'first_name', 'First Name'),
+            Field::make('text', 'last_name', 'Last Name'),
+            Field::make('text', 'country', 'Country'),
+            Field::make('text', 'phone', 'Phone'),
+            Field::make('textarea', 'comments', 'Comments'),
+            Field::make('text', 'card_number', 'Card Number'),
+            Field::make('text', 'card_expiry', 'Card Expiry'),
+            Field::make('text', 'card_cvc', 'Card CVC'),
+            Field::make('text', 'card_full_name', 'Card Full Name'),
+            Field::make('text', 'card_country', 'Card Country'),
+            Field::make('text', 'card_address', 'Card Address'),
+            Field::make('checkbox', 'accepted_terms', 'Accepted Terms')
+                ->set_option_value('1'),
+            Field::make('text', 'rental_total', 'Rental Total'),
+            Field::make('text', 'addons_total', 'Addons Total')
+                ->set_attribute('type', 'number')
+                ->set_attribute('step', '0.01'),
+            Field::make('text', 'lodging_tax', 'Lodging Tax'),
+            Field::make('text', 'admin_fee', 'Admin Fee'),
+            Field::make('text', 'total_excl_sales_taxes', 'Total Excl. Sales Taxes'),
+            Field::make('text', 'gst', 'GST'),
+            Field::make('text', 'qst', 'QST'),
+            Field::make('text', 'total', 'Total'),
+            Field::make('complex', 'payment_schedule', 'Payment Schedule')
+                ->set_layout('tabbed-horizontal')
+                ->add_fields([
+                    Field::make('text', 'label', 'Label'),
+                    Field::make('text', 'desc', 'Description'),
+                    Field::make('text', 'percent', 'Percent')
+                        ->set_attribute('type', 'number')
+                        ->set_attribute('step', '0.01'),
+                    Field::make('text', 'amount', 'Amount')
+                        ->set_attribute('type', 'number')
+                        ->set_attribute('step', '0.01'),
+                ])
+                ->set_header_template('<%- label ? label : "Payment" %>'),
+        ]);
+});
