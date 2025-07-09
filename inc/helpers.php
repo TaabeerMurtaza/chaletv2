@@ -312,7 +312,7 @@ function get_user_subscriptions($user_id = false)
         $wps_subscription_status = wps_sfw_get_meta_data($order, 'wps_subscription_status', true);
         if ($wps_subscription_status == 'active') {
             $active[] = $order;
-        }else{
+        } else {
             // TODO
         }
     }
@@ -361,7 +361,7 @@ function update_unpaid_chalet_slots()
     $chalets = $query->posts; // not using get_my_chalets() because it may be admin doing this action
     $chalets_count = count($chalets);
     // Unpublish the unpaid chalet slots
-    if($chalets_count != 0 && $chalets_count > $slots){
+    if ($chalets_count != 0 && $chalets_count > $slots) {
         // Trim the chalets array to the number of unpaid slots
         $unpaid = array_slice($chalets, $slots);
         foreach ($unpaid as $chalet) {
@@ -391,7 +391,7 @@ function get_subscription_details($sub_id)
         $product = wc_get_product($product_id);
         $subscription['name'] = $product ? $product->get_name() : '';
         $sub_cpt = get_post($sub_id);
-        
+
         if ($sub_cpt) {
             $subscription['id'] = $sub_cpt->ID;
             $subscription['description'] = carbon_get_post_meta($sub_cpt->ID, 'subscription_description');
@@ -404,7 +404,8 @@ function get_subscription_details($sub_id)
     }
     return $subscription;
 }
-function get_subscription_cpt($sub_id){
+function get_subscription_cpt($sub_id)
+{
     $subscription = [];
     $sub_cpt = false;
     $order = wc_get_order(wps_sfw_get_meta_data($sub_id, 'wps_parent_order', true));
@@ -493,7 +494,7 @@ function get_available_featured_slots($user_id = false)
     }
     $slots = total_featured_slots($user_id);
     $chalets = count(get_my_chalets());
-    $featured_chalets = count(array_filter(get_my_chalets(), function($chalet) {
+    $featured_chalets = count(array_filter(get_my_chalets(), function ($chalet) {
         return carbon_get_post_meta($chalet->ID, 'featured');
     }));
     if ($slots <= $featured_chalets) {
@@ -528,6 +529,191 @@ function has_available_chalet_slot($user_id = false)
     //     }
     // }
     return $slots > $chalets;
+}
+function check_pending_payments()
+{
+    // Check all bookings for pending payments based on new payment structure
+    $query = new WP_Query([
+        'post_type' => 'booking',
+        'posts_per_page' => -1,
+        'post_status' => 'any',
+        'fields' => 'ids',
+    ]);
+    if (empty($query->posts)) {
+        return;
+    }
+
+    foreach ($query->posts as $booking_id) {
+        $payment_id = carbon_get_post_meta($booking_id, 'payment_id');
+        $payment_id = intval($payment_id);
+        if (!$payment_id) {
+            continue;
+        }
+
+        // Loop through up to 5 scheduled payments (see CustomStructures.php Payment Schedule)
+        for ($i = 1; $i <= 5; $i++) {
+            $amount = carbon_get_post_meta($payment_id, "payment_{$i}_amount");
+            $date = carbon_get_post_meta($payment_id, "payment_{$i}_date");
+            $status = carbon_get_post_meta($payment_id, "payment_{$i}_status");
+
+            if (!$amount || !$date || $status === 'completed') {
+                continue;
+            }
+
+            $timestamp = strtotime($date);
+            if ($timestamp && $timestamp <= time()) {
+                // Attempt payment
+                $result = excecute_payment($booking_id, floatval($amount));
+                if (!empty($result['success']) && $result['success'] === 'completed') {
+                    carbon_set_post_meta($payment_id, "payment_{$i}_status", 'completed');
+
+                    // Create an invoice for this payment
+                    $booking_post = get_post($booking_id);
+                    if ($booking_post) {
+                        $invoice_id = wp_insert_post([
+                            'post_type' => 'invoice',
+                            'post_status' => 'publish',
+                            'post_title' => 'Invoice for Booking #' . $booking_id . " - Payment {$i}",
+                            'post_author' => $booking_post->post_author,
+                        ]);
+                        if ($invoice_id && !is_wp_error($invoice_id)) {
+                            carbon_set_post_meta($invoice_id, 'booking_id', $booking_id);
+                            carbon_set_post_meta($invoice_id, 'payment_date', date('Y-m-d'));
+                            carbon_set_post_meta($invoice_id, 'total_amount', $amount);
+                            carbon_set_post_meta($invoice_id, 'status', 'paid');
+                            carbon_set_post_meta($invoice_id, 'invoice_type', 'booking');
+                            carbon_set_post_meta($invoice_id, 'name', get_post_meta($booking_id, 'guest_first_name', true) . ' ' . get_post_meta($booking_id, 'guest_last_name', true));
+                            carbon_set_post_meta($invoice_id, 'email', get_post_meta($booking_id, 'guest_email', true));
+                            carbon_set_post_meta($invoice_id, 'phone', get_post_meta($booking_id, 'guest_phone', true));
+                            // Optionally link to chalet
+                            $chalet_id = carbon_get_post_meta($booking_id, 'booking_chalet');
+                            if ($chalet_id) {
+                                carbon_set_post_meta($invoice_id, 'chalet', [$chalet_id]);
+                            }
+                        }
+                    }
+                } else {
+                    carbon_set_post_meta($payment_id, "payment_{$i}_status", 'failed');
+                    echo '<pre>';
+                    print_r($result);
+                    echo '</pre>';
+                    exit;
+                }
+            }
+        }
+    }
+}
+
+function excecute_payment($booking_id, $amount)
+{
+    // // TODO: Implement the payment logic here
+    \Stripe\Stripe::setApiKey('sk_test_51MgvO9JY9fEdgWqYkqZfPSaPeHwtDDtptbTLlrgXuXOEMrBR9fG11jQ39yLyrbFyo13bL4bTl7Tr0eExAA0aCJS900ynWnHJkX'); // use env var for prod
+    try {
+        // Get Stripe customer and payment method from booking meta
+        $customer_id = carbon_get_post_meta($booking_id, 'stripe_customer_id');
+        $payment_method = carbon_get_post_meta($booking_id, 'stripe_payment_method_id');
+
+        // If missing, try to create/retrieve from Stripe and save to booking
+        if (!$customer_id) {
+            // Try to get guest email from booking
+            $guest_email = carbon_get_post_meta($booking_id, 'guest_email');
+            print_r($guest_email);
+            
+            if ($guest_email) {
+                // Try to find existing Stripe customer by email
+                $stripe_customers = \Stripe\Customer::all(['email' => $guest_email, 'limit' => 1]);
+                if (!empty($stripe_customers->data)) {
+                    $customer_id = $stripe_customers->data[0]->id;
+                } else {
+                    // Create new customer
+                    $customer = \Stripe\Customer::create([
+                        'email' => $guest_email,
+                        'name' => get_post_meta($booking_id, 'guest_first_name', true) . ' ' . get_post_meta($booking_id, 'guest_last_name', true),
+                        'phone' => get_post_meta($booking_id, 'guest_phone', true),
+                    ]);
+                    $customer_id = $customer->id;
+                }
+                if ($customer_id) {
+                    carbon_set_post_meta($booking_id, 'stripe_customer_id', $customer_id);
+                }
+            }
+        }
+
+        if (!$payment_method && $customer_id) {
+            // Try to get the customer's default payment method from Stripe
+            $payment_methods = \Stripe\PaymentMethod::all([
+                'customer' => $customer_id,
+                'type' => 'card',
+                'limit' => 1,
+            ]);
+            if (!empty($payment_methods->data)) {
+                $payment_method = $payment_methods->data[0]->id;
+                carbon_set_post_meta($booking_id, 'stripe_payment_method_id', $payment_method);
+            }
+        }
+        if (!$customer_id || !$payment_method) {
+            return [
+                'success' => false,
+                'message' => 'Missing Stripe customer or payment method for booking ID ' . $booking_id,
+            ];
+        }
+
+        $paymentIntent = \Stripe\PaymentIntent::create([
+            'amount' => intval($amount * 100), // Stripe expects amount in cents
+            'currency' => 'cad',
+            'customer' => $customer_id,
+            'payment_method' => $payment_method,
+            'off_session' => true,
+            'confirm' => true,
+        ]);
+
+        if ($paymentIntent->status === 'succeeded') {
+            return [
+                'success' => 'completed',
+                'message' => 'Payment of ' . wc_price($amount) . ' processed successfully for booking ID ' . $booking_id,
+                'payment_intent_id' => $paymentIntent->id,
+            ];
+        } else {
+            return [
+                'success' => false,
+                'message' => 'Payment failed with status: ' . $paymentIntent->status,
+            ];
+        }
+    } catch (\Stripe\Exception\CardException $e) {
+        return [
+            'success' => false,
+            'message' => 'Card declined: ' . $e->getError()->message,
+        ];
+    } catch (\Stripe\Exception\ApiErrorException $e) {
+        return [
+            'success' => false,
+            'message' => 'Stripe API error: ' . $e->getMessage(),
+        ];
+    } catch (\Exception $e) {
+        return [
+            'success' => false,
+            'message' => 'Payment error: ' . $e->getMessage(),
+        ];
+    }
+
+    // try {
+    //     $paymentIntent = \Stripe\PaymentIntent::create([
+    //         'amount' => 5000, // amount in cents
+    //         'currency' => 'usd',
+    //         'customer' => 'cus_xxx',
+    //         'payment_method' => 'pm_xxx',
+    //         'off_session' => true,
+    //         'confirm' => true,
+    //     ]);
+    //     echo "Payment successful: " . $paymentIntent->id;
+    // } catch (\Stripe\Exception\ApiErrorException $e) {
+    //     echo "Payment failed: " . $e->getMessage();
+    // }
+
+    return [
+        'success' => 'completed', // Set to false if payment fails
+        'message' => 'Payment of ' . wc_price($amount) . ' processed failed for booking ID ' . $booking_id,
+    ];
 }
 // /**
 //  * Cancel a user's active subscription.

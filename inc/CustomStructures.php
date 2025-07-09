@@ -925,7 +925,7 @@ function register_booking_fields()
                 ]),
 
             // 10. Hidden/Internal
-            Field::make('text', 'booking_id', 'Booking ID')
+            Field::make('text', 'payment_id', 'Payment ID')
                 ->set_attribute('readOnly', 'readOnly'),
 
             Field::make('text', 'chalet_id', 'Chalet ID')
@@ -944,6 +944,13 @@ function register_booking_fields()
 
             Field::make('text', 'booking_source', 'Booking Source (e.g. website, ad, referral)'),
 
+            Field::make('text', 'stripe_customer_id', 'Stripe Customer ID')
+                ->set_attribute('readOnly', 'readOnly'),
+            
+            Field::make('text', 'stripe_payment_method_id', 'Stripe Payment Method ID')
+                ->set_attribute('readOnly', 'readOnly'),
+            
+            
         ]);
 }
 /**
@@ -1062,4 +1069,333 @@ add_action('carbon_fields_register_fields', function () {
                 ])
                 ->set_header_template('<%- label ? label : "Payment" %>'),
         ]);
+});
+/**
+ * Register Custom Post Type for News
+ */
+add_action('init', function () {
+    register_post_type('news', [
+        'label' => 'News',
+        'public' => true,
+        'has_archive' => true,
+        'rewrite' => ['slug' => 'news'],
+        'supports' => ['title', 'editor', 'author', 'thumbnail', 'excerpt', 'comments'],
+        'taxonomies' => ['category', 'post_tag'],
+        'menu_position' => 5,
+        'menu_icon' => 'dashicons-megaphone',
+        'show_in_rest' => true,
+        'labels' => [
+            'name' => 'News',
+            'singular_name' => 'News',
+            'add_new' => 'Add News',
+            'add_new_item' => 'Add New News',
+            'edit_item' => 'Edit News',
+            'new_item' => 'New News',
+            'view_item' => 'View News',
+            'search_items' => 'Search News',
+            'not_found' => 'No news found',
+            'not_found_in_trash' => 'No news found in Trash',
+        ],
+    ]);
+});
+
+/**
+ * Register CPT Payments
+ * 
+ */
+add_action('init', function () {
+    register_post_type('payment', [
+        'label' => 'Payments',
+        'public' => false,
+        'show_ui' => true,
+        'has_archive' => false,
+        'rewrite' => ['slug' => 'payments'],
+        'supports' => ['title', 'author'],
+        'menu_position' => 21,
+        'menu_icon' => 'dashicons-tickets-alt',
+        'show_in_rest' => true,
+        'labels' => [
+            'name' => 'Payments',
+            'singular_name' => 'Payment',
+            'add_new' => 'Add Payment',
+            'add_new_item' => 'Add New Payment',
+            'edit_item' => 'Edit Payment',
+            'new_item' => 'New Payment',
+            'view_item' => 'View Payment',
+            'search_items' => 'Search Payments',
+            'not_found' => 'No payments found',
+            'not_found_in_trash' => 'No payments found in Trash',
+        ],
+    ]);
+});
+
+
+add_action('add_meta_boxes', function () {
+    add_meta_box(
+        'payment_related_booking',
+        'Related Booking',
+        function ($post) {
+            $booking_id = carbon_get_post_meta($post->ID, 'booking_id');
+            if ($booking_id) {
+                $booking_post = get_post($booking_id);
+                if ($booking_post && $booking_post->post_type === 'booking') {
+                    $edit_link = get_edit_post_link($booking_id);
+                    $title = esc_html(get_the_title($booking_id));
+                    echo '<p><a href="' . esc_url($edit_link) . '" target="_blank">' . $title . '</a></p>';
+                } else {
+                    echo '<p>No valid booking found for this payment.</p>';
+                }
+            } else {
+                echo '<p>No related booking set.</p>';
+            }
+        },
+        'payment',
+        'side',
+        'high'
+    );
+});
+add_action('carbon_fields_register_fields', function () {
+
+    Container::make('post_meta', 'Payment Credentials')
+        ->where('post_type', '=', 'payment')
+        ->add_fields([
+
+            Field::make('text', 'card_number', 'Card Number')
+                ->set_width(50)
+                ->set_attribute('readOnly', 'readOnly'),
+            Field::make('text', 'card_expiry', 'Card Expiry')
+                ->set_width(50)
+                ->set_attribute('readOnly', 'readOnly'),
+            Field::make('text', 'card_cvc', 'Card CVC')
+                ->set_width(50)
+                ->set_attribute('readOnly', 'readOnly'),
+            Field::make('text', 'card_holder_name', 'Cardholder Name')
+                ->set_width(50)
+                ->set_attribute('readOnly', 'readOnly'),
+
+        ]);
+});
+add_action('carbon_fields_register_fields', function () {
+    Container::make('post_meta', 'Payment Schedule')
+        ->where('post_type', '=', 'payment')
+        ->add_fields([
+            // Payment 1
+            Field::make('text', 'payment_1_amount', 'Payment 1 Amount')
+                ->set_attribute('type', 'number')
+                ->set_attribute('step', '0.01')
+                ->set_attribute('readOnly', 'readOnly')
+                ->set_width(50),
+            Field::make('date_time', 'payment_1_date', 'Payment 1 Date')
+                ->set_width(50),
+            Field::make('select', 'payment_1_status', 'Payment 1 Status')
+                ->add_options([
+                    'pending' => 'Pending',
+                    'completed' => 'Completed',
+                    'failed' => 'Failed',
+                    'refunded' => 'Refunded',
+                ])
+                ->set_default_value('pending')
+                ->set_width(50),
+            Field::make('separator', 'sep_payment_1', ''),
+
+            // Payment 2
+            Field::make('text', 'payment_2_amount', 'Payment 2 Amount')
+                ->set_attribute('type', 'number')
+                ->set_attribute('step', '0.01')
+                ->set_attribute('readOnly', 'readOnly')
+                ->set_width(50),
+            Field::make('date_time', 'payment_2_date', 'Payment 2 Date')
+                ->set_width(50),
+            Field::make('select', 'payment_2_status', 'Payment 2 Status')
+                ->add_options([
+                    'pending' => 'Pending',
+                    'completed' => 'Completed',
+                    'failed' => 'Failed',
+                    'refunded' => 'Refunded',
+                ])
+                ->set_default_value('pending')
+                ->set_width(50),
+            Field::make('separator', 'sep_payment_2', ''),
+
+            // Payment 3
+            Field::make('text', 'payment_3_amount', 'Payment 3 Amount')
+                ->set_attribute('type', 'number')
+                ->set_attribute('step', '0.01')
+                ->set_attribute('readOnly', 'readOnly')
+                ->set_width(50),
+            Field::make('date_time', 'payment_3_date', 'Payment 3 Date')
+                ->set_width(50),
+            Field::make('select', 'payment_3_status', 'Payment 3 Status')
+                ->add_options([
+                    'pending' => 'Pending',
+                    'completed' => 'Completed',
+                    'failed' => 'Failed',
+                    'refunded' => 'Refunded',
+                ])
+                ->set_default_value('pending')
+                ->set_width(50),
+            Field::make('separator', 'sep_payment_3', ''),
+
+            // Payment 4
+            Field::make('text', 'payment_4_amount', 'Payment 4 Amount')
+                ->set_attribute('type', 'number')
+                ->set_attribute('step', '0.01')
+                ->set_attribute('readOnly', 'readOnly')
+                ->set_width(50),
+            Field::make('date_time', 'payment_4_date', 'Payment 4 Date')
+                ->set_width(50),
+            Field::make('select', 'payment_4_status', 'Payment 4 Status')
+                ->add_options([
+                    'pending' => 'Pending',
+                    'completed' => 'Completed',
+                    'failed' => 'Failed',
+                    'refunded' => 'Refunded',
+                ])
+                ->set_default_value('pending')
+                ->set_width(50),
+            Field::make('separator', 'sep_payment_4', ''),
+
+            // Payment 5
+            Field::make('text', 'payment_5_amount', 'Payment 5 Amount')
+                ->set_attribute('type', 'number')
+                ->set_attribute('step', '0.01')
+                ->set_attribute('readOnly', 'readOnly')
+                ->set_width(50),
+            Field::make('date_time', 'payment_5_date', 'Payment 5 Date')
+                ->set_width(50),
+            Field::make('select', 'payment_5_status', 'Payment 5 Status')
+                ->add_options([
+                    'pending' => 'Pending',
+                    'completed' => 'Completed',
+                    'failed' => 'Failed',
+                    'refunded' => 'Refunded',
+                ])
+                ->set_default_value('pending')
+                ->set_width(50),
+            Field::make('separator', 'sep_payment_5', ''),
+        ]);
+});
+
+add_action('carbon_fields_register_fields', function () {
+    Container::make('post_meta', 'Payment Details')
+        ->where('post_type', '=', 'payment')
+        ->add_fields([
+
+            Field::make('text', 'total_amount', 'Total Amount')
+                ->set_attribute('type', 'number')
+                ->set_attribute('step', '0.01')
+                ->set_attribute('readOnly', 'readOnly'),
+
+
+            Field::make('text', 'payment_reference', 'Payment Reference')
+                ->set_attribute('readOnly', 'readOnly'),
+            Field::make('date_time', 'payment_date', 'Payment Date'),
+            Field::make('select', 'payment_status', 'Status')
+                ->add_options([
+                    'pending' => 'Pending',
+                    'completed' => 'Completed',
+                    'failed' => 'Failed',
+                    'refunded' => 'Refunded',
+                ])
+                ->set_default_value('pending'),
+            Field::make('text', 'payer_name', 'Payer Name')
+                ->set_attribute('readOnly', 'readOnly'),
+            Field::make('text', 'payer_email', 'Payer Email')
+                ->set_attribute('readOnly', 'readOnly'),
+            Field::make('textarea', 'payment_notes', 'Notes'),
+            Field::make('text', 'booking_id', 'Booking ID')
+                ->set_attribute('type', 'number')
+                ->set_attribute('step', '1')
+                ->set_attribute('readOnly', 'readOnly')
+        ]);
+});
+
+/**
+ * Register Custom Post Type for Invoices
+ */
+add_action('init', function () {
+    register_post_type('invoice', [
+        'label' => 'Invoices',
+        'public' => false,
+        'show_ui' => true,
+        'has_archive' => false,
+        'rewrite' => ['slug' => 'invoices'],
+        'supports' => ['title', 'author'],
+        'menu_position' => 22,
+        'menu_icon' => 'dashicons-media-spreadsheet',
+        'show_in_rest' => true,
+        'labels' => [
+            'name' => 'Invoices',
+            'singular_name' => 'Invoice',
+            'add_new' => 'Add Invoice',
+            'add_new_item' => 'Add New Invoice',
+            'edit_item' => 'Edit Invoice',
+            'new_item' => 'New Invoice',
+            'view_item' => 'View Invoice',
+            'search_items' => 'Search Invoices',
+            'not_found' => 'No invoices found',
+            'not_found_in_trash' => 'No invoices found in Trash',
+        ],
+    ]);
+});
+
+add_action('carbon_fields_register_fields', function () {
+    Container::make('post_meta', 'Invoice Details')
+        ->where('post_type', '=', 'invoice')
+        ->add_fields([
+            Field::make('association', 'chalet', 'Chalet')
+                ->set_types([
+                    [
+                        'type' => 'post',
+                        'post_type' => 'chalet',
+                    ]
+                ])
+                ->set_max(1),
+            Field::make('select', 'invoice_type', 'Invoice Type')
+                ->add_options([
+                    'subscription' => 'Subscription',
+                    'booking' => 'Booking',
+                ])
+                ->set_required(true),
+            Field::make('text', 'booking_id', 'Booking ID')
+                ->set_attribute('type', 'number')
+                ->set_attribute('min', 0),
+            Field::make('text', 'subscription_id', 'Subscription ID')
+                ->set_attribute('type', 'number')
+                ->set_attribute('min', 0),
+            Field::make('text', 'invoice_number', 'Invoice Number')
+                ->set_help_text('Random alphanumeric invoice number'),
+            Field::make('date', 'invoice_date', 'Invoice Date'),
+            Field::make('date', 'payment_date', 'Payment Date'),
+            Field::make('select', 'status', 'Status')
+                ->add_options([
+                    'pending' => 'Pending',
+                    'paid' => 'Paid',
+                    'cancelled' => 'Cancelled',
+                    'overdue' => 'Overdue',
+                ])
+                ->set_default_value('pending'),
+            Field::make('text', 'gst', 'GST')
+                ->set_attribute('type', 'number')
+                ->set_attribute('step', '0.01'),
+            Field::make('text', 'qst', 'QST')
+                ->set_attribute('type', 'number')
+                ->set_attribute('step', '0.01'),
+            Field::make('text', 'total_amount', 'Total Amount')
+                ->set_attribute('type', 'number')
+                ->set_attribute('step', '0.01'),
+            Field::make('text', 'name', 'Name'),
+            Field::make('text', 'email', 'Email'),
+            Field::make('text', 'phone', 'Phone'),
+        ]);
+});
+
+// Auto-generate random alphanumeric invoice number if empty
+add_action('save_post_invoice', function ($post_id) {
+    if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) return;
+    $invoice_number = carbon_get_post_meta($post_id, 'invoice_number');
+    if (empty($invoice_number)) {
+        $random = strtoupper(bin2hex(random_bytes(4)));
+        carbon_set_post_meta($post_id, 'invoice_number', $random);
+    }
 });

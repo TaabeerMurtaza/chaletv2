@@ -213,7 +213,7 @@ if (!is_user_logged_in()) {
                             </a>
                         </li>
                         <li>
-                            <a class="tab-link">
+                            <a class="tab-link" href="<?= get_home_url() ?>/news">
                                 <img src="<?= get_template_directory_uri() ?>/dashboard/images/icons/Bag_alt.svg"
                                     alt="tab-icon">
                                 Tool box

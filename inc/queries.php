@@ -990,9 +990,10 @@ function handle_chalet_booking()
     }
 
     // Prepare post data
+    $chalet_title = get_the_title($chalet_id);
     $post_data = [
         'post_type'    => 'booking',
-        'post_title'   => 'Booking for Chalet #' . $chalet_id . ' - ' . sanitize_text_field($booking['firstName']) . ' ' . sanitize_text_field($booking['lastName']),
+        'post_title'   => 'Booking for ' . $chalet_title . ' - ' . sanitize_text_field($booking['firstName']) . ' ' . sanitize_text_field($booking['lastName']),
         'post_status'  => 'publish',
         'post_author'  => get_current_user_id(),
     ];
@@ -1038,16 +1039,106 @@ function handle_chalet_booking()
     // Payment schedule (array)
     $payment_schedule = [];
     if (!empty($booking['payment_schedule']) && is_array($booking['payment_schedule'])) {
-        foreach ($booking['payment_schedule'] as $payment) {
+        for ($i=0;$i<count($booking['payment_schedule']);$i++) {
+            $payment = $booking['payment_schedule'][$i] ?? [];
+            $date = '';
+            $chalet_reservation_policy = carbon_get_post_meta($chalet_id, 'reservation_policy');
+            if (!empty($chalet_reservation_policy)) {
+                // Set payment dates strictly based on reservation_policy and payment index
+                switch ($chalet_reservation_policy) {
+                    case 'policy_50_50_3':
+                        // 1st payment: on agreement (now), 2nd payment: 3 days before check-in
+                        if ($i === 0) {
+                            $date = current_time('Y-m-d H:i:s');
+                        } elseif ($i === 1) {
+                            $date = date('Y-m-d H:i:s', strtotime('-3 days', $checkin));
+                        }
+                        break;
+                    case 'policy_50_50_14':
+                        // 1st payment: on agreement (now), 2nd payment: 14 days before check-in
+                        if ($i === 0) {
+                            $date = current_time('Y-m-d H:i:s');
+                        } elseif ($i === 1) {
+                            $date = date('Y-m-d H:i:s', strtotime('-14 days', $checkin));
+                        }
+                        break;
+                    case 'policy_25_25_50_14':
+                        // 1st payment: on agreement (now), 2nd: 14 days before, 3rd: on arrival
+                        if ($i === 0) {
+                            $date = current_time('Y-m-d H:i:s');
+                        } elseif ($i === 1) {
+                            $date = date('Y-m-d H:i:s', strtotime('-14 days', $checkin));
+                        } elseif ($i === 2) {
+                            $date = date('Y-m-d H:i:s', $checkin);
+                        }
+                        break;
+                    default:
+                        $date = '';
+                }
+            }
             $payment_schedule[] = [
                 'label'   => sanitize_text_field($payment['label'] ?? ''),
                 'desc'    => sanitize_text_field($payment['desc'] ?? ''),
                 'percent' => floatval($payment['percent'] ?? 0),
                 'amount'  => floatval($payment['amount'] ?? 0),
+                'date'    => $date,
             ];
         }
     }
-    carbon_set_post_meta($booking_post_id, 'payment_schedule', $payment_schedule);
+    // carbon_set_post_meta($booking_post_id, 'payment_schedule', $payment_schedule);
+    // --- Create Payment CPT and Save Payment Data ---
+    // Create a new Payment post (CPT)
+    $payment_post = [
+        'post_type'   => 'payment',
+        'post_title'  => 'Payment for Booking #' . $booking_post_id,
+        'post_status' => 'publish',
+        'post_author' => get_current_user_id(),
+    ];
+    $payment_post_id = wp_insert_post($payment_post, true);
+
+    if (!is_wp_error($payment_post_id)) {
+        // Link payment to booking
+        carbon_set_post_meta($payment_post_id, 'booking_id', $booking_post_id);
+
+        // Card credentials (store only if needed, but generally should NOT store sensitive info)
+        $payment_card_fields = [
+            'card_number'      => sanitize_text_field($booking['card_number'] ?? ''),
+            'card_expiry'      => sanitize_text_field($booking['card_expiry'] ?? ''),
+            'card_cvc'         => sanitize_text_field($booking['card_cvc'] ?? ''),
+            'card_holder_name' => sanitize_text_field($booking['card_full_name'] ?? ''),
+        ];
+        foreach ($payment_card_fields as $key => $val) {
+            if (!empty($val)) {
+                carbon_set_post_meta($payment_post_id, $key, $val);
+            }
+        }
+
+        // Payment schedule (up to 5 payments)
+        if (!empty($payment_schedule)) {
+            for ($i = 0; $i < min(5, count($payment_schedule)); $i++) {
+                $p = $payment_schedule[$i];
+                carbon_set_post_meta($payment_post_id, "payment_" . ($i + 1) . "_amount", $p['amount']);
+                carbon_set_post_meta($payment_post_id, "payment_" . ($i + 1) . "_status", 'pending');
+                // Optionally set date if available
+                if (!empty($p['date'])) {
+                    carbon_set_post_meta($payment_post_id, "payment_" . ($i + 1) . "_date", $p['date']);
+                }
+            }
+        }
+
+        // Payment details
+        carbon_set_post_meta($payment_post_id, 'total_amount', floatval($booking['total'] ?? 0));
+        carbon_set_post_meta($payment_post_id, 'payment_reference', '');
+        carbon_set_post_meta($payment_post_id, 'payment_date', current_time('mysql'));
+        carbon_set_post_meta($payment_post_id, 'payment_status', 'pending');
+        carbon_set_post_meta($payment_post_id, 'payer_name', sanitize_text_field(($booking['firstName'] ?? '') . ' ' . ($booking['lastName'] ?? '')));
+        carbon_set_post_meta($payment_post_id, 'payer_email', $email);
+        carbon_set_post_meta($payment_post_id, 'payment_notes', sanitize_textarea_field($booking['comments'] ?? ''));
+
+
+        // update booking post with payment ID
+        carbon_set_post_meta($booking_post_id, 'payment_id', $payment_post_id ?? '');
+    }
 
     // Other fields
     carbon_set_post_meta($booking_post_id, 'promo_code', sanitize_text_field($booking['promo_code'] ?? ''));
